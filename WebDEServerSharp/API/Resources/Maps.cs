@@ -15,10 +15,11 @@ namespace WebDEServerSharp.API.Resources
     {
         public void Request(XCore.Net.WebServer.Asynchronous.HttpRequestStateObject ClientRequestObject)
         {
-            //Get the game ID
-            //int gameID = int.Parse(ClientRequestObject.parameters["gameid"].ToString());
-            int gameID = 0;
+            //Get the game ID and map id
+            int gameID = int.Parse(ClientRequestObject.parameters["gameid"].ToString());
+            int mapid = int.Parse(ClientRequestObject.parameters["mapid"].ToString());
 
+            //query database for map content, if map id is 0, get all
             ClientRequestObject.AddContent(JsonConvert.SerializeObject(Data.Maps.GetAll(gameID)));
 
             //complete request

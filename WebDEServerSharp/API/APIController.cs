@@ -12,7 +12,7 @@ namespace WebDEServerSharp.API
     /// </summary>
     public static class APIController
     {
-        private static HttpEndpoint endpoint = new HttpEndpoint();
+        private static HttpEndpoint endpoint = new HttpEndpoint(81);
 
         /// <summary>
         /// Initialize the api endpoint and prepare for requests.

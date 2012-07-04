@@ -65,10 +65,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="API\APIGuidelines.txt" />
-    <Content Include="lib\Devart.Data.dll" />
-    <Content Include="lib\Devart.Data.MySql.dll" />
-    <Content Include="lib\Newtonsoft.Json.dll" />
-    <Content Include="lib\XCore.dll" />
+    <Content Include="lib\Devart.Data.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\Devart.Data.MySql.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\Newtonsoft.Json.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\XCore.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
