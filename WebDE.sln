@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebDE", "WebDE\WebDE.csproj", "{FAF20FDB-45E0-417A-85A4-7B19F175C297}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebDE.Clock", "WebDE.Clock\WebDE.Clock.csproj", "{B678FA7C-F46B-42AC-BE6B-4924DA1B8F70}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebDE.Input", "WebDE.Input\WebDE.Input.csproj", "{FBD7C4B1-5577-4A17-A8D4-7A55B06762E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemeDefense", "MemeDefense\MemeDefense.csproj", "{3ABB68B5-999C-45F1-B709-A238790EFE2D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FAF20FDB-45E0-417A-85A4-7B19F175C297}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAF20FDB-45E0-417A-85A4-7B19F175C297}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAF20FDB-45E0-417A-85A4-7B19F175C297}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAF20FDB-45E0-417A-85A4-7B19F175C297}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B678FA7C-F46B-42AC-BE6B-4924DA1B8F70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B678FA7C-F46B-42AC-BE6B-4924DA1B8F70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B678FA7C-F46B-42AC-BE6B-4924DA1B8F70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B678FA7C-F46B-42AC-BE6B-4924DA1B8F70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBD7C4B1-5577-4A17-A8D4-7A55B06762E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBD7C4B1-5577-4A17-A8D4-7A55B06762E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBD7C4B1-5577-4A17-A8D4-7A55B06762E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBD7C4B1-5577-4A17-A8D4-7A55B06762E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3ABB68B5-999C-45F1-B709-A238790EFE2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3ABB68B5-999C-45F1-B709-A238790EFE2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3ABB68B5-999C-45F1-B709-A238790EFE2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3ABB68B5-999C-45F1-B709-A238790EFE2D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
