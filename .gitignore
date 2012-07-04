@@ -11,7 +11,7 @@ TestResults
 ###################
 *.com
 *.class
-*.dll
+#*.dll
 *.exe
 *.o
 *.so
