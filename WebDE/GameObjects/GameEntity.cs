@@ -30,6 +30,7 @@ namespace WebDE.GameObjects
         private Stage parentStage = null;
 
         private double opacity = 1.00;
+        private bool visible = true;
         private List<string> customStyles = new List<string>();
 
         private Point position = new Point(0, 0);
@@ -295,6 +296,23 @@ namespace WebDE.GameObjects
         public double GetOpacity()
         {
             return this.opacity;
+        }
+
+        public void Hide()
+        {
+            this.visible = false;
+            this.SetNeedsUpdate();
+        }
+
+        public void Show()
+        {
+            this.visible = true;
+            this.SetNeedsUpdate();
+        }
+
+        public bool Visible()
+        {
+            return this.visible;
         }
     }
 }

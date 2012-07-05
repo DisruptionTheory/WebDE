@@ -83,7 +83,6 @@ namespace WebDE
 
         public static void StandardIntervalCalculations()
         {
-            Debug.log("Calculating game entity physics.");
             if (Stage.CurrentStage != null)
             {
                 Stage.CurrentStage.CalculateGameEntityPhysics();

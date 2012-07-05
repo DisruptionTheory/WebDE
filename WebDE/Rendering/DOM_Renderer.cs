@@ -117,6 +117,7 @@ namespace WebDE.Rendering
                     this.RenderGameEntity(gent);
                 }
                 //if (this.LightStyle == LightingStyle.Gradients)
+                Debug.Watch("Rendering light sources: ", Stage.CurrentStage.GetLights().Count.ToString());
                 foreach(LightSource light in Stage.CurrentStage.GetLights())
                 {
                     this.RenderLightSource(light);
@@ -271,7 +272,7 @@ namespace WebDE.Rendering
                 //document.getElementById("gameBoard").appendChild(gentlement);
                 this.elementsByGuiId[gelm.GetParentLayer().GetId()].appendChild(gentlement);
                 //!! Basing this on size 12 font right now, and it's going to be totally wrong, and needs to be done up properly
-                if (gelm.GetText() != "")
+                if (gelm.GetText() != "" && gelm.GetSprite() == null)
                 {
                     gentlement.style.width = (gelm.GetText().Length * 12) + "px";
                     gentlement.style.height = 12 + "px";
@@ -306,6 +307,7 @@ namespace WebDE.Rendering
             {
                 return;
             }
+            gentlement.innerText = "";
 
             //call the sprite's animate function
             //it will return the id of the frame that the sprite and its animation are currently on
@@ -333,10 +335,17 @@ namespace WebDE.Rendering
             if (gentlement == null)
             {
                 gentlement = document.createElement("div");
-                this.AddClass(gentlement, "Entity");
+                this.AddClass(gentlement, "Entity LightSource");
+                this.AddClass(gentlement, light.GetType().Name);
                 document.getElementById("gameBoard").appendChild(gentlement);
-                this.AddClass(gentlement, "LightSource");
-                gentlement.style.background = Gradient.ToString(light.GetColor());
+                if (light.GetType().Name == "Lightstone")
+                {
+                    gentlement.style.background = Gradient.LightStone(light.GetColor());
+                }
+                else
+                {
+                    gentlement.style.background = Gradient.ToString(light.GetColor());
+                }
 
                 elementsByGameObjectId[light.GetId()] = gentlement;
             }
@@ -359,11 +368,21 @@ namespace WebDE.Rendering
             gentlement.style.width = (light.GetRange() * tileSize.Item1) + "px";
             gentlement.style.height = (light.GetRange() * tileSize.Item2) + "px";
 
+            if (light.Visible() == true)
+            {
+                gentlement.style.display = "inline";
+            }
+            else
+            {
+                gentlement.style.display = "none";
+            }
+
             int lightLeftInGameUnits = (int)light.GetPosition().x - posShift;
             int lightRightInGameUnits = (int)(lightLeftInGameUnits + light.GetRange());
             int lightTopInGameUnits = (int)light.GetPosition().y - posShift;
             int lightBottomInGameUnits = (int)(lightTopInGameUnits + light.GetRange());
 
+            /*
             //make the tiles below the light partially transparent. because. just go with me on this.
             for (int tileX = lightLeftInGameUnits; tileX < lightRightInGameUnits; tileX++)
             {
@@ -392,6 +411,7 @@ namespace WebDE.Rendering
                     }
                 }
             }
+            */
         }
 
         public void AddClass(HtmlElement elem, string className)

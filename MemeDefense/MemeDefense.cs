@@ -451,11 +451,13 @@ namespace MemeDefense
             }
         }
 
+        private string desiredTowerName;
+
         public void towerMenu_Click(GuiEvent gEvent)
         {
             //set up the tower that we intend to click
             //based on the custom value set in the gui element
-            string desiredTowerName = gEvent.clickedElement.GetCustomValue();
+            desiredTowerName = gEvent.clickedElement.GetCustomValue();
             if (desiredTowerName == "" || desiredTowerName == null)
             {
                 //Debug.log(gEvent.clickedElement.GetId() + " has no custom value :(");
@@ -500,17 +502,19 @@ namespace MemeDefense
                 return;
             }
 
-            towerToPlace.SetParentStage(Stage.CurrentStage);
+            LivingGameEntity newTower = new LivingGameEntity(desiredTowerName, 100);
+
+            newTower.SetParentStage(Stage.CurrentStage);
 
             //Tower newTower = Tower.GetByName("GigaPuddiTower");
-            towerToPlace.SetPosition(clickedTile.GetPosition().x, clickedTile.GetPosition().y);
+            newTower.SetPosition(clickedTile.GetPosition().x, clickedTile.GetPosition().y);
             //dummyProjectile.SetAcceleration(.1);
-            Weapon dummyWeapon = new Weapon(towerToPlace, 10, 1000, .5, 180, 40);
+            Weapon dummyWeapon = new Weapon(newTower, 10, 1000, .5, 180, 40);
             dummyWeapon.SetRange(50);
             //dummyWeapon.SetProjectile(dummyProjectile);
-            towerToPlace.AddWeapon(dummyWeapon);
+            newTower.AddWeapon(dummyWeapon);
 
-            Stage.CurrentStage.AddLivingGameEntity(towerToPlace);
+            Stage.CurrentStage.AddLivingGameEntity(newTower);
 
             Stage.CurrentStage.HideCollisionMap();
 
