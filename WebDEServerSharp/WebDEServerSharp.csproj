@@ -74,9 +74,7 @@
     <Content Include="lib\Newtonsoft.Json.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="lib\XCore.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="lib\XCore.dll" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

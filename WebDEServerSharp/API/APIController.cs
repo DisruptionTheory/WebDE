@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using XCore.Net.API.Asynchronous;
-using WebDEServerSharp.API.Resources;
 
 namespace WebDEServerSharp.API
 {
@@ -19,7 +18,7 @@ namespace WebDEServerSharp.API
         /// </summary>
         public static void Intialize()
         {
-            endpoint.BindLocation("/resources/maps", new Maps());
+            endpoint.BindLocation("/resources/maps", new Resources.Maps());
         }
     }
 }

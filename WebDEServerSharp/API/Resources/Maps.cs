@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace WebDEServerSharp.API.Resources
 {
-    /// <summary>
+    /// <summ ary>
     /// Manages all api requests for map resources.
     /// </summary>
     public class Maps : APILocation
@@ -17,10 +17,17 @@ namespace WebDEServerSharp.API.Resources
         {
             //Get the game ID and map id
             int gameID = int.Parse(ClientRequestObject.parameters["gameid"].ToString());
-            int mapid = int.Parse(ClientRequestObject.parameters["mapid"].ToString());
+            int mapID = int.Parse(ClientRequestObject.parameters["mapid"].ToString());
 
             //query database for map content, if map id is 0, get all
-            ClientRequestObject.AddContent(JsonConvert.SerializeObject(Data.Maps.GetAll(gameID)));
+            if (mapID == 0)
+            {
+                ClientRequestObject.AddContent(JsonConvert.SerializeObject(Data.Maps.GetAll(gameID)));
+            }
+            else
+            {
+                ClientRequestObject.AddContent(JsonConvert.SerializeObject(Data.Maps.Get(gameID, mapID)));
+            }
 
             //complete request
             ClientRequestObject.CompleteSuccesfulRequest();

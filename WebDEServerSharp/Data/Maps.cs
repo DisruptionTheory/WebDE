@@ -23,5 +23,10 @@ namespace WebDEServerSharp.Data
             return new MySQLAdapter(Config.DatabaseLocation, Config.DatabaseName, Config.DatabaseUser, Config.DatabasePassword).QuickConnect().EasySelect("map").Execute().Results.ToArray();
         }
 
+        public static Dictionary<string, object> Get(int gameID, int mapID)
+        {
+            return new MySQLAdapter(Config.DatabaseLocation, Config.DatabaseName, Config.DatabaseUser, Config.DatabasePassword).QuickConnect().EasySelect("map").Where("mapid", Comparison.EQUALS, mapID).Execute().Results[0];
+        }
+
     }
 }
