@@ -15,22 +15,34 @@ namespace WebDEServerSharp.API.Resources
     {
         public void Request(XCore.Net.WebServer.Asynchronous.HttpRequestStateObject ClientRequestObject)
         {
-            //Get the game ID and map id
-            int gameID = int.Parse(ClientRequestObject.parameters["gameid"].ToString());
-            int mapID = int.Parse(ClientRequestObject.parameters["mapid"].ToString());
+            //map id
+            int mapID;
 
-            //query database for map content, if map id is 0, get all
-            if (mapID == 0)
+            if (!ClientRequestObject.parameters.ContainsKey("mapid"))
             {
-                ClientRequestObject.AddContent(JsonConvert.SerializeObject(Data.Maps.GetAll(gameID)));
+                Errors.MissingParameter("mapid", ClientRequestObject);
+                return;
+            }
+
+            if (int.TryParse(ClientRequestObject.parameters["mapid"].ToString(), out mapID))
+            {
+                //query database for map content, if map id is 0, get all
+                if (mapID == 0)
+                {
+                    ClientRequestObject.AddContent(JsonConvert.SerializeObject(Data.Maps.GetAll()));
+                }
+                else
+                {
+                    ClientRequestObject.AddContent(JsonConvert.SerializeObject(Data.Maps.Get(mapID)));
+                }
+
+                //complete request
+                ClientRequestObject.CompleteSuccesfulRequest();
             }
             else
             {
-                ClientRequestObject.AddContent(JsonConvert.SerializeObject(Data.Maps.Get(gameID, mapID)));
+                Errors.ErrorProcessingParameter("mapid", ClientRequestObject.parameters["mapid"], ClientRequestObject);
             }
-
-            //complete request
-            ClientRequestObject.CompleteSuccesfulRequest();
         }
     }
 }

@@ -18,12 +18,12 @@ namespace WebDEServerSharp.Data
         /// </summary>
         /// <param name="gameID">The game ID.</param>
         /// <returns>A listing of all query results.</returns>
-        public static Dictionary<string, object>[] GetAll(int gameID)
+        public static Dictionary<string, object>[] GetAll()
         {
             return new MySQLAdapter(Config.DatabaseLocation, Config.DatabaseName, Config.DatabaseUser, Config.DatabasePassword).QuickConnect().EasySelect("map").Execute().Results.ToArray();
         }
 
-        public static Dictionary<string, object> Get(int gameID, int mapID)
+        public static Dictionary<string, object> Get(int mapID)
         {
             return new MySQLAdapter(Config.DatabaseLocation, Config.DatabaseName, Config.DatabaseUser, Config.DatabasePassword).QuickConnect().EasySelect("map").Where("mapid", Comparison.EQUALS, mapID).Execute().Results[0];
         }
