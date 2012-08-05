@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebDEServerSharp", "WebDESe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebDETypes", "WebDETypes\WebDETypes.csproj", "{F0D76D43-57FF-4290-9041-36362B11B827}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebDE.Net", "WebDE.Net\WebDE.Net.csproj", "{57D0B6E7-465B-415B-9D4C-C3B197F87CCD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,16 @@ Global
 		{F0D76D43-57FF-4290-9041-36362B11B827}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{F0D76D43-57FF-4290-9041-36362B11B827}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{F0D76D43-57FF-4290-9041-36362B11B827}.Release|x86.ActiveCfg = Release|Any CPU
+		{57D0B6E7-465B-415B-9D4C-C3B197F87CCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57D0B6E7-465B-415B-9D4C-C3B197F87CCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57D0B6E7-465B-415B-9D4C-C3B197F87CCD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{57D0B6E7-465B-415B-9D4C-C3B197F87CCD}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{57D0B6E7-465B-415B-9D4C-C3B197F87CCD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{57D0B6E7-465B-415B-9D4C-C3B197F87CCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57D0B6E7-465B-415B-9D4C-C3B197F87CCD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57D0B6E7-465B-415B-9D4C-C3B197F87CCD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{57D0B6E7-465B-415B-9D4C-C3B197F87CCD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{57D0B6E7-465B-415B-9D4C-C3B197F87CCD}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
