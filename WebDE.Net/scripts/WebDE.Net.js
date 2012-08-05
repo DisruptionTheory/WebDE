@@ -161,15 +161,15 @@ var WebDE$Net$GameClient=
         },
         onOpen:function()
         {
-            this.OnConnect.BeginInvoke(null,null);
+            this.OnConnect();
         },
         onClose:function(evt)
         {
-            this.OnDisconnect.BeginInvoke(null,null);
+            this.OnDisconnect();
         },
         onMessage:function(evt)
         {
-            this.OnReceive.BeginInvoke(evt.data.toString(),null,null);
+            this.OnReceive(evt.data.toString());
         },
         onError:function(evt)
         {
