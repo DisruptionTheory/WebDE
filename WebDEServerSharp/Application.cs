@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using WebDEServerSharp.API;
+using WebDEServerSharp.Net;
 
 namespace WebDEServerSharp
 {
@@ -17,7 +17,7 @@ namespace WebDEServerSharp
         /// </summary>
         public static void Initialize()
         {
-            APIController.Intialize();
+            Server.Intitialize();
         }
     }
 }

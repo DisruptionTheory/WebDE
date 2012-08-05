@@ -49,12 +49,22 @@ namespace WebDEServerSharp
             private set;
         }
 
+        /// <summary>
+        /// The port that this server instance will listen on.
+        /// </summary>
+        public static int ServerPort
+        {
+            get;
+            private set;
+        }
+
         static Config()
         {
             DatabaseLocation = propertiesFile["dblocation"];
             DatabaseName = propertiesFile["dbname"];
             DatabaseUser = propertiesFile["dbuser"];
             DatabasePassword = propertiesFile["dbpass"];
+            ServerPort = int.Parse(propertiesFile["serverport"]);
         }
     }
 }
