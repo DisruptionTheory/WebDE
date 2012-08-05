@@ -8,13 +8,13 @@ using XCore.Data.MySQL;
 namespace WebDEServerSharp.Data
 {
     /// <summary>
-    /// Manages database operions dealing with maps.
+    /// Manages database operations dealing with maps.
     /// </summary>
     public static class Maps
     {
 
         /// <summary>
-        /// Get all maps associated with the specefied game ID.
+        /// Get all maps in the game.
         /// </summary>
         /// <param name="gameID">The game ID.</param>
         /// <returns>A listing of all query results.</returns>
@@ -23,6 +23,11 @@ namespace WebDEServerSharp.Data
             return new MySQLAdapter(Config.DatabaseLocation, Config.DatabaseName, Config.DatabaseUser, Config.DatabasePassword).QuickConnect().EasySelect("map").Execute().Results.ToArray();
         }
 
+        /// <summary>
+        /// Get the map with the specified id.
+        /// </summary>
+        /// <param name="mapID">The map id.</param>
+        /// <returns>The query result.</returns>
         public static Dictionary<string, object> Get(int mapID)
         {
             return new MySQLAdapter(Config.DatabaseLocation, Config.DatabaseName, Config.DatabaseUser, Config.DatabasePassword).QuickConnect().EasySelect("map").Where("mapid", Comparison.EQUALS, mapID).Execute().Results[0];

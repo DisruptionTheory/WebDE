@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using WebDEServerSharp.Net;
 
 namespace WebDEServerSharp
 {
@@ -17,7 +16,13 @@ namespace WebDEServerSharp
         /// </summary>
         public static void Initialize()
         {
-            Server.Intitialize();
+            Config.Initialize();
+            Resources.Control.Intitialize();
+            Net.Server.Intitialize();
+            while (true)
+            {
+                System.Threading.Thread.Sleep(int.MaxValue);
+            }
         }
     }
 }

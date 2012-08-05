@@ -65,6 +65,8 @@
     <Compile Include="Net\Server.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\Control.cs" />
+    <Compile Include="Resources\Maps.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="lib\Alchemy.dll" />
@@ -82,7 +84,12 @@
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\WebDETypes\WebDETypes.csproj">
+      <Project>{F0D76D43-57FF-4290-9041-36362B11B827}</Project>
+      <Name>WebDETypes</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

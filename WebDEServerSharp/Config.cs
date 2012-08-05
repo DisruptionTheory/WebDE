@@ -58,7 +58,7 @@ namespace WebDEServerSharp
             private set;
         }
 
-        static Config()
+        public static void Initialize()
         {
             DatabaseLocation = propertiesFile["dblocation"];
             DatabaseName = propertiesFile["dbname"];
