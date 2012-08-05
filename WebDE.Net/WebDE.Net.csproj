@@ -56,13 +56,19 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="scripts\WebDE.Net.js" />
+    <Content Include="test\index.htm" />
+    <Content Include="test\jquery-1.6.4.min.js" />
+    <Content Include="test\jquery-ui-1.8.11.custom.min.js" />
+    <Content Include="test\jsclr-4.1.0.js" />
+    <Content Include="test\test.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="test\test.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DefaultClient.cs" />
+    <Compile Include="GameClient.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -80,7 +86,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>47883</DevelopmentServerPort>
+          <DevelopmentServerPort>42979</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

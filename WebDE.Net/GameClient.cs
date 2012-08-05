@@ -83,7 +83,7 @@ namespace WebDE.Net
         /// </summary>
         private void onOpen()
         {
-            OnConnect.BeginInvoke(null, null);
+            OnConnect();
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace WebDE.Net
         /// <param name="evt">The event passed with the close function from the socket.</param>
         private void onClose(CloseEvent evt)
         {
-            OnDisconnect.BeginInvoke(null, null);
+            OnDisconnect();
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace WebDE.Net
         /// <param name="evt">The message event object.</param>
         private void onMessage(MessageEvent evt)
         {
-            OnReceive.BeginInvoke(evt.data.ToString(), null, null);
+            OnReceive(evt.data.ToString());
         }
 
         /// <summary>
