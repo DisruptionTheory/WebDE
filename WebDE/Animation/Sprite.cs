@@ -12,8 +12,7 @@ namespace WebDE.Animation
     {
         public string name = "";
         private List<Animation> animations = new List<Animation>();
-        private int width = 40;
-        private int height = 40;
+        private Dimension size = new Dimension(40, 40);
         private Animation currentAnimation;
         private Animation defaultAnimation;
         private string currentRenderFrame = "";
@@ -106,18 +105,15 @@ namespace WebDE.Animation
             return this.currentAnimation;
         }
 
-        public Tuple<int, int> getSize()
+        public Dimension GetSize()
         {
-            Tuple<int, int> returnValue = new Tuple<int, int>
-                (this.width, this.height);
-
-            return returnValue;
+            return this.size;
         }
 
         public void setSize(int newWidth, int newHeight)
         {
-            this.width = newWidth;
-            this.height = newHeight;
+            this.size.width = newWidth;
+            this.size.height = newHeight;
         }
 
         public string GetCurrentRenderFrame()

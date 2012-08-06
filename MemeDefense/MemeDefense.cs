@@ -79,9 +79,9 @@ namespace MemeDefense
 
 
             //randomize placement and icon for pastries
-            for (int h = 0; h < pastryLevel.GetSize().Item2; h++)
+            for (int h = 0; h < pastryLevel.GetSize().height; h++)
             {
-                for (int w = 0; w < pastryLevel.GetSize().Item1; w++)
+                for (int w = 0; w < pastryLevel.GetSize().width; w++)
                 {
                     //with the randomization of the tiles, we're going to randomize whether or not this is buildiable
                     bool buildable = false;
@@ -119,9 +119,9 @@ namespace MemeDefense
             Tile waterTile = new Tile("Water", false, false);
             Tile plankTile = new Tile("Planks", true, true);
 
-            for (int h = 0; h < aquaLevel.GetSize().Item2; h++)
+            for (int h = 0; h < aquaLevel.GetSize().height; h++)
             {
-                for (int w = 0; w < aquaLevel.GetSize().Item1; w++)
+                for (int w = 0; w < aquaLevel.GetSize().width; w++)
                 {
                     bool buildable = false;
                     int rand = JsMath.round(JsMath.random());
@@ -175,9 +175,9 @@ namespace MemeDefense
             //redDwarfTile.SetSprite(redDwarf);
 
             //randomize placement and icon for pastries
-            for (int h = 0; h < spaceLevel.GetSize().Item2; h++)
+            for (int h = 0; h < spaceLevel.GetSize().height; h++)
             {
-                for (int w = 0; w < spaceLevel.GetSize().Item1; w++)
+                for (int w = 0; w < spaceLevel.GetSize().width; w++)
                 {
                     Tile spaceTile;
 

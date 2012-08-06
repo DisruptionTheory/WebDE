@@ -15,7 +15,7 @@ namespace WebDE.Rendering
 
         void Render();
 
-        Tuple<int, int> GetSize();
+        Dimension GetSize();
 
         void Resize();
 

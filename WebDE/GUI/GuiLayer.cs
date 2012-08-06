@@ -103,21 +103,20 @@ namespace WebDE.GUI
         {
             if (newX < 0)
             {
-                newX = this.GetAttachedView().GetSize().Item1 - Math.Abs(newX) - this.GetSize().Item1;
+                newX = this.GetAttachedView().GetSize().width - Math.Abs(newX) - this.GetSize().width;
             }
             if (newY < 0)
             {
-                newY = this.GetAttachedView().GetSize().Item2 - Math.Abs(newY) - this.GetSize().Item2;
+                newY = this.GetAttachedView().GetSize().height - Math.Abs(newY) - this.GetSize().height;
             }
 
             this.area.x = newX;
             this.area.y = newY;
         }
 
-        public Tuple<int, int> GetSize()
+        public Dimension GetSize()
         {
-            return new Tuple<int, int>
-                (JsMath.round(this.area.width), JsMath.round(this.area.height));
+            return new Dimension(this.area.width, this.area.height);
         }
 
         public void SetSize(double newWidth, double newHeight)
@@ -276,8 +275,8 @@ namespace WebDE.GUI
                 {
                     //Debug.log(gelm.GetId() + " is at " + gelm.GetPosition().x.ToString() + ", " + gelm.GetPosition().y.ToString());
                     //match position
-                    if ( (gelm.GetPosition().x <= xpos && gelm.GetPosition().x + gelm.GetSize().Item1 >= xpos) &&
-                         (gelm.GetPosition().y <= ypos && gelm.GetPosition().y + gelm.GetSize().Item2 >= ypos) )
+                    if ( (gelm.GetPosition().x <= xpos && gelm.GetPosition().x + gelm.GetSize().width >= xpos) &&
+                         (gelm.GetPosition().y <= ypos && gelm.GetPosition().y + gelm.GetSize().height >= ypos) )
                     {
                         return gelm;
                     }
@@ -296,8 +295,8 @@ namespace WebDE.GUI
             //loop through each and check if they exist at that click location
             foreach (GameEntity ent in GameEntityList)
             {
-                if ((ent.GetPosition().x <= xpos && ent.GetPosition().x + ent.GetSize().Item1 >= xpos) &&
-                     (ent.GetPosition().y <= ypos && ent.GetPosition().y + ent.GetSize().Item2 >= ypos))
+                if ((ent.GetPosition().x <= xpos && ent.GetPosition().x + ent.GetSize().width >= xpos) &&
+                     (ent.GetPosition().y <= ypos && ent.GetPosition().y + ent.GetSize().height >= ypos))
                 {
                     //if they do, add them to the list of entities to return
                     returnList.Add(ent);

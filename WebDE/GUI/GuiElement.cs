@@ -18,8 +18,7 @@ namespace WebDE.GUI
         private string text;
         private Sprite sprIcon;
         private Point position = new Point(0, 0);
-        private int width;
-        private int height;
+        private Dimension size;
         private GuiLayer parentLayer;
         //whether or not thus gui element is selected
         private bool selected = false;
@@ -99,12 +98,12 @@ namespace WebDE.GUI
         }
 
         /*
-        public Tuple<int, int> GetSize()
+        public Dimension GetSize()
         {
             Tuple<int, int> returnVal = new Tuple<int, int>();
 
-            returnVal.Item1 = this.width;
-            returnVal.Item2 = this.height;
+            returnVal.Item1 = this.size.width;
+            returnVal.Item2 = this.size.height;
 
             return returnVal;
         }
@@ -112,8 +111,8 @@ namespace WebDE.GUI
 
         public void SetSize(int newWidth, int newHeight)
         {
-            this.width = newWidth;
-            this.height = newHeight;
+            this.size.width = newWidth;
+            this.size.height = newHeight;
             this.SetNeedsUpdate();
         }
 
@@ -190,11 +189,9 @@ namespace WebDE.GUI
             return this.selected;
         }
 
-        //return 'default' bcuz im dum lol
-        public Tuple<int, int> GetSize()
+        public Dimension GetSize()
         {
-            //return Stage.CurrentStage.GetTileSize();
-            return new Tuple<int, int>(this.width, this.height);
+            return this.size;
         }
 
         private void SetNeedsUpdate()

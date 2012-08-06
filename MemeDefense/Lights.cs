@@ -61,9 +61,9 @@ namespace Lights
             testArea.CreateRandomTiles();
 
             /*
-            for (int h = 0; h < testArea.GetSize().Item2; h++)
+            for (int h = 0; h < testArea.GetSize().height; h++)
             {
-                for (int w = 0; w < testArea.GetSize().Item1; w++)
+                for (int w = 0; w < testArea.GetSize().width; w++)
                 {
                     //with the randomization of the tiles, we're going to randomize whether or not this is buildiable
                     int rand = JsMath.round(JsMath.random());
@@ -303,8 +303,10 @@ namespace Lights
             Color stoneColor = new Color(colOne.red + colTwo.red, colOne.green + colTwo.green, colOne.blue + colTwo.blue);
 
             //pick a random position on the board that lets it have full range
-            int stoneX = Helpah.Rand(stoneRange, Stage.CurrentStage.GetSize().Item1 - stoneRange);
-            int stoneY = Helpah.Rand(stoneRange, Stage.CurrentStage.GetSize().Item2 - stoneRange);
+            int rand2 = int.Parse(Stage.CurrentStage.GetSize().width.ToString()) - stoneRange;
+            int stoneX = Helpah.Rand(stoneRange, rand2);
+            rand2 = int.Parse(Stage.CurrentStage.GetSize().height.ToString()) - stoneRange;
+            int stoneY = Helpah.Rand(stoneRange, rand2);
 
             Lightstone shadowStone = new Lightstone(
                 stoneX, stoneY, 10, stoneRange);

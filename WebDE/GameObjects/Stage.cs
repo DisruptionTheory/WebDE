@@ -31,8 +31,7 @@ namespace WebDE.GameObjects
         private Color backgroundColor = Color.Black;
 
         //the number of tiles or units wide the level is
-        private int width = 20;
-        private int height = 16;
+        private Dimension size = new Dimension(20, 16);
 
         //the default dimensions of the tiles 
         private int tileWidth = 40;
@@ -166,25 +165,24 @@ namespace WebDE.GameObjects
             return resultList;
         }
 
-        public Tuple<int, int> GetSize()
+        public Dimension GetSize()
         {
-            return new Tuple<int, int>
-                (this.width, this.height);
+            return this.size;
         }
 
         public void SetSize(int newWidth, int newHeight)
         {
-            this.width = newWidth;
-            this.height = newHeight;
+            this.size.width = newWidth;
+            this.size.height = newHeight;
 
-            //this.stageGui.SetSize(this.width * this.GetTileSize().First, this.height * this.GetTileSize().Second);
+            //this.stageGui.SetSize(this.size.width * this.GetTileSize().First, this.size.height * this.GetTileSize().Second);
         }
 
         public void CreateRandomTiles()
         {
-            for (int h = 0; h < this.height; h++)
+            for (int h = 0; h < this.size.height; h++)
             {
-                for (int w = 0; w < this.width; w++)
+                for (int w = 0; w < this.size.width; w++)
                 {
                     //with the randomization of the tiles, we're going to randomize whether or not this is buildiable
                     int rand = JsMath.round(JsMath.random());
@@ -355,7 +353,7 @@ namespace WebDE.GameObjects
 
         public Rectangle GetBounds()
         {
-            return new Rectangle(0, 0, this.width, this.height);
+            return new Rectangle(0, 0, this.size.width, this.size.height);
         }
 
         public Tile GetTileAt(int xPos, int yPos)
