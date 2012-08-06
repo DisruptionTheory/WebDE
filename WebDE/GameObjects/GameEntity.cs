@@ -23,8 +23,7 @@ namespace WebDE.GameObjects
     {
         private string id;
 
-        private int width = 40;
-        private int height = 40;
+        private Dimension size = new Dimension(40, 40);
         private string strGameEntityName = "New GameEntity";
         private Sprite sprGameEntitySprite = null;
         private Stage parentStage = null;
@@ -102,18 +101,15 @@ namespace WebDE.GameObjects
             }
         }
 
-        public Tuple<int, int> GetSize()
+        public Dimension GetSize()
         {
-            Tuple<int, int> returnVal = new Tuple<int, int>
-                (this.width, this.height);
-
-            return returnVal;
+            return this.size;
         }
 
         public void SetSize(int newWidth, int newHeight)
         {
-            this.width = newWidth;
-            this.height = newHeight;
+            this.size.width = newWidth;
+            this.size.height = newHeight;
             this.SetNeedsUpdate();
         }
 

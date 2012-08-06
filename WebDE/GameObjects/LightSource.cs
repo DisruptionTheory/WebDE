@@ -123,7 +123,7 @@ namespace WebDE.GameObjects
             //if this is a player generated light, shrink it once per thought...or ... second?
             if (this.GetDiminishing() == true)
             {
-                //this.SetSize(this.GetSize().Item1 - 1, this.GetSize().Item2 - 2);
+                //this.SetSize(this.GetSize().width - 1, this.GetSize().height - 2);
                 //not size, you fool, range!
                 this.SetRange(this.GetRange() - .1);
                 //if it's too small, kill it!

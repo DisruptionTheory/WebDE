@@ -24,8 +24,8 @@ namespace WebDE
             /*
             if (point.x < this.x ||
                 point.y < this.y ||
-                point.x > this.width ||
-                point.y > this.height)
+                point.x > this.size.width ||
+                point.y > this.size.height)
             {
                 return false;
             }

@@ -38,7 +38,7 @@ namespace WebDE
             Surface.Initialize(new DOM_Renderer());
             //set up the primary view
             View playerOneView = new View(LightingStyle.Tiles);
-            playerOneView.SetArea(new Rectangle(0, 0, GetRenderer().GetSize().Item1, GetRenderer().GetSize().Item2));
+            playerOneView.SetArea(new Rectangle(0, 0, GetRenderer().GetSize().width, GetRenderer().GetSize().height));
 
             //notificationLayer = new GuiLayer(playerOneView, new Rectangle(0, 0, 0, 0));
             notificationLayer = playerOneView.AddLayer("NotificationLayer", new Rectangle(0, 0, 0, 0));
@@ -92,8 +92,8 @@ namespace WebDE
         private static void reposition_notification_layeer()
         {
             Rectangle viewArea = View.GetMainView().GetViewArea();
-            double newNotifX = viewArea.x + viewArea.width - Game.notificationLayer.GetSize().Item1 - 12;
-            double newNotifY = viewArea.x + viewArea.height - Game.notificationLayer.GetSize().Item2 - 12;
+            double newNotifX = viewArea.x + viewArea.width - Game.notificationLayer.GetSize().width - 12;
+            double newNotifY = viewArea.x + viewArea.height - Game.notificationLayer.GetSize().height - 12;
             Game.notificationLayer.SetPosition(newNotifX, newNotifY);
         }
 

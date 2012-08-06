@@ -44,8 +44,7 @@ namespace WebDE.Rendering
         private List<GuiLayer> guiLayers = new List<GuiLayer>();
 
         //visible area
-        private int width = 800;
-        private int height = 600;
+        private Dimension size = new Dimension(800, 600);
 
         //location within the game world...
         private int x = 0;
@@ -103,19 +102,18 @@ namespace WebDE.Rendering
 
         public Rectangle GetViewArea()
         {
-            return new Rectangle(this.x, this.y, this.width, this.height);
+            return new Rectangle(this.x, this.y, this.size.width, this.size.height);
         }
 
-        public Tuple<int, int> GetSize()
+        public Dimension GetSize()
         {
-            return new Tuple<int, int>
-                (this.width, this.height);
+            return this.size;
         }
 
         public void SetSize(int newWidth, int newHeight)
         {
-            this.width = newWidth;
-            this.height = newHeight;
+            this.size.width = newWidth;
+            this.size.height = newHeight;
         }
 
         public void SetPosition(int newX, int newY)
@@ -126,7 +124,7 @@ namespace WebDE.Rendering
 
         public Rectangle GetArea()
         {
-            Rectangle returnVal = new Rectangle(this.x, this.y, this.width, this.height);
+            Rectangle returnVal = new Rectangle(this.x, this.y, this.size.width, this.size.height);
             return returnVal;
         }
 
@@ -134,8 +132,8 @@ namespace WebDE.Rendering
         {
             this.x = (int)newArea.x;
             this.y = (int)newArea.y;
-            this.width = (int)newArea.width;
-            this.height = (int)newArea.height;
+            this.size.width = (int)newArea.width;
+            this.size.height = (int)newArea.height;
         }
 
         public GuiLayer AddLayer(string layerName, Rectangle layerPos)

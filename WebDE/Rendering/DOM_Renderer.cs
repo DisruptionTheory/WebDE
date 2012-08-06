@@ -189,8 +189,8 @@ namespace WebDE.Rendering
                 //and update our current frameid
                 gent.GetSprite().SetCurrentRenderFrame(frameId);
 
-                gentlement.style.width = gent.GetSprite().getSize().Item1 + "px";
-                gentlement.style.height = gent.GetSprite().getSize().Item2 + "px";
+                gentlement.style.width = gent.GetSprite().GetSize().width + "px";
+                gentlement.style.height = gent.GetSprite().GetSize().height + "px";
             }
         }
 
@@ -246,8 +246,8 @@ namespace WebDE.Rendering
             {
                 //set the position to the cursor position
                 glayer.SetPosition(
-                    InputManager.InputDevice.Mouse.GetAxisPosition(0) - (glayer.GetSize().Item1 / 2),
-                    InputManager.InputDevice.Mouse.GetAxisPosition(1) - (glayer.GetSize().Item2 / 2));
+                    InputManager.InputDevice.Mouse.GetAxisPosition(0) - (glayer.GetSize().width / 2),
+                    InputManager.InputDevice.Mouse.GetAxisPosition(1) - (glayer.GetSize().height / 2));
                 layerElem.style.position = "absolute";
             }
 
@@ -268,8 +268,8 @@ namespace WebDE.Rendering
             {
                 layerElem.style.bottom = JsMath.abs(glayer.GetPosition().y) + "px";
             }
-            layerElem.style.width = glayer.GetSize().Item1 + "px";
-            layerElem.style.height = glayer.GetSize().Item2 + "px";
+            layerElem.style.width = glayer.GetSize().width + "px";
+            layerElem.style.height = glayer.GetSize().height + "px";
         }
 
         public void RenderGUIElement(GuiElement gelm)
@@ -291,8 +291,8 @@ namespace WebDE.Rendering
                 }
                 else
                 {
-                    gentlement.style.width = gelm.GetSize().Item1 + " px";
-                    gentlement.style.height = gelm.GetSize().Item2 + "px";
+                    gentlement.style.width = gelm.GetSize().width + " px";
+                    gentlement.style.height = gelm.GetSize().height + "px";
                 }
 
                 //since we're building this for the first time, put all the classes into a long list, to cut down on operations
@@ -344,8 +344,8 @@ namespace WebDE.Rendering
                 //and update our current frameid
                 gelm.GetSprite().SetCurrentRenderFrame(frameId);
 
-                gentlement.style.width = gelm.GetSprite().getSize().Item1 + "px";
-                gentlement.style.height = gelm.GetSprite().getSize().Item2 + "px";
+                gentlement.style.width = gelm.GetSprite().GetSize().width + "px";
+                gentlement.style.height = gelm.GetSprite().GetSize().height + "px";
             }
         }
 
@@ -571,10 +571,9 @@ namespace WebDE.Rendering
             }
         }
 
-        public Tuple<int, int> GetSize()
+        public Dimension GetSize()
         {
-            return new Tuple<int, int>
-                (window.innerWidth, window.innerHeight);
+            return new Dimension(window.innerWidth, window.innerHeight);
         }
     }
 }
