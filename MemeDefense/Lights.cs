@@ -17,7 +17,7 @@ using WebDE.Timekeeper;
 namespace Lights
 {
     [JsType(JsMode.Clr, Filename = "../../Lights/Lights_Compiled.js")]
-    public class Main// : jQueryContextBase
+    public class Globals// : jQueryContextBase
     {
         public static void Initialize()
         {
