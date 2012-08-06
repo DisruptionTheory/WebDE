@@ -20,14 +20,14 @@ namespace WebDE.Net
 
         }
 
-        static void client_OnReceive(System.Collections.Hashtable message)
+        static void client_OnReceive(Dictionary<string, object> message)
         {
             document.getElementById("output").innerText = JSON.stringify(message);
         }
 
         static void client_OnConnect()
         {
-            var req = new { action = Types.Net.Action.GET, type = Types.Net.Resources.MAP, mapid = 0 };
+            var req = new { action = Types.Net.Action.GET, type = Types.Net.Resources.MAP, mapid = 1 };
             client.Send(req);
         }
 

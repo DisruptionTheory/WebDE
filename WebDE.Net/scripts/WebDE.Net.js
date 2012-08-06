@@ -170,9 +170,9 @@ var WebDE$Net$NetworkClient=
         onMessage:function(evt)
         {
             var message=new Object(JSON.parse(evt.data.toString()));
-            var table=new System.Collections.Hashtable.ctor();
+            var table=new System.Collections.Generic.Dictionary$2.ctor(System.String,System.Object);
             for(var member in message)
-                table.Add(member,member.valueOf());
+                table.Add(member.toString(),member.valueOf());
             this.OnReceive(table);
         },
         onError:function(evt)

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections;
+using System.Collections.Generic;
 using SharpKit.JavaScript;
 using SharpKit.Html4;
 using SharpKit.Html;
@@ -9,8 +9,8 @@ namespace WebDE.Net
     /// <summary>
     /// A delegate type for message received events in the game client web socket.
     /// </summary>
-    /// <param name="message">The message received. converted from json to a hashtable.</param>
-    public delegate void OnReceiveEventHandler(Hashtable message);
+    /// <param name="message">The message received. converted from json to a dictionary.</param>
+    public delegate void OnReceiveEventHandler(Dictionary<string, object> message);
 
     /// <summary>
     /// A delegate type for connection state change events.
@@ -103,8 +103,8 @@ namespace WebDE.Net
         private void onMessage(MessageEvent evt)
         {
             JsObject message = new JsObject(JSON.parse(evt.data.ToString()));
-            Hashtable table = new Hashtable();
-            foreach (var member in message) table.Add(member, member.valueOf());
+            Dictionary<string, object> table = new Dictionary<string, object>();
+            foreach (var member in message) table.Add(member.ToString(), member.valueOf());
             OnReceive(table);
         }
 
