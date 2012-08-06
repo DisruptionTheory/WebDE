@@ -71,15 +71,18 @@ namespace WebDEServerSharp.Net
         {
             //convert the transferred json into a usable hash table
             Hashtable json = JsonConvert.DeserializeObject<Hashtable>(ctx.DataFrame.ToString());
+            int action = int.Parse(json["action"].ToString());
 
             //dispatch based on action, all invocations should be thrown at the thread pool
-            if ((WebDE.Types.Net.Action)json["action"] == WebDE.Types.Net.Action.GET)
+            if (action == (int)WebDE.Types.Net.Action.GET)
             {
-                requestResourceDispatch[(WebDE.Types.Net.Resources)json["type"]].BeginInvoke(json, ctx, null, null);
+                int type = int.Parse(json["type"].ToString());
+                requestResourceDispatch[(WebDE.Types.Net.Resources)type].BeginInvoke(json, ctx, null, null);
             }
-            else if ((WebDE.Types.Net.Action)json["action"] == WebDE.Types.Net.Action.SET)
+            else if (action == (int)WebDE.Types.Net.Action.SET)
             {
-                updateResourceDispatch[(WebDE.Types.Net.Resources)json["type"]].BeginInvoke(json, ctx, null, null);
+                int type = int.Parse(json["type"].ToString());
+                updateResourceDispatch[(WebDE.Types.Net.Resources)type].BeginInvoke(json, ctx, null, null);
             }
             else
             {

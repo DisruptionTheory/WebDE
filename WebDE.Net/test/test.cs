@@ -1,24 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
 using SharpKit.JavaScript;
-using SharpKit.Html;
-
+using SharpKit.Html4;
+using Types = WebDE.Types;
 
 namespace WebDE.Net
 {
     [JsType(JsMode.Clr, Filename = "test.js")]
     public class test : HtmlContextBase
     {
+        private static NetworkClient client;
         public static void StartTest()
         {
-            NetworkClient client = new NetworkClient("localhost", 81);
+            client = new NetworkClient("localhost", 81);
             client.Connect();
+            client.OnConnect += new ConnectionStateChangeEventHandler(client_OnConnect);
             client.OnDisconnect += new ConnectionStateChangeEventHandler(client_OnDisconnect);
+            client.OnReceive += new OnReceiveEventHandler(client_OnReceive);
+
+        }
+
+        static void client_OnReceive(System.Collections.Hashtable message)
+        {
+            document.getElementById("output").innerText = JSON.stringify(message);
+        }
+
+        static void client_OnConnect()
+        {
+            var req = new { action = Types.Net.Action.GET, type = Types.Net.Resources.MAP, mapid = 0 };
+            client.Send(req);
         }
 
         static void client_OnDisconnect()
         {
-            alert("hello!");
+            document.getElementById("output").innerText = "DISCONNECTED!";
         }
     }
 }

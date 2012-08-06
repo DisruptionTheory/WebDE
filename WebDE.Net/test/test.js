@@ -53,16 +53,28 @@ var WebDE$Net$test=
     {
         cctor:function()
         {
+            WebDE.Net.test.client = null;
         },
         StartTest:function()
         {
-            var client=new WebDE.Net.NetworkClient.ctor("localhost",81);
-            client.Connect();
-            client.OnDisconnect = $CombineDelegates(client.OnDisconnect,WebDE.Net.test.client_OnDisconnect);
+            WebDE.Net.test.client = new WebDE.Net.NetworkClient.ctor("localhost",81);
+            WebDE.Net.test.client.Connect();
+            WebDE.Net.test.client.OnConnect = $CombineDelegates(WebDE.Net.test.client.OnConnect,WebDE.Net.test.client_OnConnect);
+            WebDE.Net.test.client.OnDisconnect = $CombineDelegates(WebDE.Net.test.client.OnDisconnect,WebDE.Net.test.client_OnDisconnect);
+            WebDE.Net.test.client.OnReceive = $CombineDelegates(WebDE.Net.test.client.OnReceive,WebDE.Net.test.client_OnReceive);
+        },
+        client_OnReceive:function(message)
+        {
+            document.getElementById("output").innerText = JSON.stringify(message);
+        },
+        client_OnConnect:function()
+        {
+            var req={action:0,type:0,mapid:0};
+            WebDE.Net.test.client.Send(req);
         },
         client_OnDisconnect:function()
         {
-            alert("hello!");
+            document.getElementById("output").innerText = "DISCONNECTED!";
         }
     },
     assemblyName:"WebDE.Net",

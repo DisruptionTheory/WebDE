@@ -70,7 +70,12 @@
   <ItemGroup>
     <Compile Include="NetworkClient.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\WebDE.Types\WebDE.Types.csproj">
+      <Project>{F0D76D43-57FF-4290-9041-36362B11B827}</Project>
+      <Name>WebDE.Types</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <Import Project="$(MSBuildBinPath)\SharpKit\5\SharpKit.Build.targets" />
