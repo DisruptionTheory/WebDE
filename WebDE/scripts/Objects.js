@@ -929,7 +929,7 @@ var WebDE$GameObjects$Stage=
             while($it34.MoveNext())
             {
                 var tile=$it34.get_Current();
-                if(tile.GetLightLevel() != this.GetBackgroundColor() && tile.GetLightLevel() != null)
+                if(tile.GetLightLevel() != this.GetBackgroundColor())
                 {
                     resultList.Add(tile);
                 }

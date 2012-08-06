@@ -47,7 +47,7 @@ namespace WebDE.GameObjects
             return null;
         }
 
-        private Color lightLevel;
+        private Color lightLevel = null;
         private bool isWalkable = false;
         private bool isBuildable = false;
 

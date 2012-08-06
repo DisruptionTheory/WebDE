@@ -157,7 +157,7 @@ namespace WebDE.GameObjects
 
             foreach (Tile tile in this.stageTiles)
             {
-                if (tile.GetLightLevel() != this.GetBackgroundColor() && tile.GetLightLevel() != null)
+                if (tile.GetLightLevel() != this.GetBackgroundColor())// || tile.GetLightLevel() != null)
                 {
                     resultList.Add(tile);
                 }
