@@ -41,11 +41,11 @@ namespace WebDE.InputManager
         {
         }
 
-        public static void ProcessMouseButtonEvent(int buttonId, int clickX, int clickY)
+        public static void ProcessMouseButtonEvent(int buttonId, int clickX, int clickY, ButtonCommand buttonCommand)
         {
             //get the event that the left click button is bound to
             //if null, get the default
-            GUIFunction buttonFunction = InputDevice.Mouse.GetFunctionFromButton("", buttonId);
+            GUIFunction buttonFunction = InputDevice.Mouse.GetFunctionFromButton("", buttonId, buttonCommand);
             //so the click gets shifted, but the GUI isn't in the area of the play...
 
             foreach (View view in View.GetActiveViews())
@@ -82,9 +82,9 @@ namespace WebDE.InputManager
             */
         }
 
-        public static void ProcessKeyboardEvent(int buttonId)
+        public static void ProcessKeyboardEvent(int buttonId, ButtonCommand buttonCommand)
         {
-            GUIFunction buttonFunction = InputDevice.Keyboard.GetFunctionFromButton("", buttonId);
+            GUIFunction buttonFunction = InputDevice.Keyboard.GetFunctionFromButton("", buttonId, buttonCommand);
 
             //loop through all of the active gui layers
             foreach (GuiLayer activeLayer in GuiLayer.GetActiveLayers())

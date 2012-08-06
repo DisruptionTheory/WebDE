@@ -42,7 +42,9 @@ namespace WebDE.InputManager
         //a list of all button names indexed by the button ids that the buttons are identified with
         private Dictionary<int, string> buttonNames = new Dictionary<int, string>();
         //a list of all mapped functions for this input device
-        private Dictionary<int, GUIFunction> buttonFunctions = new Dictionary<int, GUIFunction>();
+        //private Dictionary<int, GUIFunction> buttonFunctions = new Dictionary<int, GUIFunction>();
+        private Dictionary<int, Dictionary<ButtonCommand,GUIFunction>> buttonFunctions = new Dictionary<int, Dictionary<ButtonCommand,GUIFunction>>();
+        private Dictionary<int, double> axisPositions = new Dictionary<int, double>();
 
         public InputDevice(string name)
         {
@@ -78,14 +80,24 @@ namespace WebDE.InputManager
         /// <param name="buttonName"></param>
         /// <param name="buttonId"></param>
         /// <param name="buttonFunction"></param>
-        public void Bind(string buttonName, int buttonId, GUIFunction buttonFunction)
+        public void Bind(string buttonName, int buttonId, ButtonCommand buttonCommand, GUIFunction buttonFunction)
         {
             if (buttonName != "" && buttonName != null)
             {
                 buttonId = this.GetButtonId(buttonName);
             }
 
-            this.buttonFunctions[buttonId] = buttonFunction;
+            if(this.buttonFunctions[buttonId] == null)
+            {
+                this.buttonFunctions[buttonId] = new Dictionary<ButtonCommand,GUIFunction>();
+            }
+            this.buttonFunctions[buttonId][buttonCommand] = buttonFunction;
+            //this.buttonFunctions[buttonId] = buttonFunction;
+        }
+
+        public void Bind(string buttonName, int buttonId, GUIFunction buttonFunction)
+        {
+            this.Bind(buttonName, buttonId, ButtonCommand.Down, buttonFunction);
         }
 
         public void UnBind(string buttonName, int buttonId)
@@ -98,14 +110,34 @@ namespace WebDE.InputManager
         /// <param name="buttonName">The name of the button.</param>
         /// <param name="buttonId">The integer id of the button.</param>
         /// <returns></returns>
-        public GUIFunction GetFunctionFromButton(string buttonName, int buttonId)
+        public GUIFunction GetFunctionFromButton(string buttonName, int buttonId, ButtonCommand buttonCommand)
         {
             if (buttonName != "" && buttonName != null)
             {
                 buttonId = this.GetButtonId(buttonName);
             }
 
-            return this.buttonFunctions[buttonId];
+            if(this.buttonFunctions[buttonId] == null)
+            {
+                return null;
+            }
+
+            return this.buttonFunctions[buttonId][buttonCommand];
+        }
+
+        public GUIFunction GetFunctionFromButton(string buttonName, int buttonId)
+        {
+            return GetFunctionFromButton(buttonName, buttonId, ButtonCommand.Down);
+        }
+
+        public double GetAxisPosition(int axis)
+        {
+            return this.axisPositions[axis];
+        }
+
+        public void SetAxisPosition(int axis, double position)
+        {
+            this.axisPositions[axis] = position;
         }
     }
 }

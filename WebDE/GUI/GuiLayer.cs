@@ -369,6 +369,11 @@ namespace WebDE.GUI
             return this.isGameLayer;
         }
 
+        public bool FollowingCursor()
+        {
+            return this.followingCursor;
+        }
+
         public void FollowCursor(bool toFollow)
         {
             this.followingCursor = toFollow;
@@ -377,7 +382,7 @@ namespace WebDE.GUI
         public void GUI_Event(GUIFunction buttonFunction, Point eventPos)
         {
             //perform the gui function attached to the affected layer
-            this.DoGUIFunction(buttonFunction);
+            this.DoGUIFunction(buttonFunction, eventPos);
 
             //the gui element receiving the event
             GuiElement elementToNotify;
@@ -417,15 +422,14 @@ namespace WebDE.GUI
             this.layerFunctions[func] = newEvent;
         }
 
-        public void DoGUIFunction(GUIFunction func)
+        public void DoGUIFunction(GUIFunction func, Point eventPos)
         {
+            eventPos.x -= this.GetPosition().x;
+            eventPos.y -= this.GetPosition().y;
+
             if (this.layerFunctions[func] != null)
             {
-                //Script.Eval("console.log('Trying to fire " + func.GetName() + "');");
-                Point thisPixelPos = new Point(
-                    this.GetPosition().x * Stage.CurrentStage.GetTileSize().Item1,
-                    this.GetPosition().y * Stage.CurrentStage.GetTileSize().Item2);
-                GuiEvent eventToTrigger = GuiEvent.FromClickData(this, thisPixelPos);
+                GuiEvent eventToTrigger = GuiEvent.FromClickData(this, eventPos);
 
                 this.layerFunctions[func].Invoke(eventToTrigger);
             }

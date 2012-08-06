@@ -9,6 +9,7 @@ using WebDE.GameObjects;
 
 //http://www.colorzilla.com/gradient-editor/
 //http://www.colorzilla.com/gradient-editor/#d3cf54+1,000000+100&1+0,0+100;Custom
+
 namespace WebDE.Rendering
 {
     //visual gradient area when rendering
@@ -17,16 +18,7 @@ namespace WebDE.Rendering
     [JsType(JsMode.Clr, Filename = "../scripts/Rendering.js")]
     public class Gradient
     {
-        /*
-        public static string ApplyToElement(HTMLelement elementToGradient, Color gradientColor)
-        {
-            elementToGradient.Style.Background = "-webkit-radial-gradient(center, ellipse cover, " +
-                "rgba(" + gradientColor.red + "," + gradientColor.green + "," + gradientColor.blue + ",1) 0%, " +
-                "rgba(" + gradientColor.red + "," + gradientColor.green + "," + gradientColor.blue + ",0.99) 1%, rgba(0,0,0,0) 100%)";
-        }
-        */
-
-        public static string ToString(Color gradientColor)
+        public static string old_ToString(Color gradientColor)
         {
             return "-webkit-radial-gradient(center, ellipse cover, " +
                 "rgba(" + gradientColor.red + "," + gradientColor.green + "," + gradientColor.blue + ",1) 0%, " +
@@ -36,16 +28,30 @@ namespace WebDE.Rendering
                 //"background: radial-gradient(center, ellipse cover, rgba(211,207,84,1) 0%,rgba(211,207,84,0.99) 1%,rgba(0,0,0,0) 100%); /* W3C */";
         }
 
+        public static string ToString(Color gradientColor)
+        {
+            return "-webkit-radial-gradient(center, ellipse cover, " + 
+                "rgba(" + gradientColor.red + ", " + gradientColor.green + " , " + gradientColor.blue + ",1) 0%, " + 
+                "rgba(" + gradientColor.red + ", " + gradientColor.green + " , " + gradientColor.blue + ".99) 1%, " + 
+                "rgba(0,0,0,0) 80%);";
+        }
+
         public static string LightStone(Color gradientColor)
+        {
+            return Gradient.ToString(gradientColor);
+        }
+
+        //I don't know why this won't display :(
+        public static string Broken_LightStone(Color gradientColor)
         {
             return
                 //" url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPHJhZGlhbEdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iNzUlIj4KICAgIDxzdG9wIG9mZnNldD0iMTUlIiBzdG9wLWNvbG9yPSIjMDA1MGM4IiBzdG9wLW9wYWNpdHk9IjAuMjUiLz4KICAgIDxzdG9wIG9mZnNldD0iMjYlIiBzdG9wLWNvbG9yPSIjMDA1MGM4IiBzdG9wLW9wYWNpdHk9IjAuMzQiLz4KICAgIDxzdG9wIG9mZnNldD0iNTklIiBzdG9wLWNvbG9yPSIjMDA1MGM4IiBzdG9wLW9wYWNpdHk9IjAuNiIvPgogICAgPHN0b3Agb2Zmc2V0PSI2NiUiIHN0b3AtY29sb3I9IiMwMDUwYzgiIHN0b3Atb3BhY2l0eT0iMC42NSIvPgogICAgPHN0b3Agb2Zmc2V0PSI4NSUiIHN0b3AtY29sb3I9IiMwMDUwYzgiIHN0b3Atb3BhY2l0eT0iMCIvPgogICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMDA1MGM4IiBzdG9wLW9wYWNpdHk9IjAiLz4KICA8L3JhZGlhbEdyYWRpZW50PgogIDxyZWN0IHg9Ii01MCIgeT0iLTUwIiB3aWR0aD0iMTAxIiBoZWlnaHQ9IjEwMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+); " +
                 //" -moz-radial-gradient(center, ellipse cover,  rgba(0,80,200,0.25) 15%, rgba(0,80,200,0.34) 26%, rgba(0,80,200,0.6) 59%, rgba(0,80,200,0.65) 66%, rgba(0,80,200,0) 85%, rgba(0,80,200,0) 100%); " +
-                " -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(15%,rgba(0,80,200,0.25)), color-stop(26%,rgba(0,80,200,0.34)), color-stop(59%,rgba(0,80,200,0.6)), color-stop(66%,rgba(0,80,200,0.65)), color-stop(85%,rgba(0,80,200,0)), color-stop(100%,rgba(0,80,200,0))); " +
-                " -webkit-radial-gradient(center, ellipse cover,  rgba(0,80,200,0.25) 15%,rgba(0,80,200,0.34) 26%,rgba(0,80,200,0.6) 59%,rgba(0,80,200,0.65) 66%,rgba(0,80,200,0) 85%,rgba(0,80,200,0) 100%); ";
+                //" -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(15%,rgba(" + gradientColor.red + "," + gradientColor.blue + "," + gradientColor.green + ",0.25)), color-stop(26%,rgba(" + gradientColor.red + "," + gradientColor.blue + "," + gradientColor.green + ",0.34)), color-stop(59%,rgba(" + gradientColor.red + "," + gradientColor.blue + "," + gradientColor.green + ",0.6)), color-stop(66%,rgba(" + gradientColor.red + "," + gradientColor.blue + "," + gradientColor.green + ",0.65)), color-stop(85%,rgba(" + gradientColor.red + "," + gradientColor.blue + "," + gradientColor.green + ",0)), color-stop(100%,rgba(" + gradientColor.red + "," + gradientColor.blue + "," + gradientColor.green + ",0))); " +
+                " -webkit-radial-gradient(center, ellipse cover,  rgba(" + gradientColor.red + "," + gradientColor.blue + "," + gradientColor.green + ",0.25) 15%,rgba(" + gradientColor.red + "," + gradientColor.blue + "," + gradientColor.green + ",0.34) 26%,rgba(" + gradientColor.red + "," + gradientColor.blue + "," + gradientColor.green + ",0.6) 59%,rgba(" + gradientColor.red + "," + gradientColor.blue + "," + gradientColor.green + ",0.65) 66%,rgba(" + gradientColor.red + "," + gradientColor.blue + "," + gradientColor.green + ",0) 85%,rgba(" + gradientColor.red + "," + gradientColor.blue + "," + gradientColor.green + ",0) 100%); ";
                 //" -o-radial-gradient(center, ellipse cover,  rgba(0,80,200,0.25) 15%,rgba(0,80,200,0.34) 26%,rgba(0,80,200,0.6) 59%,rgba(0,80,200,0.65) 66%,rgba(0,80,200,0) 85%,rgba(0,80,200,0) 100%); " +
                 //" -ms-radial-gradient(center, ellipse cover,  rgba(0,80,200,0.25) 15%,rgba(0,80,200,0.34) 26%,rgba(0,80,200,0.6) 59%,rgba(0,80,200,0.65) 66%,rgba(0,80,200,0) 85%,rgba(0,80,200,0) 100%); " +
-                //" radial-gradient(ellipse at center,  rgba(0,80,200,0.25) 15%,rgba(0,80,200,0.34) 26%,rgba(0,80,200,0.6) 59%,rgba(0,80,200,0.65) 66%,rgba(0,80,200,0) 85%,rgba(0,80,200,0) 100%); " +
+                //" radial-gradient(ellipse at center,  rgba(" + gradientColor.red + "," + gradientColor.blue + "," + gradientColor.green + ",0.25) 15%,rgba(" + gradientColor.red + "," + gradientColor.blue + "," + gradientColor.green + ",0.34) 26%,rgba(" + gradientColor.red + "," + gradientColor.blue + "," + gradientColor.green + ",0.6) 59%,rgba(" + gradientColor.red + "," + gradientColor.blue + "," + gradientColor.green + ",0.65) 66%,rgba(0,80,200,0) 85%,rgba(" + gradientColor.red + "," + gradientColor.blue + "," + gradientColor.green + ",0) 100%); ";
                 //"filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#400050c8', endColorstr='#000050c8',GradientType=1 );";
         }
     }

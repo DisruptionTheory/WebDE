@@ -126,7 +126,8 @@ namespace WebDE.Rendering
                 //gui
                 foreach (GuiLayer layer in view.GetLayers())
                 {
-                    if (elementsByGuiId[layer.GetId()] == null || guiElementsToUpdate.Contains(layer.GetId()))
+                    if (elementsByGuiId[layer.GetId()] == null || guiElementsToUpdate.Contains(layer.GetId())
+                        || layer.FollowingCursor() == true)
                     {
                         this.RenderGUILayer(layer);
                     }
@@ -219,6 +220,7 @@ namespace WebDE.Rendering
             if (layerElem == null)
             {
                 layerElem = document.createElement("div");
+                layerElem.id = glayer.GetName();
                 this.AddClass(layerElem, "GUILayer");
                 document.getElementById("gameWrapper").appendChild(layerElem);
                 //this.elementsByGuiId[gelm.GetParentLayer().GetName()].appendChild(gentlement);
@@ -238,6 +240,15 @@ namespace WebDE.Rendering
             else
             {
                 layerElem.style.display = "none";
+            }
+
+            if (glayer.FollowingCursor() == true)
+            {
+                //set the position to the cursor position
+                glayer.SetPosition(
+                    InputManager.InputDevice.Mouse.GetAxisPosition(0) - (glayer.GetSize().Item1 / 2),
+                    InputManager.InputDevice.Mouse.GetAxisPosition(1) - (glayer.GetSize().Item2 / 2));
+                layerElem.style.position = "absolute";
             }
 
             //reposition the element based on game position
@@ -278,6 +289,11 @@ namespace WebDE.Rendering
                     gentlement.style.height = 12 + "px";
                     gentlement.innerText = gelm.GetText();
                 }
+                else
+                {
+                    gentlement.style.width = gelm.GetSize().Item1 + " px";
+                    gentlement.style.height = gelm.GetSize().Item2 + "px";
+                }
 
                 //since we're building this for the first time, put all the classes into a long list, to cut down on operations
                 string styleString = "";
@@ -299,6 +315,11 @@ namespace WebDE.Rendering
                 //reposition the element based on game position
                 gentlement.style.left = gelm.GetPosition().x + "px";
                 gentlement.style.top = gelm.GetPosition().y + "px";
+
+                if (gelm.GetStyle("Background") != null)
+                {
+                    gentlement.style.background = gelm.GetStyle("Background");
+                }
 
                 this.guiElementsToUpdate.Remove(gelm.GetId());
             }
@@ -334,13 +355,19 @@ namespace WebDE.Rendering
             //if it's not rendered, render it
             if (gentlement == null)
             {
+                Debug.log("Rendering light " + light.GetId());
                 gentlement = document.createElement("div");
                 this.AddClass(gentlement, "Entity LightSource");
                 this.AddClass(gentlement, light.GetType().Name);
+                foreach (string style in light.GetCustomStyles())
+                {
+                    this.AddClass(gentlement, style);
+                }
                 document.getElementById("gameBoard").appendChild(gentlement);
                 if (light.GetType().Name == "Lightstone")
                 {
                     gentlement.style.background = Gradient.LightStone(light.GetColor());
+                    Debug.log(Gradient.LightStone(light.GetColor()));
                 }
                 else
                 {

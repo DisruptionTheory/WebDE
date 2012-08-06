@@ -37,9 +37,10 @@ namespace WebDE
         public static void log(string message)
         {
             debugLog.Add(message);
-            message = message.Replace("'", "\\'");
-            //Script.Eval("console.log('" + message + "');");
-            //DefaultClient.consolelog(message);
+            //message = message.Replace("'", "\\'");
+            //apostrophes cause infinite loops. not sure why yet. circumventing for now. need to fix later
+            message = message.Replace("'", "");
+
             console.log(message);
         }
 

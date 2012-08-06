@@ -83,6 +83,13 @@ namespace WebDE
             return new Color(0, 0, 0);
         }
 
+        public bool IsOpposite(Color otherColor)
+        {
+            //convert both colors to HSL...
+
+            return true;
+        }
+
         public static readonly Color Black = new Color(0, 0, 0);
         public static readonly Color White = new Color(255, 255, 255);
     }

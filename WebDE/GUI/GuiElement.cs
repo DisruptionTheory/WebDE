@@ -26,6 +26,7 @@ namespace WebDE.GUI
         //a custom value for the scripter to use
         private string customValue = "";
         private List<string> styleClasses = new List<string>();
+        private Dictionary<string, string> customStyles = new Dictionary<string, string>();
 
         public GuiElement(GuiLayer owningLayer, string elementText)
         {
@@ -192,7 +193,8 @@ namespace WebDE.GUI
         //return 'default' bcuz im dum lol
         public Tuple<int, int> GetSize()
         {
-            return Stage.CurrentStage.GetTileSize();
+            //return Stage.CurrentStage.GetTileSize();
+            return new Tuple<int, int>(this.width, this.height);
         }
 
         private void SetNeedsUpdate()
@@ -219,6 +221,17 @@ namespace WebDE.GUI
         public List<string> GetStyles()
         {
             return this.styleClasses;
+        }
+
+        public string GetStyle(string styleName)
+        {
+            return this.customStyles[styleName];
+        }
+
+        public void SetStyle(string styleName, string styleValue)
+        {
+            this.customStyles[styleName] = styleValue;
+            this.SetNeedsUpdate();
         }
     }
 }

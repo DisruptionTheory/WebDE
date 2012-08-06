@@ -51,10 +51,24 @@ namespace WebDE.GUI
         /// <param name="name">The GUI Function's name</param>
         /// <param name="bindingDevice">The Input Device to bind to.</param>
         /// <param name="defaultButtonName"></param>
+        public GUIFunction(string name, InputDevice bindingDevice, string defaultButtonName, ButtonCommand buttonCommand)
+        {
+            this.eventName = name;
+            bindingDevice.Bind(defaultButtonName, 0, buttonCommand, this);
+
+            //if there is no default function, it's this now
+            if (GUIFunction.defaultFunction == null)
+            {
+                GUIFunction.defaultFunction = this;
+            }
+
+            GUIFunction.guiFunctions.Add(this);
+        }
+
         public GUIFunction(string name, InputDevice bindingDevice, string defaultButtonName)
         {
             this.eventName = name;
-            bindingDevice.Bind(defaultButtonName, 0, this);
+            bindingDevice.Bind(defaultButtonName, 0, ButtonCommand.Down, this);
 
             //if there is no default function, it's this now
             if (GUIFunction.defaultFunction == null)
@@ -69,5 +83,14 @@ namespace WebDE.GUI
         {
             return this.eventName;
         }
+    }
+
+    public enum ButtonCommand
+    {
+        Down,
+        Up,
+        Press,
+        Hold,
+        Double
     }
 }

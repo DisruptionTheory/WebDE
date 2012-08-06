@@ -28,6 +28,7 @@ namespace WebDE.GameObjects
         private List<Area> stageAreas;
         private GuiLayer collisionMap;
         private GuiLayer stageGui;
+        private Color backgroundColor = Color.Black;
 
         //the number of tiles or units wide the level is
         private int width = 20;
@@ -156,8 +157,10 @@ namespace WebDE.GameObjects
 
             foreach (Tile tile in this.stageTiles)
             {
-                //need to check if the GameEntity is visible
-                resultList.Add(tile);
+                if (tile.GetLightLevel() != this.GetBackgroundColor() && tile.GetLightLevel() != null)
+                {
+                    resultList.Add(tile);
+                }
             }
 
             return resultList;
@@ -292,7 +295,10 @@ namespace WebDE.GameObjects
 
         public void AddLight(LightSource newLight)
         {
-            this.stageLights.Add(newLight);
+            if (!this.stageLights.Contains(newLight))
+            {
+                this.stageLights.Add(newLight);
+            }
         }
 
         public List<Area> Subdivide()
@@ -365,6 +371,54 @@ namespace WebDE.GameObjects
             //Debug.log("Couldn't find a tile at " + xPos + ", " + yPos);
 
             return null;
+        }
+
+        public List<GameEntity> GetEntitiesNear(Point p, int distance)
+        {
+            List<GameEntity> returnVals = new List<GameEntity>();
+
+            foreach (GameEntity gent in this.stageEntities)
+            {
+                if (gent.GetPosition().Distance(p) <= distance)
+                {
+                    returnVals.Add(gent);
+                }
+            }
+
+            foreach (GameEntity gent in this.livingEntities)
+            {
+                if (gent.GetPosition().Distance(p) <= distance)
+                {
+                    returnVals.Add(gent);
+                }
+            }
+
+            return returnVals;
+        }
+
+        public List<LightSource> GetLightsNear(Point p, int distance)
+        {
+            List<LightSource> returnVals = new List<LightSource>();
+
+            foreach (LightSource light in this.stageLights)
+            {
+                if (light.GetPosition().Distance(p) <= distance)
+                {
+                    returnVals.Add(light);
+                }
+            }
+
+            return returnVals;
+        }
+
+        public Color GetBackgroundColor()
+        {
+            return this.backgroundColor;
+        }
+
+        public void SetBackgroundColor(Color newColor)
+        {
+            this.backgroundColor = newColor;
         }
     }
 }

@@ -56,6 +56,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Lights.cs" />
     <Compile Include="Lightstone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -63,6 +64,10 @@
     <Compile Include="MemeDefense.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WebDE.Clock\WebDE.Clock.csproj">
+      <Project>{B678FA7C-F46B-42AC-BE6B-4924DA1B8F70}</Project>
+      <Name>WebDE.Clock</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WebDE\WebDE.csproj">
       <Project>{FAF20FDB-45E0-417A-85A4-7B19F175C297}</Project>
       <Name>WebDE</Name>

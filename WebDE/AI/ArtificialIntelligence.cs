@@ -89,8 +89,16 @@ namespace WebDE.AI
             ThinkAboutWhereToGo();
         }
 
+        private Action<ArtificialIntelligence> alternateMovementProcess;
+
         private void ThinkAboutWhereToGo()
         {
+            if (this.alternateMovementProcess != null)
+            {
+                this.alternateMovementProcess.Invoke(this);
+                return;
+            }
+
             //default to not moving
             body.SetDirection(MovementDirection.None);
 
@@ -273,6 +281,11 @@ namespace WebDE.AI
             catch(Exception ex)
             {
             }
+        }
+
+        public void SetMovementThoughtPattern(Action<ArtificialIntelligence> newThoughtProcess)
+        {
+            this.alternateMovementProcess = newThoughtProcess;
         }
 
         private void updateDebug(string newMsg)
