@@ -36,8 +36,8 @@ namespace WebDE.Rendering
         public DOM_Renderer()
         {
             gameRenderer = this;
-            document = DefaultClient.GetDocument();
-            window = DefaultClient.GetWindow();
+            document = Main.GetDocument();
+            window = Main.GetWindow();
             Game.SetRenderer(this);
         }
 

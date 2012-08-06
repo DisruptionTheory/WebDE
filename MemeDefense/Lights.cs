@@ -33,7 +33,7 @@ namespace Lights
 
         public Lights()
         {
-            DefaultClient.Initialize();
+            Main.Initialize();
 
             //load the level...
             Stage testArea = CreateTestArea();

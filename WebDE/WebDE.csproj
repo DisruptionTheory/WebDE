@@ -52,9 +52,16 @@
     <Reference Include="SharpKit.jQuery" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="res\Default.js" />
-    <Content Include="res\jquery-1.6.4.min.js" />
-    <Content Include="res\jsclr-4.1.0.js" />
+    <Content Include="scripts\AI.js" />
+    <Content Include="scripts\Animation.js" />
+    <Content Include="scripts\GUI.js" />
+    <Content Include="scripts\Main.js" />
+    <Content Include="scripts\Misc.js" />
+    <Content Include="scripts\Objects.js" />
+    <Content Include="scripts\Rendering.js" />
+    <Content Include="scripts\WebDE.Clock.js" />
+    <Content Include="scripts\WebDE.Input.js" />
+    <Content Include="scripts\WebDE.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -115,7 +122,7 @@
     <Compile Include="Rendering\View.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DefaultClient.cs" />
+    <Compile Include="Main.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WebDE.Clock\WebDE.Clock.csproj">

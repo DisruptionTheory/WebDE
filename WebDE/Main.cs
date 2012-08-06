@@ -13,7 +13,7 @@ using WebDE.Animation;
 namespace WebDE
 {
     [JsType(JsMode.Clr, Filename = "scripts/Main.js")]
-    public class DefaultClient : jQueryContextBase
+    public class Main : jQueryContextBase
     {
         private static jQueryContextBase mainBase;
 
@@ -22,14 +22,14 @@ namespace WebDE
             //(new Main()).DefaultClient_Load();
 
             //need to initialize a jquerycontextbase and set it to the static variable, which this will do
-            new DefaultClient();
+            new Main();
 
             Game.Init();
 
             Clock.Start();
         }
 
-        public DefaultClient()
+        public Main()
         {
             mainBase = this;
         }
@@ -47,7 +47,7 @@ namespace WebDE
         public static jQueryContextBase GetContext()
         {
             //return this;
-            return DefaultClient.mainBase;
+            return Main.mainBase;
         }
 
         public static void consolelog(string message)

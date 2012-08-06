@@ -31,7 +31,7 @@ namespace MemeDefense
 
         public MemeDefense()
         {
-            DefaultClient.Initialize();
+            Main.Initialize();
 
             prepSprites();
             prepTowers();
