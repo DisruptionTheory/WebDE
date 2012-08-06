@@ -56,7 +56,7 @@ var WebDE$Net$test=
         },
         StartTest:function()
         {
-            var client=new WebDE.Net.GameClient.ctor("localhost",81);
+            var client=new WebDE.Net.NetworkClient.ctor("localhost",81);
             client.Connect();
             client.OnDisconnect = $CombineDelegates(client.OnDisconnect,WebDE.Net.test.client_OnDisconnect);
         },

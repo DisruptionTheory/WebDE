@@ -22,12 +22,12 @@ namespace WebDEServerSharp.Net
         /// <summary>
         /// The dispatch table for resource requests. 
         /// </summary>
-        private static Dictionary<WebDETypes.Net.Resources, Action<Hashtable, UserContext>> requestResourceDispatch = new Dictionary<WebDETypes.Net.Resources, Action<Hashtable, UserContext>>();
+        private static Dictionary<WebDE.Types.Net.Resources, Action<Hashtable, UserContext>> requestResourceDispatch = new Dictionary<WebDE.Types.Net.Resources, Action<Hashtable, UserContext>>();
 
         /// <summary>
         /// The dispatch table for resource updates. 
         /// </summary>
-        private static Dictionary<WebDETypes.Net.Resources, Action<Hashtable, UserContext>> updateResourceDispatch = new Dictionary<WebDETypes.Net.Resources, Action<Hashtable, UserContext>>();
+        private static Dictionary<WebDE.Types.Net.Resources, Action<Hashtable, UserContext>> updateResourceDispatch = new Dictionary<WebDE.Types.Net.Resources, Action<Hashtable, UserContext>>();
         
         /// <summary>
         /// Initializes the WebSocket server and begins accepting connections.
@@ -73,13 +73,13 @@ namespace WebDEServerSharp.Net
             Hashtable json = JsonConvert.DeserializeObject<Hashtable>(ctx.DataFrame.ToString());
 
             //dispatch based on action, all invocations should be thrown at the thread pool
-            if ((WebDETypes.Net.Action)json["action"] == WebDETypes.Net.Action.GET)
+            if ((WebDE.Types.Net.Action)json["action"] == WebDE.Types.Net.Action.GET)
             {
-                requestResourceDispatch[(WebDETypes.Net.Resources)json["type"]].BeginInvoke(json, ctx, null, null);
+                requestResourceDispatch[(WebDE.Types.Net.Resources)json["type"]].BeginInvoke(json, ctx, null, null);
             }
-            else if ((WebDETypes.Net.Action)json["action"] == WebDETypes.Net.Action.SET)
+            else if ((WebDE.Types.Net.Action)json["action"] == WebDE.Types.Net.Action.SET)
             {
-                updateResourceDispatch[(WebDETypes.Net.Resources)json["type"]].BeginInvoke(json, ctx, null, null);
+                updateResourceDispatch[(WebDE.Types.Net.Resources)json["type"]].BeginInvoke(json, ctx, null, null);
             }
             else
             {
@@ -92,7 +92,7 @@ namespace WebDEServerSharp.Net
         /// </summary>
         /// <param name="resource">The resource that got requested.</param>
         /// <param name="function">The function to be invoked.</param>
-        public static void SetResourceRequest(WebDETypes.Net.Resources resource, Action<Hashtable, UserContext> function)
+        public static void SetResourceRequest(WebDE.Types.Net.Resources resource, Action<Hashtable, UserContext> function)
         {
             requestResourceDispatch.Add(resource, function);
         }
@@ -102,7 +102,7 @@ namespace WebDEServerSharp.Net
         /// </summary>
         /// <param name="resource">The resource to be updated</param>
         /// <param name="function">The function to be invoked.</param>
-        public static void SetResourceUpdate(WebDETypes.Net.Resources resource, Action<Hashtable, UserContext> function)
+        public static void SetResourceUpdate(WebDE.Types.Net.Resources resource, Action<Hashtable, UserContext> function)
         {
             updateResourceDispatch.Add(resource, function);
         }

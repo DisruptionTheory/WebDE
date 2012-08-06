@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using SharpKit.JavaScript;
+using SharpKit.Html4;
 using SharpKit.Html;
 
 namespace WebDE.Net
@@ -8,8 +9,8 @@ namespace WebDE.Net
     /// <summary>
     /// A delegate type for message received events in the game client web socket.
     /// </summary>
-    /// <param name="message">The message received.</param>
-    public delegate void OnReceiveEventHandler(string message);
+    /// <param name="message">The message received. converted from json to a hashtable.</param>
+    public delegate void OnReceiveEventHandler(Hashtable message);
 
     /// <summary>
     /// A delegate type for connection state change events.
@@ -17,7 +18,7 @@ namespace WebDE.Net
     public delegate void ConnectionStateChangeEventHandler();
 
     [JsType(JsMode.Clr, Filename = "scripts/WebDE.Net.js")]
-    public class GameClient
+    public class NetworkClient
     {
         /// <summary>
         /// The port this game client connects to.
@@ -62,7 +63,7 @@ namespace WebDE.Net
         /// </summary>
         /// <param name="port">The port on the host to connect to.</param>
         /// <param name="host">The host to connect to.</param>
-        public GameClient(string host, int port = 80)
+        public NetworkClient(string host, int port = 80)
         {
             Port = port;
             Host = host; 
@@ -101,7 +102,10 @@ namespace WebDE.Net
         /// <param name="evt">The message event object.</param>
         private void onMessage(MessageEvent evt)
         {
-            OnReceive(evt.data.ToString());
+            JsObject message = new JsObject(JSON.parse(evt.data.ToString()));
+            Hashtable table = new Hashtable();
+            foreach (var member in message) table.Add(member, member.valueOf());
+            OnReceive(table);
         }
 
         /// <summary>
@@ -111,6 +115,16 @@ namespace WebDE.Net
         private void onError(ErrorEvent evt)
         {
             //TODO: decide how to handle errors (pass error as event, handle internally, etc...)
+        }
+
+        /// <summary>
+        /// Send a message object to the server. The object is converted to json notation before sending.
+        /// </summary>
+        /// <param name="obj">The object to send. This function converts this object into its json representation.</param>
+        public void Send(object obj)
+        {
+            string json = JSON.stringify(obj);
+            socket.send(json);
         }
     }
 }

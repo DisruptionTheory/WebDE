@@ -85,9 +85,9 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WebDETypes\WebDETypes.csproj">
+    <ProjectReference Include="..\WebDE.Types\WebDE.Types.csproj">
       <Project>{F0D76D43-57FF-4290-9041-36362B11B827}</Project>
-      <Name>WebDETypes</Name>
+      <Name>WebDE.Types</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

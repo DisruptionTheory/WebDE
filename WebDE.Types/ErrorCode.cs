@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WebDETypes
+namespace WebDE.Types
 {
     public enum ErrorCode
     {

@@ -11,7 +11,7 @@ namespace WebDE.Net
     {
         public static void StartTest()
         {
-            GameClient client = new GameClient("localhost", 81);
+            NetworkClient client = new NetworkClient("localhost", 81);
             client.Connect();
             client.OnDisconnect += new ConnectionStateChangeEventHandler(client_OnDisconnect);
         }

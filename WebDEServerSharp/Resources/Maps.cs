@@ -17,8 +17,8 @@ namespace WebDEServerSharp.Resources
     {
         public static void Initialize()
         {
-            Server.SetResourceRequest(WebDETypes.Net.Resources.MAP, mapRequest);
-            Server.SetResourceUpdate(WebDETypes.Net.Resources.MAP, mapUpdate);
+            Server.SetResourceRequest(WebDE.Types.Net.Resources.MAP, mapRequest);
+            Server.SetResourceUpdate(WebDE.Types.Net.Resources.MAP, mapUpdate);
         }
 
         private static void mapRequest(Hashtable parameters, UserContext ctx)

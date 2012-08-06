@@ -68,15 +68,9 @@
     <Compile Include="test\test.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameClient.cs" />
+    <Compile Include="NetworkClient.cs" />
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <ProjectReference Include="..\WebDETypes\WebDETypes.csproj">
-      <Project>{F0D76D43-57FF-4290-9041-36362B11B827}</Project>
-      <Name>WebDETypes</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <Import Project="$(MSBuildBinPath)\SharpKit\5\SharpKit.Build.targets" />

@@ -107,9 +107,9 @@ if (typeof($CreateDelegate)=='undefined'){
 }
 if(typeof(JsTypes) == "undefined")
     JsTypes = [];
-var WebDE$Net$GameClient=
+var WebDE$Net$NetworkClient=
 {
-    fullname:"WebDE.Net.GameClient",
+    fullname:"WebDE.Net.NetworkClient",
     baseTypeName:"System.Object",
     assemblyName:"WebDE.Net",
     Kind:"Class",
@@ -169,11 +169,20 @@ var WebDE$Net$GameClient=
         },
         onMessage:function(evt)
         {
-            this.OnReceive(evt.data.toString());
+            var message=new Object(JSON.parse(evt.data.toString()));
+            var table=new System.Collections.Hashtable.ctor();
+            for(var member in message)
+                table.Add(member,member.valueOf());
+            this.OnReceive(table);
         },
         onError:function(evt)
         {
+        },
+        Send:function(obj)
+        {
+            var json=JSON.stringify(obj);
+            this.socket.send(json);
         }
     }
 };
-JsTypes.push(WebDE$Net$GameClient);
+JsTypes.push(WebDE$Net$NetworkClient);
