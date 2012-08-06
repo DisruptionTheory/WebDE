@@ -7,7 +7,7 @@ using SharpKit.jQuery;
 
 namespace WebDE.Timekeeper
 {
-    [JsType(JsMode.Clr, Filename = "res/WebDE.Clock.js")]
+    [JsType(JsMode.Clr, Filename = "scripts/WebDE.Clock.js")]
     public class Clock : HtmlContextBase
     {
         /// <summary>

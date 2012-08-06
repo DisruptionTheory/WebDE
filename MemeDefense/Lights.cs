@@ -325,7 +325,7 @@ namespace Lights
                 if (light.GetColor().IsOpposite(creatureColor))
                 {
                     //run away!
-                    creatureAI.GetBody().SetDirection(GetOppositeDirection(creaturePos, light.GetPosition());
+                    creatureAI.GetBody().SetDirection(GetOppositeDirection(creaturePos, light.GetPosition()));
                 }
             }
 

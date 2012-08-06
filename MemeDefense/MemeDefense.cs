@@ -14,7 +14,7 @@ using WebDE.AI;
 
 namespace MemeDefense
 {
-    [JsType(JsMode.Global, Filename = "res/MemeDefense.js")]
+    [JsType(JsMode.Global, Filename = "build/scripts/MemeDefense.js")]
     public class Main// : jQueryContextBase
     {
         public static void Initialize()
@@ -23,7 +23,7 @@ namespace MemeDefense
         }
     }
 
-    [JsType(JsMode.Clr, Filename = "res/MemeDefense.js")]
+    [JsType(JsMode.Clr, Filename = "build/scripts/MemeDefense.js")]
     public class MemeDefense
     {
         //a placeholder for which tower we intend to place based on the clicked gui element

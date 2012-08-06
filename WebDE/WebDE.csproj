@@ -52,8 +52,6 @@
     <Reference Include="SharpKit.jQuery" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Default.aspx" />
-    <Content Include="Default.html" />
     <Content Include="res\Default.js" />
     <Content Include="res\jquery-1.6.4.min.js" />
     <Content Include="res\jsclr-4.1.0.js" />
@@ -71,13 +69,6 @@
     <Compile Include="Animation\Sprite.cs" />
     <Compile Include="Animation\Sprite_Static.cs" />
     <Compile Include="Debug.cs" />
-    <Compile Include="Default.aspx.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Default.aspx.designer.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Game.cs" />
     <Compile Include="GUI\GuiElement.cs" />
     <Compile Include="GUI\GuiEvent.cs" />
@@ -159,6 +150,9 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <PropertyGroup>
+    <PreBuildEvent>copy ..\..\WebDE.Clock\scripts\WebDE.Clock.js ..\scripts\WebDE.Clock.js &gt;commandlineerrors.txt</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

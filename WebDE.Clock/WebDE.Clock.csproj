@@ -51,9 +51,6 @@
     <Reference Include="SharpKit.jQuery" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="res\WebDE.Clock.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Web.config" />
     <Content Include="scripts\WebDE.Clock.js" />
   </ItemGroup>
@@ -87,7 +84,8 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>copy res\WebDE.Clock.js ..\..\WebDE\scripts\WebDE.Clock.js</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

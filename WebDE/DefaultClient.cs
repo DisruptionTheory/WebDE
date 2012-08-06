@@ -13,7 +13,6 @@ using WebDE.Animation;
 namespace WebDE
 {
     [JsType(JsMode.Clr, Filename = "scripts/Main.js")]
-    //[JsType(JsMode.Clr, Filename = "res/Default.js")]
     public class DefaultClient : jQueryContextBase
     {
         private static jQueryContextBase mainBase;

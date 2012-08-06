@@ -13,10 +13,9 @@ namespace WebDE.Timekeeper
     /// <summary>
     /// The Execution object is an object that holds the contexts and properties of an execution job.
     /// </summary>
-    [JsType(JsMode.Clr, Filename = "res/WebDE.Clock.js")]
+    [JsType(JsMode.Clr, Filename = "scripts/WebDE.Clock.js")]
     class TimedExecution
     {
-
         private Action context;
         private int timerID;
 
