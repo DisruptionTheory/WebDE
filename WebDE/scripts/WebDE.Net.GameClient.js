@@ -140,8 +140,23 @@ var WebDE$Net$GameClient=
         },
         GetApikey:function(username,password,callback)
         {
-            var obj={action:2,user:username,pass:password};
-            this.send(obj,callback);
+            var request={action:2,user:username,pass:password};
+            this.send(request,callback);
+        },
+        GetMaps:function(callback)
+        {
+            var request={action:0,type:0,mapid:0,apikey:this.get_ApiKey()};
+            this.send(request,callback);
+        },
+        GetMap:function(mapid,callback)
+        {
+            var request={action:0,type:0,mapid:mapid,apikey:this.get_ApiKey()};
+            this.send(request,callback);
+        },
+        GetGroups:function(callback)
+        {
+            var request={action:3,apikey:this.get_ApiKey()};
+            this.send(request,callback);
         }
     }
 };
@@ -157,7 +172,7 @@ var WebDE$Net$MessageQueue=
         ctor:function()
         {
             this.Count = 0;
-            this.queue = null;
+            this.queue = new System.Collections.Generic.List$1.ctor(System.Object);
             System.Object.ctor.call(this);
         },
         Enqueue:function(newMember)

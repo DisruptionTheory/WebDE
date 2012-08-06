@@ -9,6 +9,7 @@ namespace WebDE.Types.Net
     {
         GET,
         SET,
-        KEY
+        KEY,
+        GRP
     }
 }

@@ -72,7 +72,7 @@ namespace WebDE.Net
 
         private void  client_OnDisconnect()
         {
- 	        
+ 	            
         }
 
         void  client_OnReceive(JsObject message)
@@ -110,13 +110,55 @@ namespace WebDE.Net
         /// <param name="callback">The callback to be called when the API key has returned.</param>
         public void GetApikey(string username, string password, Action<JsObject> callback)
         {
-            var obj = new
+            var request = new
             {
                 action = WebDE.Types.Net.Action.KEY,
                 user = username,
                 pass = password
             };
-            send(obj, callback);
+            send(request, callback);
+        }
+
+        /// <summary>
+        /// Get all the maps associated with the game.
+        /// </summary>
+        /// <param name="callback"></param>
+        public void GetMaps(Action<JsObject> callback)
+        {
+            var request = new
+            {
+                action = WebDE.Types.Net.Action.GET,
+                type = WebDE.Types.Net.Resource.MAP,
+                mapid = 0,
+                apikey = ApiKey
+            };
+            send(request, callback);
+        }
+
+        /// <summary>
+        /// Get the map with the specified mapid.
+        /// </summary>
+        /// <param name="mapid">The target mapid.</param>
+        /// <param name="callback"></param>
+        public void GetMap(int mapid, Action<JsObject> callback)
+        {
+            var request = new
+            {
+                action = WebDE.Types.Net.Action.GET,
+                type = WebDE.Types.Net.Resource.MAP,
+                mapid = mapid,
+                apikey = ApiKey
+            };
+            send(request, callback);
+        }
+
+        public void GetGroups(Action<JsObject> callback)
+        {
+            var request = new {
+                action = WebDE.Types.Net.Action.GRP,
+                apikey = ApiKey,
+            };
+            send(request, callback);
         }
 
 

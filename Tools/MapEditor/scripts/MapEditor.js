@@ -14,11 +14,16 @@ var MapEditor$Login=
         {
             var password=$("#password").text();
             var username=$("#username").text();
-            MapEditor.MapEditor.get_Server().GetApikey(username,password,MapEditor.Login.LoginCallback);
+            MapEditor.MapEditor.get_Server().GetApikey(username,password,MapEditor.Login.ApiKeyCallback);
+            MapEditor.MapEditor.get_Server().GetGroups(MapEditor.Login.GroupsCallback);
         },
-        LoginCallback:function(result)
+        ApiKeyCallback:function(result)
         {
             alert(result["apikey"].toString());
+        },
+        GroupsCallback:function(result)
+        {
+            alert(result.toString());
         }
     },
     assemblyName:"MapEditor",

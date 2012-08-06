@@ -104,6 +104,9 @@ namespace WebDEServerDotNet.Net
                 case WebDE.Types.Net.Action.KEY:
                     WebDEServerDotNet.Security.API.RequestApiKey(json, ctx);
                     break;
+                case WebDE.Types.Net.Action.GRP:
+                    Send(Security.API.GetGroups(UserControl.GetUserByContext(ctx)), ctx);
+                    break;
                 default:
                     //TODO: unknown action, send back error
                     break;

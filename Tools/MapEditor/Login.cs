@@ -12,12 +12,18 @@ namespace MapEditor
         {
             string password = J("#password").text();
             string username = J("#username").text();
-            MapEditor.Server.GetApikey(username, password, LoginCallback);
+            MapEditor.Server.GetApikey(username, password, ApiKeyCallback);
+            MapEditor.Server.GetGroups(GroupsCallback);
         }
 
-        public static void LoginCallback(JsObject result)
+        public static void ApiKeyCallback(JsObject result)
         {
             alert(result["apikey"].ToString());
+        }
+
+        public static void GroupsCallback(JsObject result)
+        {
+            alert(result.toString());
         }
     }
 }

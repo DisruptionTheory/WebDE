@@ -11,7 +11,7 @@ namespace WebDE.Net
     {
         public int Count = 0;
 
-        private List<object> queue;
+        private List<object> queue = new List<object>();
  
         public void Enqueue(object newMember)
         {
