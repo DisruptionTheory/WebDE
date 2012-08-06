@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using XCore.Configuration;
 
-namespace WebDEServerSharp
+namespace WebDEServerDotNet
 {
     /// <summary>
     /// Controls I/O to the configuration file.

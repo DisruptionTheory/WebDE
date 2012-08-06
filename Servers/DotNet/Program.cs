@@ -6,7 +6,7 @@ using XCore.Data;
 using XCore.Data.MySQL;
 using XCore.Net.API.Asynchronous;
 
-namespace WebDEServerSharp
+namespace WebDEServerDotNet
 {
     class Program
     {

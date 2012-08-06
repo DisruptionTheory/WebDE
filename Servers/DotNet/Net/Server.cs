@@ -10,7 +10,7 @@ using Alchemy.Classes;
 using Newtonsoft.Json;
 
 
-namespace WebDEServerSharp.Net
+namespace WebDEServerDotNet.Net
 {
     public static class Server
     {

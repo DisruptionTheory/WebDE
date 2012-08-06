@@ -3,12 +3,12 @@ using System.Collections;
 using System.Linq;
 using System.Text;
 using Alchemy.Classes;
-using WebDEServerSharp.Net;
-using WebDEServerSharp.Data;
+using WebDEServerDotNet.Net;
+using WebDEServerDotNet.Data;
 using Newtonsoft.Json;
-using DB = WebDEServerSharp.Data;
+using DB = WebDEServerDotNet.Data;
 
-namespace WebDEServerSharp.Resources
+namespace WebDEServerDotNet.Resources
 {
     /// <summary>
     /// Controls requests and updates for map resources.

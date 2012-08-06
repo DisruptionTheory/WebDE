@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using WebDEServerSharp.Net;
-using WebDEServerSharp.Data;
+using WebDEServerDotNet.Net;
+using WebDEServerDotNet.Data;
 
-namespace WebDEServerSharp.Resources
+namespace WebDEServerDotNet.Resources
 {
     /// <summary>
     /// Controls the functionality for requests and updates to game resources.

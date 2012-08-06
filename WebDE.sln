@@ -5,7 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebDE", "WebDE\WebDE.csproj
 	ProjectSection(ProjectDependencies) = postProject
 		{F0D76D43-57FF-4290-9041-36362B11B827} = {F0D76D43-57FF-4290-9041-36362B11B827}
 		{57D0B6E7-465B-415B-9D4C-C3B197F87CCD} = {57D0B6E7-465B-415B-9D4C-C3B197F87CCD}
-		{61D67CFE-5CDD-44EB-A9BF-B2D23CC55C77} = {61D67CFE-5CDD-44EB-A9BF-B2D23CC55C77}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebDE.Clock", "WebDE.Clock\WebDE.Clock.csproj", "{B678FA7C-F46B-42AC-BE6B-4924DA1B8F70}"
@@ -14,11 +13,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebDE.Input", "WebDE.Input\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemeDefense", "MemeDefense\MemeDefense.csproj", "{3ABB68B5-999C-45F1-B709-A238790EFE2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebDEServerSharp", "WebDEServerSharp\WebDEServerSharp.csproj", "{61D67CFE-5CDD-44EB-A9BF-B2D23CC55C77}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebDE.Net", "WebDE.Net\WebDE.Net.csproj", "{57D0B6E7-465B-415B-9D4C-C3B197F87CCD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebDE.Types", "WebDE.Types\WebDE.Types.csproj", "{F0D76D43-57FF-4290-9041-36362B11B827}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Servers", "Servers", "{3829E45A-1592-48ED-A4D5-716AD19F77F1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{BDA49D01-D713-4F66-9D71-C922841448A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet", "Servers\DotNet\DotNet.csproj", "{61D67CFE-5CDD-44EB-A9BF-B2D23CC55C77}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -70,16 +73,6 @@ Global
 		{3ABB68B5-999C-45F1-B709-A238790EFE2D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{3ABB68B5-999C-45F1-B709-A238790EFE2D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{3ABB68B5-999C-45F1-B709-A238790EFE2D}.Release|x86.ActiveCfg = Release|Any CPU
-		{61D67CFE-5CDD-44EB-A9BF-B2D23CC55C77}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{61D67CFE-5CDD-44EB-A9BF-B2D23CC55C77}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{61D67CFE-5CDD-44EB-A9BF-B2D23CC55C77}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{61D67CFE-5CDD-44EB-A9BF-B2D23CC55C77}.Debug|x86.ActiveCfg = Debug|x86
-		{61D67CFE-5CDD-44EB-A9BF-B2D23CC55C77}.Debug|x86.Build.0 = Debug|x86
-		{61D67CFE-5CDD-44EB-A9BF-B2D23CC55C77}.Release|Any CPU.ActiveCfg = Release|x86
-		{61D67CFE-5CDD-44EB-A9BF-B2D23CC55C77}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{61D67CFE-5CDD-44EB-A9BF-B2D23CC55C77}.Release|Mixed Platforms.Build.0 = Release|x86
-		{61D67CFE-5CDD-44EB-A9BF-B2D23CC55C77}.Release|x86.ActiveCfg = Release|x86
-		{61D67CFE-5CDD-44EB-A9BF-B2D23CC55C77}.Release|x86.Build.0 = Release|x86
 		{57D0B6E7-465B-415B-9D4C-C3B197F87CCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{57D0B6E7-465B-415B-9D4C-C3B197F87CCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57D0B6E7-465B-415B-9D4C-C3B197F87CCD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -100,8 +93,21 @@ Global
 		{F0D76D43-57FF-4290-9041-36362B11B827}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{F0D76D43-57FF-4290-9041-36362B11B827}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{F0D76D43-57FF-4290-9041-36362B11B827}.Release|x86.ActiveCfg = Release|Any CPU
+		{61D67CFE-5CDD-44EB-A9BF-B2D23CC55C77}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{61D67CFE-5CDD-44EB-A9BF-B2D23CC55C77}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{61D67CFE-5CDD-44EB-A9BF-B2D23CC55C77}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{61D67CFE-5CDD-44EB-A9BF-B2D23CC55C77}.Debug|x86.ActiveCfg = Debug|x86
+		{61D67CFE-5CDD-44EB-A9BF-B2D23CC55C77}.Debug|x86.Build.0 = Debug|x86
+		{61D67CFE-5CDD-44EB-A9BF-B2D23CC55C77}.Release|Any CPU.ActiveCfg = Release|x86
+		{61D67CFE-5CDD-44EB-A9BF-B2D23CC55C77}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{61D67CFE-5CDD-44EB-A9BF-B2D23CC55C77}.Release|Mixed Platforms.Build.0 = Release|x86
+		{61D67CFE-5CDD-44EB-A9BF-B2D23CC55C77}.Release|x86.ActiveCfg = Release|x86
+		{61D67CFE-5CDD-44EB-A9BF-B2D23CC55C77}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{61D67CFE-5CDD-44EB-A9BF-B2D23CC55C77} = {3829E45A-1592-48ED-A4D5-716AD19F77F1}
 	EndGlobalSection
 EndGlobal

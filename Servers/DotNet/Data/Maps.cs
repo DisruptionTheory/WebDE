@@ -5,7 +5,7 @@ using System.Text;
 using XCore.Data;
 using XCore.Data.MySQL;
 
-namespace WebDEServerSharp.Data
+namespace WebDEServerDotNet.Data
 {
     /// <summary>
     /// Manages database operations dealing with maps.
