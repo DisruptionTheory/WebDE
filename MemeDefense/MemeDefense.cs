@@ -15,7 +15,7 @@ using WebDE.AI;
 namespace MemeDefense
 {
     [JsType(JsMode.Global, Filename = "build/scripts/MemeDefense.js")]
-    public class Main// : jQueryContextBase
+    public class Globals// : jQueryContextBase
     {
         public static void Initialize()
         {

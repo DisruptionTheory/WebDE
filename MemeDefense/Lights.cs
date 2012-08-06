@@ -57,13 +57,38 @@ namespace Lights
             Stage testArea = Game.CreateStage("Test Area", StageType.Tile);
             testArea.SetTileSize(10, 10);
             testArea.SetSize(80, 60);
+            testArea.SetBackgroundColor(Color.Black);
             testArea.CreateRandomTiles();
+
             /*
-            foreach (GameEntity tile in testArea.GetVisibleTiles(View.GetMainView()))
+            for (int h = 0; h < testArea.GetSize().Item2; h++)
             {
-                tile.SetSprite(Sprite.GetSpriteByName("Grass"));
+                for (int w = 0; w < testArea.GetSize().Item1; w++)
+                {
+                    //with the randomization of the tiles, we're going to randomize whether or not this is buildiable
+                    int rand = JsMath.round(JsMath.random());
+                    //int rand = (new Random()).Next(0, 1);
+                    //check whether the random # is 0 or 1, the long way, because apparently boolean.parse won't figure it out
+                    bool buildable = false;
+                    if (rand == 1)
+                    {
+                        buildable = true;
+                    }
+                    //Tile aTile = new Tile("", true, buildable);
+                    Tile aTile = testArea.AddTile("", true, buildable);
+                    aTile.SetLightLevel(Color.Black);
+                    aTile.SetParentStage(testArea);
+                    aTile.SetPosition(w, h);
+                    //stageTiles.Add(aTile);
+                }
             }
             */
+            
+            foreach (GameEntity tile in testArea.GetVisibleTiles(View.GetMainView()))
+            {
+                //tile.SetSprite(Sprite.GetSpriteByName("Grass"));
+                ((Tile) tile).SetLightLevel(Color.Black);
+            }
             //new GuiLayer("Steve", View.GetMainView(), 
 
             //GuiLayer.GetActiveLayers()[0].SetGUIFunction(gfAction, testeh);

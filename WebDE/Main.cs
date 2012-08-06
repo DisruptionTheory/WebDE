@@ -55,15 +55,4 @@ namespace WebDE
             console.log(message);
         }
     }
-
-    /*
-    [JsType(JsMode.Global, Filename = "res/Default.js")]
-    public static class Main
-    {
-        public static void Initialize()
-        {
-            //console.log("I do be initializin");
-        }
-    }
-    */
 }
