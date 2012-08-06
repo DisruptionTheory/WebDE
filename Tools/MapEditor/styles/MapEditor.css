@@ -1,0 +1,18 @@
+﻿body {
+}
+
+/* Login View */
+#Login 
+{
+    display: none;
+}
+
+/* End Login View */
+
+/* Editor View */
+#Editor
+{
+    display: none;
+}
+
+/* End Editor View */

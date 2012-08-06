@@ -8,9 +8,16 @@ namespace MapEditor
     [JsType(JsMode.Clr, Filename = "scripts/MapEditor.js")]
     public class MapEditor : jQueryContextBase
     {
-        static void DefaultClient_Load()
+        public static GameClient Server
         {
-            J(document.body).append("Ready<br/>");
+            get;
+            private set;
+        }
+
+        public static void Initialize()
+        {
+            Server = new GameClient("localhost", 81);
+            Views.LoadView(Views.Login);
         }
     }
 }

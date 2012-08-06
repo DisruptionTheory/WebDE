@@ -66,6 +66,7 @@
     <Content Include="scripts\WebDE.Clock.js" />
     <Content Include="scripts\WebDE.Input.js" />
     <Content Include="scripts\WebDE.js" />
+    <Content Include="scripts\WebDE.Net.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -96,7 +97,6 @@
     <Compile Include="Misc\Dimension.cs" />
     <Compile Include="Misc\Point.cs" />
     <Compile Include="Misc\Rectangle.cs" />
-    <Compile Include="Misc\Tuple.cs" />
     <Compile Include="Misc\Vector.cs" />
     <Compile Include="GameObjects\Area.cs" />
     <Compile Include="GameObjects\GameEntity.cs" />
@@ -116,6 +116,8 @@
     <Compile Include="GameObjects\Tile.cs" />
     <Compile Include="GameObjects\Vehicle.cs" />
     <Compile Include="GameObjects\Weapon.cs" />
+    <Compile Include="Net\GameClient.cs" />
+    <Compile Include="Net\MessageQueue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Animation\AnimationFrame_Static.cs" />
     <Compile Include="Rendering\DOM_Renderer.cs" />
@@ -136,6 +138,14 @@
     <ProjectReference Include="..\WebDE.Input\WebDE.Input.csproj">
       <Project>{FBD7C4B1-5577-4A17-A8D4-7A55B06762E0}</Project>
       <Name>WebDE.Input</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebDE.Net\WebDE.Net.csproj">
+      <Project>{57D0B6E7-465B-415B-9D4C-C3B197F87CCD}</Project>
+      <Name>WebDE.Net</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebDE.Types\WebDE.Types.csproj">
+      <Project>{F0D76D43-57FF-4290-9041-36362B11B827}</Project>
+      <Name>WebDE.Types</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
@@ -162,7 +172,12 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PreBuildEvent>copy ..\..\WebDE.Clock\scripts\WebDE.Clock.js ..\scripts\WebDE.Clock.js &gt;commandlineerrors.txt</PreBuildEvent>
+    <PreBuildEvent>copy ..\..\WebDE.Clock\scripts\WebDE.Clock.js ..\scripts\WebDE.Clock.js &gt;commandlineerrors.txt
+copy ..\..\WebDE.Net\scripts\WebDE.Net.js ..\scripts\WebDE.Net.js &gt;commandlineerrors.txt</PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
