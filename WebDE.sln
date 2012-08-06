@@ -23,6 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{BDA49D01
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet", "Servers\DotNet\DotNet.csproj", "{61D67CFE-5CDD-44EB-A9BF-B2D23CC55C77}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapEditor", "Tools\MapEditor\MapEditor.csproj", "{8FA7AF8F-37BB-4D0B-998E-FFEB0700AFF2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -136,11 +138,27 @@ Global
 		{61D67CFE-5CDD-44EB-A9BF-B2D23CC55C77}.ServerTest-DotNet|Mixed Platforms.Build.0 = ServerTest-DotNet|x86
 		{61D67CFE-5CDD-44EB-A9BF-B2D23CC55C77}.ServerTest-DotNet|x86.ActiveCfg = ServerTest-DotNet|x86
 		{61D67CFE-5CDD-44EB-A9BF-B2D23CC55C77}.ServerTest-DotNet|x86.Build.0 = ServerTest-DotNet|x86
+		{8FA7AF8F-37BB-4D0B-998E-FFEB0700AFF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FA7AF8F-37BB-4D0B-998E-FFEB0700AFF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FA7AF8F-37BB-4D0B-998E-FFEB0700AFF2}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{8FA7AF8F-37BB-4D0B-998E-FFEB0700AFF2}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{8FA7AF8F-37BB-4D0B-998E-FFEB0700AFF2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8FA7AF8F-37BB-4D0B-998E-FFEB0700AFF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FA7AF8F-37BB-4D0B-998E-FFEB0700AFF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FA7AF8F-37BB-4D0B-998E-FFEB0700AFF2}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{8FA7AF8F-37BB-4D0B-998E-FFEB0700AFF2}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{8FA7AF8F-37BB-4D0B-998E-FFEB0700AFF2}.Release|x86.ActiveCfg = Release|Any CPU
+		{8FA7AF8F-37BB-4D0B-998E-FFEB0700AFF2}.ServerTest-DotNet|Any CPU.ActiveCfg = Release|Any CPU
+		{8FA7AF8F-37BB-4D0B-998E-FFEB0700AFF2}.ServerTest-DotNet|Any CPU.Build.0 = Release|Any CPU
+		{8FA7AF8F-37BB-4D0B-998E-FFEB0700AFF2}.ServerTest-DotNet|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{8FA7AF8F-37BB-4D0B-998E-FFEB0700AFF2}.ServerTest-DotNet|Mixed Platforms.Build.0 = Release|Any CPU
+		{8FA7AF8F-37BB-4D0B-998E-FFEB0700AFF2}.ServerTest-DotNet|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{61D67CFE-5CDD-44EB-A9BF-B2D23CC55C77} = {3829E45A-1592-48ED-A4D5-716AD19F77F1}
+		{8FA7AF8F-37BB-4D0B-998E-FFEB0700AFF2} = {BDA49D01-D713-4F66-9D71-C922841448A7}
 	EndGlobalSection
 EndGlobal

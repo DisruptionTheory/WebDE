@@ -59,7 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="scripts\WebDE.Net.js" />
-    <Content Include="test\index.htm" />
+    <Content Include="test\index.html" />
     <Content Include="test\jquery-1.6.4.min.js" />
     <Content Include="test\jquery-ui-1.8.11.custom.min.js" />
     <Content Include="test\jsclr-4.1.0.js" />

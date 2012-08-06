@@ -51,24 +51,25 @@
     <Reference Include="SharpKit.jQuery" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Default.aspx" />
-    <Content Include="res\Default.js" />
-    <Content Include="res\jquery-1.6.4.min.js" />
+    <Content Include="index.html" />
+    <Content Include="scripts\jquery-1.6.4.min.js" />
+    <Content Include="scripts\jquery-ui-1.8.11.custom.min.js" />
+    <Content Include="scripts\jsclr-4.1.0.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Default.aspx.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Default.aspx.designer.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DefaultClient.cs" />
+    <Compile Include="MapEditor.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\WebDE.Net\WebDE.Net.csproj">
+      <Project>{57D0B6E7-465B-415B-9D4C-C3B197F87CCD}</Project>
+      <Name>WebDE.Net</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <Import Project="$(MSBuildBinPath)\SharpKit\5\SharpKit.Build.targets" />
