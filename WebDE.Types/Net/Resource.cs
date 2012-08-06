@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WebDE.Types.Net
 {
-    public enum Resources
+    public enum Resource
     {
         MAP,
         SPRITE,

@@ -17,7 +17,7 @@ namespace WebDEServerDotNet
         public static void Initialize()
         {
             Config.Initialize();
-            Resources.Control.Intitialize();
+            Resources.ResourcesControl.Intitialize();
             Net.Server.Intitialize();
             while (true)
             {

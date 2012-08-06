@@ -27,7 +27,7 @@ namespace WebDE.Net
 
         static void client_OnConnect()
         {
-            var req = new { action = Types.Net.Action.GET, type = Types.Net.Resources.MAP, mapid = 0 };
+            var req = new { action = Types.Net.Action.GET, type = Types.Net.Resource.MAP, mapid = 0 };
             client.Send(req);
         }
 

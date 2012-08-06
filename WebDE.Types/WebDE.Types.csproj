@@ -8,8 +8,8 @@
     <ProjectGuid>{F0D76D43-57FF-4290-9041-36362B11B827}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WebDETypes</RootNamespace>
-    <AssemblyName>WebDETypes</AssemblyName>
+    <RootNamespace>WebDE.Types</RootNamespace>
+    <AssemblyName>WebDE.Types</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -43,9 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccessLevel.cs" />
     <Compile Include="ErrorCode.cs" />
     <Compile Include="Net\Action.cs" />
-    <Compile Include="Net\Resources.cs" />
+    <Compile Include="Net\Resource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
