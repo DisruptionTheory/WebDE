@@ -69,7 +69,7 @@ var WebDE$Net$test=
         },
         client_OnConnect:function()
         {
-            var req={action:0,type:0,mapid:1};
+            var req={action:0,type:0,mapid:0};
             WebDE.Net.test.client.Send(req);
         },
         client_OnDisconnect:function()

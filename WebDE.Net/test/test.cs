@@ -20,14 +20,14 @@ namespace WebDE.Net
 
         }
 
-        static void client_OnReceive(Dictionary<string, object> message)
+        static void client_OnReceive(JsObject message)
         {
             document.getElementById("output").innerText = JSON.stringify(message);
         }
 
         static void client_OnConnect()
         {
-            var req = new { action = Types.Net.Action.GET, type = Types.Net.Resources.MAP, mapid = 1 };
+            var req = new { action = Types.Net.Action.GET, type = Types.Net.Resources.MAP, mapid = 0 };
             client.Send(req);
         }
 
