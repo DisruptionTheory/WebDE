@@ -13,6 +13,7 @@ TestResults
 *.exe
 *.o
 *.so
+*.js
 
 # Packages #
 ############
@@ -83,6 +84,7 @@ WebDE.Clock/bin/
 WebDE.Clock/obj/
 WebDE.Input/bin/
 WebDE.Input/obj/
+scripts/
 
 #MonoDevelop
 *.pidb
