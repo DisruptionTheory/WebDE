@@ -2,6 +2,7 @@
 using SharpKit.Html4;
 using SharpKit.jQuery;
 using WebDE.Net;
+using UITK;
 
 namespace MapEditor
 {
@@ -16,8 +17,11 @@ namespace MapEditor
 
         public static void Initialize()
         {
-            Server = new GameClient("localhost", 81);
-            Views.LoadView(Views.Login);
+            ImageBox box = new ImageBox(100, 200, "");
+            Surface.AddComponent(box, 300, 400);
+            Surface.Validate();
+            //Server = new GameClient("localhost", 81);
+            //Views.LoadView(Views.Login);
         }
     }
 }

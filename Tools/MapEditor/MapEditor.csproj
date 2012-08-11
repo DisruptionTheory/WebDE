@@ -56,8 +56,8 @@
     <Content Include="scripts\jquery-ui-1.8.11.custom.min.js" />
     <Content Include="scripts\jsclr-4.1.0.js" />
     <Content Include="scripts\MapEditor.js" />
+    <Content Include="scripts\UITK.js" />
     <Content Include="scripts\WebDE.js" />
-    <Content Include="styles\MapEditor.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -72,6 +72,10 @@
     <ProjectReference Include="..\..\WebDE\WebDE.csproj">
       <Project>{FAF20FDB-45E0-417A-85A4-7B19F175C297}</Project>
       <Name>WebDE</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UITK\UITK.csproj">
+      <Project>{0B707C34-E6C1-491E-BBEB-DB065AC3A29B}</Project>
+      <Name>UITK</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -101,7 +105,8 @@
     </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>copy ..\..\..\WebDE\scripts\WebDE.js $(ProjectDir)scripts\WebDE.js</PreBuildEvent>
+    <PreBuildEvent>copy ..\..\..\WebDE\scripts\WebDE.js $(ProjectDir)scripts\WebDE.js
+copy ..\..\..\Tools\UITK\scripts\UITK.js $(ProjectDir)scripts\UITK.js</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

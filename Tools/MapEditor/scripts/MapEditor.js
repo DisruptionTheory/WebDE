@@ -86,8 +86,9 @@ var MapEditor$MapEditor=
         set_Server:function(value){this._Server = value;},
         Initialize:function()
         {
-            MapEditor.MapEditor.set_Server(new WebDE.Net.GameClient.ctor("localhost",81));
-            MapEditor.Views.LoadView(MapEditor.Views.get_Login());
+            var box=new UITK.ImageBox.ctor(100,200,"");
+            UITK.Surface.AddComponent(box,300,400);
+            UITK.Surface.Validate();
         }
     },
     assemblyName:"MapEditor",
