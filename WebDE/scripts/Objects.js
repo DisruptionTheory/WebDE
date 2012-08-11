@@ -222,7 +222,7 @@ var WebDE$GameObjects$GameEntity=
         },
         CalculateSpeed:function()
         {
-            if(Is(this,WebDE.GameObjects.GameEntitySpawner) || Is(this,WebDE.GameObjects.Projectile))
+            if(Is(this,WebDE.GameObjects.GameEntitySpawner))
             {
                 return;
             }
@@ -280,7 +280,8 @@ var WebDE$GameObjects$GameEntity=
         },
         CalculatePosition:function()
         {
-            this.SetPosition(this.position.x + this.speed.x,this.position.y + this.speed.y);
+            this.position.x += this.speed.x;
+            this.position.y += this.speed.y;
         },
         CheckCollision:function()
         {
@@ -705,11 +706,21 @@ var WebDE$GameObjects$Projectile=
             this.targetPoint = null;
             WebDE.GameObjects.LivingGameEntity.ctor.call(this,projectileName,10);
             this.targetPoint = targetPoint;
-            this.SetAI(new WebDE.AI.ArtificialIntelligence.ctor());
+            var ai=new WebDE.AI.ArtificialIntelligence.ctor();
         },
         SetPosition:function(newX,newY)
         {
             WebDE.GameObjects.GameEntity.commonPrototype.SetPosition.call(this,newX,newY);
+            var newPath=new WebDE.AI.MovementPath.ctor((function()
+            {
+                var $v1=new System.Collections.Generic.List$1.ctor(WebDE.Point);
+                $v1.Add(this.GetPosition());
+                $v1.Add(this.targetPoint);
+                return $v1;
+            }).call(this));
+            var newAi=new WebDE.AI.ArtificialIntelligence.ctor();
+            newAi.SetMovementPath(newPath);
+            this.SetAI(newAi);
         },
         SetDamage:function(newDamage)
         {
@@ -816,7 +827,8 @@ var WebDE$GameObjects$Stage=
             this.stageGui = null;
             this.backgroundColor = WebDE.Color.Black;
             this.size = new WebDE.Dimension.ctor$$Double$$Double(20,16);
-            this.tileSize = new WebDE.Dimension.ctor$$Double$$Double(40,40);
+            this.tileWidth = 40;
+            this.tileHeight = 40;
             System.Object.ctor.call(this);
             this.SetName(stageName);
             if(WebDE.GameObjects.Stage.CurrentStage == null)
@@ -890,10 +902,6 @@ var WebDE$GameObjects$Stage=
         {
             this.livingEntities.Add(toAdd);
         },
-        GetLivingEntities:function()
-        {
-            return this.livingEntities;
-        },
         GetVisibleEntities:function(viewer)
         {
             var resultList=new System.Collections.Generic.List$1.ctor(WebDE.GameObjects.GameEntity);
@@ -918,7 +926,7 @@ var WebDE$GameObjects$Stage=
             while($it34.MoveNext())
             {
                 var tile=$it34.get_Current();
-                if(!this.GetBackgroundColor().Match(tile.GetLightLevel()))
+                if(tile.GetLightLevel() != this.GetBackgroundColor())
                 {
                     resultList.Add(tile);
                 }
@@ -980,6 +988,7 @@ var WebDE$GameObjects$Stage=
                 {
                     if(!this.GetBounds().Contains(ent.GetPosition()))
                     {
+                        WebDE.Debug.log(ent.GetPosition().x + "," + ent.GetPosition().y + " isn\'t in " + this.GetBounds().x + "," + this.GetBounds().width + "," + this.GetBounds().y + "," + this.GetBounds().height);
                         ent.Destroy();
                     }
                 }
@@ -1015,12 +1024,12 @@ var WebDE$GameObjects$Stage=
         },
         GetTileSize:function()
         {
-            return this.tileSize;
+            return new System.Tuple$2.ctor(System.Int32,System.Int32,this.tileWidth,this.tileHeight);
         },
         SetTileSize:function(newWidth,newHeight)
         {
-            this.tileSize.width = newWidth;
-            this.tileSize.height = newHeight;
+            this.tileWidth = newWidth;
+            this.tileHeight = newHeight;
         },
         GetLights:function()
         {
@@ -1328,22 +1337,22 @@ var WebDE$GameObjects$Weapon=
             this.projectileSpeed = projectileSpeed;
             this.turningRadius = turningRadius;
             this.turningSpeed = turnSpeed;
-            this.lastFiredTime = System.DateTime.get_Now().get_Millisecond();
+            this.lastFiredTime = System.DateTime.get_Now().get_Millisecond() - WebDE.GameObjects.Helpah.Round$$Double(this.firingDelay);
         },
         SimpleFire:function()
         {
         },
         Fire:function()
         {
-            if(this.owner.GetParentStage() == null || this.GetTarget() == null)
+            if(this.owner.GetParentStage() == null)
             {
                 return;
             }
-            WebDE.Debug.log("Firin mah lazer");
             if(System.DateTime.get_Now().get_Millisecond() > this.lastFiredTime + this.firingDelay)
             {
-                var deltaX=Cast(System.Math.Round$$Double(this.GetTarget().GetPosition().x - this.owner.GetPosition().x),System.Int32);
-                var deltaY=Cast(System.Math.Round$$Double(this.GetTarget().GetPosition().y - this.owner.GetPosition().y),System.Int32);
+                WebDE.Debug.log("Ima firin mah lazer");
+                var deltaX=Cast(System.Math.Round$$Double(this.owner.GetPosition().x - this.GetTarget().GetPosition().x),System.Int32);
+                var deltaY=Cast(System.Math.Round$$Double(this.owner.GetPosition().y - this.GetTarget().GetPosition().y),System.Int32);
                 var myBullet=new WebDE.GameObjects.Projectile.ctor("Bullet",this.GetTarget().GetPosition());
                 myBullet.SetParentStage(this.owner.GetParentStage());
                 myBullet.SetDamage(10);
@@ -1351,7 +1360,6 @@ var WebDE$GameObjects$Weapon=
                 myBullet.SetSpeed(new WebDE.Vector.ctor(deltaX,deltaY));
                 WebDE.GameObjects.Stage.CurrentStage.AddLivingGameEntity(myBullet);
                 this.SetCurrentAmmo(this.GetCurrentAmmo() - 1);
-                this.lastFiredTime = System.DateTime.get_Now().get_Millisecond();
             }
         },
         SetCurrentAmmo:function(newAmmo)

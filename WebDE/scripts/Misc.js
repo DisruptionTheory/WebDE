@@ -64,10 +64,6 @@ var WebDE$Color=
         },
         Match:function(colorTomatch)
         {
-            if(colorTomatch == null)
-            {
-                return false;
-            }
             if(this.red != colorTomatch.red || this.green != colorTomatch.green || this.blue != colorTomatch.blue)
             {
                 return false;
@@ -155,6 +151,11 @@ var WebDE$Point=
         Distance:function(point2)
         {
             return System.Math.Sqrt(System.Math.Pow(point2.x - this.x,2) + System.Math.Pow(point2.y - this.y,2));
+        },
+        ToTuple:function()
+        {
+            var returnVal=new System.Tuple$2.ctor(System.Double,System.Double,this.x,this.y);
+            return returnVal;
         }
     }
 };

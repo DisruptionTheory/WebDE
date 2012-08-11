@@ -101,7 +101,6 @@ var WebDE$Rendering$DOM_Renderer=
         },
         Render:function()
         {
-            WebDE.Debug.Watch("Entities to update",this.gameEntitiesToUpdate.get_Count().toString());
             if(this.initiallyRendered == false)
             {
                 this.InitialRender();
@@ -146,7 +145,6 @@ var WebDE$Rendering$DOM_Renderer=
             if(gentlement == null)
             {
                 gentlement = this.document.createElement("div");
-                gentlement.id = gent.GetId();
                 this.AddClass(gentlement,"Entity");
                 this.AddClass(gentlement,gent.GetType().get_Name());
                 this.document.getElementById("gameBoard").appendChild(gentlement);
@@ -160,8 +158,8 @@ var WebDE$Rendering$DOM_Renderer=
             }
             if(this.gameEntitiesToUpdate.Contains(gent.GetId()))
             {
-                gentlement.style.left = (gent.GetPosition().x * WebDE.GameObjects.Stage.CurrentStage.GetTileSize().width) + "px";
-                gentlement.style.top = (gent.GetPosition().y * WebDE.GameObjects.Stage.CurrentStage.GetTileSize().height) + "px";
+                gentlement.style.left = (gent.GetPosition().x * WebDE.GameObjects.Stage.CurrentStage.GetTileSize().get_Item1()) + "px";
+                gentlement.style.top = (gent.GetPosition().y * WebDE.GameObjects.Stage.CurrentStage.GetTileSize().get_Item2()) + "px";
                 gentlement.style.opacity = gent.GetOpacity();
                 this.gameEntitiesToUpdate.Remove(gent.GetId());
             }
@@ -327,10 +325,10 @@ var WebDE$Rendering$DOM_Renderer=
             }
             var tileSize=WebDE.GameObjects.Stage.CurrentStage.GetTileSize();
             var posShift=Cast(light.GetRange(),System.Int32) / 2;
-            gentlement.style.left = ((light.GetPosition().x - posShift) * tileSize.width) + "px";
-            gentlement.style.top = ((light.GetPosition().y - posShift) * tileSize.height) + "px";
-            gentlement.style.width = (light.GetRange() * tileSize.width) + "px";
-            gentlement.style.height = (light.GetRange() * tileSize.height) + "px";
+            gentlement.style.left = ((light.GetPosition().x - posShift) * tileSize.get_Item1()) + "px";
+            gentlement.style.top = ((light.GetPosition().y - posShift) * tileSize.get_Item2()) + "px";
+            gentlement.style.width = (light.GetRange() * tileSize.get_Item1()) + "px";
+            gentlement.style.height = (light.GetRange() * tileSize.get_Item2()) + "px";
             if(light.Visible() == true)
             {
                 gentlement.style.display = "inline";
@@ -452,9 +450,13 @@ var WebDE$Rendering$Gradient=
     baseTypeName:"System.Object",
     staticDefinition:
     {
+        old_ToString:function(gradientColor)
+        {
+            return "-webkit-radial-gradient(center, ellipse cover, rgba(" + gradientColor.red + "," + gradientColor.green + "," + gradientColor.blue + ",1) 0%, " + "rgba(" + gradientColor.red + "," + gradientColor.green + "," + gradientColor.blue + ",0.99) 1%, rgba(0,0,0,0) 100%)";
+        },
         ToString$$Color:function(gradientColor)
         {
-            return "-webkit-radial-gradient(center, ellipse cover, rgba(" + gradientColor.red + "," + gradientColor.green + "," + gradientColor.blue + ",1) 0%, " + "rgba(" + gradientColor.red + "," + gradientColor.green + "," + gradientColor.blue + ",0.99) 1%, rgba(0,0,0,0) 80%)";
+            return "-webkit-radial-gradient(center, ellipse cover, rgba(" + gradientColor.red + ", " + gradientColor.green + " , " + gradientColor.blue + ",1) 0%, " + "rgba(" + gradientColor.red + ", " + gradientColor.green + " , " + gradientColor.blue + ".99) 1%, " + "rgba(0,0,0,0) 80%);";
         },
         LightStone:function(gradientColor)
         {

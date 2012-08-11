@@ -10,7 +10,7 @@ namespace WebDEServerDotNet.Resources
     /// <summary>
     /// Controls the functionality for requests and updates to game resources.
     /// </summary>
-    public static class Control
+    public static class ResourcesControl
     {
         /// <summary>
         /// Initialize the resource request and update functionality.

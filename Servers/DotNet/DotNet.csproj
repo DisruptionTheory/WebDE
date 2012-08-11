@@ -69,8 +69,11 @@
     <Compile Include="Net\Server.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\Control.cs" />
+    <Compile Include="Resources\ResourcesControl.cs" />
     <Compile Include="Resources\Maps.cs" />
+    <Compile Include="Security\API.cs" />
+    <Compile Include="Users\User.cs" />
+    <Compile Include="Users\UserControl.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="lib\Alchemy.dll" />

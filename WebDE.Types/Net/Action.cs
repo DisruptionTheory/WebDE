@@ -8,6 +8,8 @@ namespace WebDE.Types.Net
     public enum Action
     {
         GET,
-        SET
+        SET,
+        KEY,
+        GRP
     }
 }

@@ -10,7 +10,7 @@ namespace WebDE.Net
     /// A delegate type for message received events in the game client web socket.
     /// </summary>
     /// <param name="message">The message received. converted from json to a dictionary.</param>
-    public delegate void OnReceiveEventHandler(Dictionary<string, object> message);
+    public delegate void OnReceiveEventHandler(JsObject message);
 
     /// <summary>
     /// A delegate type for connection state change events.
@@ -103,9 +103,7 @@ namespace WebDE.Net
         private void onMessage(MessageEvent evt)
         {
             JsObject message = new JsObject(JSON.parse(evt.data.ToString()));
-            Dictionary<string, object> table = new Dictionary<string, object>();
-            foreach (var member in message) table.Add(member.ToString(), member.valueOf());
-            OnReceive(table);
+            OnReceive(message);
         }
 
         /// <summary>

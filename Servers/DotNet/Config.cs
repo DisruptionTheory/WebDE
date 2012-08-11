@@ -58,8 +58,15 @@ namespace WebDEServerDotNet
             private set;
         }
 
+        public static int ApiKeyLength
+        {
+            get;
+            private set;
+        }
+
         public static void Initialize()
         {
+            ApiKeyLength = 64;
             DatabaseLocation = propertiesFile["dblocation"];
             DatabaseName = propertiesFile["dbname"];
             DatabaseUser = propertiesFile["dbuser"];
