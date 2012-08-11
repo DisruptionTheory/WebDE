@@ -27,17 +27,17 @@ namespace WebDE.GUI
 
         public GuiEvent(int xPos, int yPos)
         {
-            Tuple<int, int> TileSize = Stage.CurrentStage.GetTileSize();
+            Dimension TileSize = Stage.CurrentStage.GetTileSize();
 
             this.eventPixelPos = new Point(xPos, yPos);
-            this.eventPos = new Point(this.eventPixelPos.x / TileSize.Item1, this.eventPixelPos.y / TileSize.Item2);
+            this.eventPos = new Point(this.eventPixelPos.x / TileSize.width, this.eventPixelPos.y / TileSize.height);
         }
 
         //public static GuiEvent FromClickData(GuiLayer gLayer, jQueryEvent jqClickData)
         public static GuiEvent FromClickData(GuiLayer gLayer, Point clickPos)
         {
             GuiEvent returnEvent = new GuiEvent(int.Parse(clickPos.x.ToString()), int.Parse(clickPos.y.ToString()));
-            //Tuple<int, int> TileSize = Stage.CurrentStage.GetTileSize();
+            //Dimension TileSize = Stage.CurrentStage.GetTileSize();
 
             //returnEvent.eventPixelPos = new Point(clickPos.x, clickPos.y);
             //returnEvent.eventPos = new Point(returnEvent.eventPixelPos.x / TileSize.First, returnEvent.eventPixelPos.y / TileSize.Second);
@@ -56,7 +56,7 @@ namespace WebDE.GUI
             GuiEvent returnEvent = new GuiEvent((int)sender.GetPosition().x, (int)sender.GetPosition().y);
 
             returnEvent.clickedElement = sender;
-            returnEvent.clickedTiles = sender.GetParentLayer().GetTilesAt(returnEvent.eventPixelPos.x, returnEvent.eventPixelPos.y);
+            returnEvent.clickedTiles = sender.GetParentLayer().GetTilesAt(returnEvent.eventPos.x, returnEvent.eventPos.y);
             //presume no entities and tiles...?
 
             return returnEvent;

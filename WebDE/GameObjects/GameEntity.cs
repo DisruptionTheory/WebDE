@@ -152,26 +152,6 @@ namespace WebDE.GameObjects
             this.speed.y += newSpeed.y;
         }
 
-        public double GetAcceleration()
-        {
-            return this.acceleration;
-        }
-
-        public void SetAcceleration(double newAccel)
-        {
-            this.acceleration = newAccel;
-        }
-
-        public Stage GetParentStage()
-        {
-            return this.parentStage;
-        }
-
-        public void SetParentStage(Stage newStage)
-        {
-            this.parentStage = newStage;
-        }
-
         public void Destroy()
         {
             Stage.CurrentStage.RemoveGameEntity(this);
@@ -181,7 +161,8 @@ namespace WebDE.GameObjects
 
         public void CalculateSpeed()
         {
-            if(this is GameEntitySpawner)
+            //only do projectile temporarily...
+            if(this is GameEntitySpawner || this is Projectile)
             {
                 return;
             }
@@ -248,8 +229,9 @@ namespace WebDE.GameObjects
 
         public void CalculatePosition()
         {
-            this.position.x += this.speed.x;
-            this.position.y += this.speed.y;
+            this.SetPosition(
+                this.position.x + this.speed.x,
+                this.position.y + this.speed.y);
             //Script.Eval("console.log('" + this.position.x + ", " + this.position.y + ", " + this.speed.x + ", " + this.speed.y + "');");
 
             //check if position x or y goes out of bounds
@@ -263,6 +245,8 @@ namespace WebDE.GameObjects
 
         protected void SetNeedsUpdate()
         {
+            //Debug.Watch("Setneeds update", "Entity: " + this.GetId());
+
             Rendering.DOM_Renderer.GetRenderer().SetNeedsUpdate(this);
         }
 

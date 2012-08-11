@@ -21,7 +21,9 @@ namespace WebDE.GameObjects
         {
             this.targetPoint = targetPoint;
             //target the target
-            ArtificialIntelligence ai = new ArtificialIntelligence();
+            //this.SetAI(null);
+            this.SetAI(new ArtificialIntelligence());
+            //ArtificialIntelligence ai = new ArtificialIntelligence();
             //MovementPath newPath = new MovementPath(this.GetPosition(), 
             //ai.SetMovementPath(
         }
@@ -29,11 +31,10 @@ namespace WebDE.GameObjects
         public void SetPosition(double newX, double newY)
         {
             base.SetPosition(newX, newY);
+            
             //make a path directly from where we are to where we want to be
-            MovementPath newPath = new MovementPath(new List<Point>{ this.GetPosition(), this.targetPoint});
-            ArtificialIntelligence newAi = new ArtificialIntelligence();
-            newAi.SetMovementPath(newPath);
-            this.SetAI(newAi);
+            //MovementPath newPath = new MovementPath(new List<Point>{ this.GetPosition(), this.targetPoint});
+            //this.GetAI().SetMovementPath(newPath);
         }
 
         public void SetDamage(double newDamage)

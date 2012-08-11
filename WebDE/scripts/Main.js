@@ -156,13 +156,19 @@ var WebDE$Game=
             WebDE.Game.notificationLayer = playerOneView.AddLayer("NotificationLayer",new WebDE.Rectangle.ctor(0,0,0,0));
             WebDE.Game.notificationLayer.SetSize(522,60);
             var notifIcon=WebDE.Game.notificationLayer.AddGUIElement("");
-            notifIcon.SetPosition(2,0);
+            notifIcon.AddStyle("notifIcon");
+            notifIcon.SetPosition(12,0);
             var notifSender=WebDE.Game.notificationLayer.AddGUIElement("");
-            notifSender.SetPosition(-2,0);
+            notifSender.SetPosition(58,0);
             notifSender.SetSize(474,12);
+            var notifSenderHandle=WebDE.Game.notificationLayer.AddGUIElement("");
+            notifSenderHandle.SetPosition(80,0);
+            notifSenderHandle.SetSize(474,12);
+            notifSenderHandle.AddStyle("tweetName");
             var notifText=WebDE.Game.notificationLayer.AddGUIElement("");
-            notifText.SetPosition(-2,18);
+            notifText.SetPosition(58,18);
             notifText.SetSize(474,40);
+            WebDE.Game.notificationLayer.Hide();
             var notif_repos=WebDE.Timekeeper.Clock.AddRender(WebDE.Game.reposition_notification_layeer);
             WebDE.Timekeeper.Clock.delayRender(notif_repos,2);
             WebDE.Timekeeper.Clock.AddCalculation(WebDE.Game.StandardCalculations);
@@ -193,16 +199,26 @@ var WebDE$Game=
             var newNotifY=viewArea.x + viewArea.height - WebDE.Game.notificationLayer.GetSize().height - 12;
             WebDE.Game.notificationLayer.SetPosition(newNotifX,newNotifY);
         },
-        Notification:function(icon,sender,message,duration)
+        Notification:function(icon,sender,senderHandle,message,duration)
         {
             var notifIcon=WebDE.Game.notificationLayer.GetGuiElements().get_Item$$Int32(0);
             var notifSender=WebDE.Game.notificationLayer.GetGuiElements().get_Item$$Int32(1);
-            var notifText=WebDE.Game.notificationLayer.GetGuiElements().get_Item$$Int32(2);
+            var notifSenderHandle=WebDE.Game.notificationLayer.GetGuiElements().get_Item$$Int32(2);
+            var notifText=WebDE.Game.notificationLayer.GetGuiElements().get_Item$$Int32(3);
             notifIcon.SetSprite(icon);
             notifIcon.GetSprite().setSize(40,40);
             notifIcon.GetSprite().Animate();
             notifSender.SetText(sender);
+            notifSenderHandle.SetText(senderHandle);
             notifText.SetText(message);
+            notifSenderHandle.SetPosition(System.Convert.ToInt32$$Double(notifSender.GetPosition().x + (notifSender.GetText().length * 14)),System.Convert.ToInt32$$Double(notifSenderHandle.GetPosition().y));
+            WebDE.Game.notificationLayer.Show();
+            var delayId=WebDE.Timekeeper.Clock.AddRender(WebDE.Game.NotificationEnd);
+            WebDE.Timekeeper.Clock.delayRender(delayId,duration);
+        },
+        NotificationEnd:function()
+        {
+            WebDE.Game.notificationLayer.Hide();
         },
         CreateStage:function(stageName,stageType)
         {

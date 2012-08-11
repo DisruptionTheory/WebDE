@@ -36,11 +36,11 @@ namespace MemeDefense
             prepSprites();
             prepTowers();
 
-            //create the GUI menu for tower building
-            createTowerMenu();
-
             //load the level...
             CreateTestArea();
+
+            //create the GUI menu for tower building
+            createTowerMenu();
         }
 
         #region levels
@@ -467,12 +467,16 @@ namespace MemeDefense
             towerToPlace = LivingGameEntity.CloneByName(desiredTowerName);
             //Debug.log("Desired tower name is " + desiredTowerName);
 
+
             //attach a function to the main view when the user clicks on it
             GUIFunction gfAction = GUIFunction.GetByName("Action");
+            Stage.CurrentStage.GetCollisionMap().SetGUIFunction(gfAction, placeATower);
+            /*
             foreach (GuiElement colTile in Stage.CurrentStage.GetCollisionMap().GetGuiElements())
             {
                 colTile.SetGUIFunction(gfAction, placeATower);
             }
+            */
 
             //show the collision map on the main playable area
             Stage.CurrentStage.ShowCollisionMap();
@@ -487,7 +491,7 @@ namespace MemeDefense
 
             //throw up a notification for the player
             Sprite ggg = Sprite.GetSpriteByName("GoodGuyGreg");
-            Game.Notification(ggg, "Good Guy Greg", "Click where you would like the tower to be placed.", 10);
+            Game.Notification(ggg, "Good Guy Greg", "@ggg", "Click where you would like the tower to be placed.", 10);
         }
 
         //test function to make a new tower...
@@ -497,7 +501,7 @@ namespace MemeDefense
             Stage.CurrentStage.HideCollisionMap();
 
             Tile clickedTile = gEvent.clickedTiles[0];
-            if (clickedTile == null)
+            if (clickedTile == null || desiredTowerName == "")
             {
                 return;
             }
@@ -509,7 +513,7 @@ namespace MemeDefense
             //Tower newTower = Tower.GetByName("GigaPuddiTower");
             newTower.SetPosition(clickedTile.GetPosition().x, clickedTile.GetPosition().y);
             //dummyProjectile.SetAcceleration(.1);
-            Weapon dummyWeapon = new Weapon(newTower, 10, 1000, .5, 180, 40);
+            Weapon dummyWeapon = new Weapon(newTower, 10, 1, .5, 180, 40);
             dummyWeapon.SetRange(50);
             //dummyWeapon.SetProjectile(dummyProjectile);
             newTower.AddWeapon(dummyWeapon);

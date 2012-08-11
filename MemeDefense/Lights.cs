@@ -49,7 +49,7 @@ namespace Lights
             createLightStone(randomColorTwo, shadowStone);
 
             Clock.TimedExecute(CreateTestGUI, 1);
-            Clock.AddRender(checkLightstones);
+            //Clock.AddRender(checkLightstones);
         }
 
         public Stage CreateTestArea()
@@ -58,40 +58,26 @@ namespace Lights
             testArea.SetTileSize(10, 10);
             testArea.SetSize(80, 60);
             testArea.SetBackgroundColor(Color.Black);
-            testArea.CreateRandomTiles();
+            //testArea.CreateRandomTiles();
 
-            /*
             for (int h = 0; h < testArea.GetSize().height; h++)
             {
                 for (int w = 0; w < testArea.GetSize().width; w++)
                 {
                     //with the randomization of the tiles, we're going to randomize whether or not this is buildiable
                     int rand = JsMath.round(JsMath.random());
-                    //int rand = (new Random()).Next(0, 1);
                     //check whether the random # is 0 or 1, the long way, because apparently boolean.parse won't figure it out
                     bool buildable = false;
                     if (rand == 1)
                     {
                         buildable = true;
                     }
-                    //Tile aTile = new Tile("", true, buildable);
                     Tile aTile = testArea.AddTile("", true, buildable);
                     aTile.SetLightLevel(Color.Black);
                     aTile.SetParentStage(testArea);
                     aTile.SetPosition(w, h);
-                    //stageTiles.Add(aTile);
                 }
             }
-            */
-            
-            foreach (GameEntity tile in testArea.GetVisibleTiles(View.GetMainView()))
-            {
-                //tile.SetSprite(Sprite.GetSpriteByName("Grass"));
-                ((Tile) tile).SetLightLevel(Color.Black);
-            }
-            //new GuiLayer("Steve", View.GetMainView(), 
-
-            //GuiLayer.GetActiveLayers()[0].SetGUIFunction(gfAction, testeh);
 
             return testArea;
         }
@@ -102,8 +88,12 @@ namespace Lights
             {
                 if (light is Lightstone)
                 {
-                    List<LightSource> lightsInRange = Stage.CurrentStage.GetLightsNear(light.GetPosition(), 10 * Stage.CurrentStage.GetTileSize().Item1);
+                    int lightRange = int.Parse((light.GetRange() * Stage.CurrentStage.GetTileSize().width).ToString());
+                    //get a list of all lights near this one
+                    List<LightSource> lightsInRange = Stage.CurrentStage.GetLightsNear(light.GetPosition(), lightRange);
+                    //filter out the light we're currently looking at
                     lightsInRange.Remove(light);
+                    //if there are other light sources in range, show this one
                     if (lightsInRange.Count > 0)
                     {
                         light.Show();
@@ -185,6 +175,18 @@ namespace Lights
                 }
             }
             */
+            int lightRange = int.Parse((plCol.GetRange()).ToString());
+            List<LightSource> lightList = Stage.CurrentStage.GetLightsNear(plCol.GetPosition(), lightRange);
+            //Debug.log("There are " + lightList.Count + " lights in within " + lightRange + " of click.");
+            foreach (LightSource light in lightList)
+            {
+                if (!(light is Lightstone))
+                {
+                    continue;
+                }
+                light.Show();
+                Clock.TimedExecute(light.Hide, 1);
+            }
         }
 
         private int currentLevel = 0;

@@ -18,22 +18,14 @@ namespace WebDE.Rendering
     [JsType(JsMode.Clr, Filename = "../scripts/Rendering.js")]
     public class Gradient
     {
-        public static string old_ToString(Color gradientColor)
+        public static string ToString(Color gradientColor)
         {
             return "-webkit-radial-gradient(center, ellipse cover, " +
                 "rgba(" + gradientColor.red + "," + gradientColor.green + "," + gradientColor.blue + ",1) 0%, " +
-                "rgba(" + gradientColor.red + "," + gradientColor.green + "," + gradientColor.blue + ",0.99) 1%, rgba(0,0,0,0) 100%)"; 
+                "rgba(" + gradientColor.red + "," + gradientColor.green + "," + gradientColor.blue + ",0.99) 1%, rgba(0,0,0,0) 80%)"; 
                 //"background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(211,207,84,1)), color-stop(1%,rgba(211,207,84,0.99)), color-stop(100%,rgba(0,0,0,0))); /* Chrome,Safari4+ */" + 
                 //"-webkit-radial-gradient(center, ellipse cover, rgba(211,207,84,1) 0%,rgba(211,207,84,0.99) 1%,rgba(0,0,0,0) 100%); /* Chrome10+,Safari5.1+ */";
                 //"background: radial-gradient(center, ellipse cover, rgba(211,207,84,1) 0%,rgba(211,207,84,0.99) 1%,rgba(0,0,0,0) 100%); /* W3C */";
-        }
-
-        public static string ToString(Color gradientColor)
-        {
-            return "-webkit-radial-gradient(center, ellipse cover, " + 
-                "rgba(" + gradientColor.red + ", " + gradientColor.green + " , " + gradientColor.blue + ",1) 0%, " + 
-                "rgba(" + gradientColor.red + ", " + gradientColor.green + " , " + gradientColor.blue + ".99) 1%, " + 
-                "rgba(0,0,0,0) 80%);";
         }
 
         public static string LightStone(Color gradientColor)

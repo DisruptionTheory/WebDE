@@ -136,13 +136,6 @@ namespace WebDE.AI
                     //the difference between the current vertical position and the target vertical position
                     double vOffset = body.GetPosition().y - curNode.y;
 
-                    Debug.Watch("Current Position", Helpah.Round(body.GetPosition().x, 2) + "," + Helpah.Round(body.GetPosition().y, 2));
-                    Debug.Watch("Desired Position", Helpah.Round(curNode.x, 2) + "," + Helpah.Round(curNode.y, 2));
-                    Debug.Watch("hOffset", Helpah.Round(hOffset, 2).ToString());
-                    Debug.Watch("vOffset", Helpah.Round(vOffset, 2).ToString());
-                    Debug.Watch("xSpeed", Helpah.Round(body.GetSpeed().x, 2).ToString());
-                    Debug.Watch("ySpeed", Helpah.Round(body.GetSpeed().y, 2).ToString());
-
                     //I wonder if these should be rounded?
                     hOffset = Helpah.Round(hOffset);
                     vOffset = Helpah.Round(vOffset);
@@ -239,8 +232,14 @@ namespace WebDE.AI
                     else
                     {
                         //find a new target
-                        foreach (GameEntity ent in Stage.CurrentStage.GetVisibleEntities(View.GetMainView()))
+                        //foreach (GameEntity ent in Stage.CurrentStage.GetVisibleEntities(View.GetMainView()))
+                        foreach (GameEntity ent in Stage.CurrentStage.GetLivingEntities())
                         {
+                            if (ent == this.GetBody())
+                            {
+                                continue;
+                            }
+
                             //need to check if the entity is this...will probably always return false with a direct compare, since this is livingent...
                             if (ent.GetPosition().Distance(this.body.GetPosition()) < theWeapon.GetRange())
                             {

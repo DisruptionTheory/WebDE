@@ -264,6 +264,7 @@ namespace WebDE.GUI
             {
                 //get the list of objects
                 List<GameEntity> tileList = this.GetAttachedView().GetAttachedStage().GetVisibleTiles(this.GetAttachedView());
+                Debug.log("This is a game layer and has " + tileList.Count + " tiles.");
                 //go through each of them
                 //match their position
             }
@@ -308,9 +309,6 @@ namespace WebDE.GUI
 
         public List<Tile> GetTilesAt(double xpos, double ypos)
         {
-            Tuple<int, int> tileSize = Stage.CurrentStage.GetTileSize();
-            xpos = xpos / tileSize.Item1;
-            ypos = ypos / tileSize.Item2;
             //Script.Eval("console.log('GuiLayer/GetTilesAt/247: Getting tiles at " + xpos + ", " + ypos + "')");
             List<Tile> returnList = new List<Tile>();
 
@@ -417,7 +415,6 @@ namespace WebDE.GUI
 
         public void SetGUIFunction(GUIFunction func, Action<GuiEvent> newEvent)
         {
-            //Debug.log("Adding event to " + func.GetName() + " on layer " + this.GetName());
             this.layerFunctions[func] = newEvent;
         }
 

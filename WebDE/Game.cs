@@ -48,15 +48,22 @@ namespace WebDE
             //create two gui elements on the layer:
             //an image on the left
             GuiElement notifIcon = notificationLayer.AddGUIElement("");
-            notifIcon.SetPosition(2, 0);
+            notifIcon.AddStyle("notifIcon");
+            notifIcon.SetPosition(12, 0);
             //and sender on the right
             GuiElement notifSender = notificationLayer.AddGUIElement("");
-            notifSender.SetPosition(-2, 0);
+            notifSender.SetPosition(58, 0);
             notifSender.SetSize(474, 12);
+            //and the sender's handle, if applicable
+            GuiElement notifSenderHandle = notificationLayer.AddGUIElement("");
+            notifSenderHandle.SetPosition(80, 0);
+            notifSenderHandle.SetSize(474, 12);
+            notifSenderHandle.AddStyle("tweetName");
             //and the text on the right
             GuiElement notifText = notificationLayer.AddGUIElement("");
-            notifText.SetPosition(-2, 18);
+            notifText.SetPosition(58, 18);
             notifText.SetSize(474, 40);
+            notificationLayer.Hide();
 
             //reposition the notification layer after a few seconds
             string notif_repos = Clock.AddRender(reposition_notification_layeer);
@@ -100,26 +107,40 @@ namespace WebDE
         /// <summary>
         /// Show a given message, with a given icon, for the given duration.
         /// </summary>
-        /// <param name="icon"></param>
-        /// <param name="message"></param>
-        /// <param name="duration"></param>
-        public static void Notification(Sprite icon, string sender, string message, int duration)
+        /// <param name="icon">The sprite to display in the notification area. </param>
+        /// <param name="sender">The sender's name.</param>
+        /// <param name="senderHandle">The sender's handle, codename, second name, etc.</param>
+        /// <param name="message">The message to display.</param>
+        /// <param name="duration">How long to show the message before hiding.</param>
+        public static void Notification(Sprite icon, string sender, string senderHandle, string message, int duration)
         {
             //there should be two gui elements: an icon on the left, and a text area on the right
             GuiElement notifIcon = Game.notificationLayer.GetGuiElements()[0];
             GuiElement notifSender = Game.notificationLayer.GetGuiElements()[1];
-            GuiElement notifText = Game.notificationLayer.GetGuiElements()[2];
+            GuiElement notifSenderHandle = Game.notificationLayer.GetGuiElements()[2];            
+            GuiElement notifText = Game.notificationLayer.GetGuiElements()[3];
 
             notifIcon.SetSprite(icon);
             notifIcon.GetSprite().setSize(40, 40);
             notifIcon.GetSprite().Animate();
             notifSender.SetText(sender);
+            notifSenderHandle.SetText(senderHandle);
             notifText.SetText(message);
 
+            //reposition the handle to be after the sender's name
+            notifSenderHandle.SetPosition(Convert.ToInt32(notifSender.GetPosition().x + (notifSender.GetText().Length * 14)), Convert.ToInt32(notifSenderHandle.GetPosition().y));
+
             //Game.notificationLayer.Render();
-            //Game.notificationLayer.Show();
+            Game.notificationLayer.Show();
 
             //timeout hide
+            string delayId = Clock.AddRender(NotificationEnd);
+            Clock.delayRender(delayId, duration);
+        }
+
+        public static void NotificationEnd()
+        {
+            Game.notificationLayer.Hide();
         }
 
         //depending on available stage types, maybe this function should infer stagetype from game context?

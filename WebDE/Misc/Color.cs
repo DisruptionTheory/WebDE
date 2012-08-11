@@ -53,12 +53,18 @@ namespace WebDE
 
         public bool Match(Color colorTomatch)
         {
+            if (colorTomatch == null)
+            {
+                return false;
+            }
+
             if (this.red != colorTomatch.red ||
                 this.green != colorTomatch.green ||
                 this.blue != colorTomatch.blue)
             {
                 return false;
             }
+
             return true;
         }
 

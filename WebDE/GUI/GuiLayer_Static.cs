@@ -68,7 +68,7 @@ namespace WebDE.GUI
             //collisionLayer.GetRenderElement().Style.ZIndex = 10;
 
             //get the size of the tiles in the stage so that we can offset the collision overlay
-            Tuple<int, int> tileSize = Stage.CurrentStage.GetTileSize();
+            Dimension TileSize = Stage.CurrentStage.GetTileSize();
 
             //loop through each of the tiles, and draw whether or not it collides to the layer
             foreach (Tile tile in sourceStage.GetVisibleTiles(collisionLayer.GetAttachedView()))
@@ -76,8 +76,8 @@ namespace WebDE.GUI
                 GuiElement gelm = collisionLayer.AddGUIElement("");
                 //gelm.InitialRender();
                 gelm.SetPosition(
-                    (int)Helpah.Round(tile.GetPosition().x * tileSize.Item1),
-                    (int)Helpah.Round(tile.GetPosition().y * tileSize.Item2));
+                    (int)Helpah.Round(tile.GetPosition().x * TileSize.width),
+                    (int)Helpah.Round(tile.GetPosition().y * TileSize.height));
                 gelm.AddStyle("collisionBlock");
                 //gelm.GetRenderElement().ClassName = "collisionBlock";
 

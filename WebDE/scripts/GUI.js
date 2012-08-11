@@ -22,7 +22,7 @@ var WebDE$GUI$GuiElement=
             this.text = null;
             this.sprIcon = null;
             this.position = new WebDE.Point.ctor(0,0);
-            this.size = null;
+            this.size = new WebDE.Dimension.ctor$$Double$$Double(0,0);
             this.parentLayer = null;
             this.selected = false;
             this.customValue = "";
@@ -141,6 +141,10 @@ var WebDE$GUI$GuiElement=
         },
         GetSize:function()
         {
+            if(this.sprIcon != null)
+            {
+                return this.sprIcon.GetSize();
+            }
             return this.size;
         },
         SetNeedsUpdate:function()
@@ -195,7 +199,7 @@ var WebDE$GUI$GuiEvent=
         {
             var returnEvent=new WebDE.GUI.GuiEvent.ctor(Cast(sender.GetPosition().x,System.Int32),Cast(sender.GetPosition().y,System.Int32));
             returnEvent.clickedElement = sender;
-            returnEvent.clickedTiles = sender.GetParentLayer().GetTilesAt(returnEvent.eventPixelPos.x,returnEvent.eventPixelPos.y);
+            returnEvent.clickedTiles = sender.GetParentLayer().GetTilesAt(returnEvent.eventPos.x,returnEvent.eventPos.y);
             return returnEvent;
         },
         FromPartialData:function(sendingTile,sendingGameEntity,sendingElement,triggeringPosition,triggeringScreenPosition)
@@ -242,7 +246,7 @@ var WebDE$GUI$GuiEvent=
             System.Object.ctor.call(this);
             var TileSize=WebDE.GameObjects.Stage.CurrentStage.GetTileSize();
             this.eventPixelPos = new WebDE.Point.ctor(xPos,yPos);
-            this.eventPos = new WebDE.Point.ctor(this.eventPixelPos.x / TileSize.get_Item1(),this.eventPixelPos.y / TileSize.get_Item2());
+            this.eventPos = new WebDE.Point.ctor(this.eventPixelPos.x / TileSize.width,this.eventPixelPos.y / TileSize.height);
         }
     }
 };
@@ -364,13 +368,13 @@ var WebDE$GUI$GuiLayer=
         AsCollisionMap:function(sourceStage)
         {
             var collisionLayer=WebDE.Rendering.View.GetMainView().AddLayer("CollisionLayer",WebDE.Rendering.DOM_Renderer.GetRenderer().BoardArea());
-            var tileSize=WebDE.GameObjects.Stage.CurrentStage.GetTileSize();
+            var TileSize=WebDE.GameObjects.Stage.CurrentStage.GetTileSize();
             var $it21=sourceStage.GetVisibleTiles(collisionLayer.GetAttachedView()).GetEnumerator();
             while($it21.MoveNext())
             {
                 var tile=$it21.get_Current();
                 var gelm=collisionLayer.AddGUIElement("");
-                gelm.SetPosition(WebDE.GameObjects.Helpah.Round$$Double(tile.GetPosition().x * tileSize.get_Item1()),WebDE.GameObjects.Helpah.Round$$Double(tile.GetPosition().y * tileSize.get_Item2()));
+                gelm.SetPosition(WebDE.GameObjects.Helpah.Round$$Double(tile.GetPosition().x * TileSize.width),WebDE.GameObjects.Helpah.Round$$Double(tile.GetPosition().y * TileSize.height));
                 gelm.AddStyle("collisionBlock");
                 if(tile.GetBuildable())
                 {
@@ -559,6 +563,7 @@ var WebDE$GUI$GuiLayer=
             if(this.IsGameLayer() == true)
             {
                 var tileList=this.GetAttachedView().GetAttachedStage().GetVisibleTiles(this.GetAttachedView());
+                WebDE.Debug.log("This is a game layer and has " + tileList.get_Count() + " tiles.");
             }
             else
             {
@@ -591,9 +596,6 @@ var WebDE$GUI$GuiLayer=
         },
         GetTilesAt:function(xpos,ypos)
         {
-            var tileSize=WebDE.GameObjects.Stage.CurrentStage.GetTileSize();
-            xpos = xpos / tileSize.get_Item1();
-            ypos = ypos / tileSize.get_Item2();
             var returnList=new System.Collections.Generic.List$1.ctor(WebDE.GameObjects.Tile);
             var tileList=this.GetAttachedView().GetAttachedStage().GetVisibleTiles(this.GetAttachedView());
             xpos = WebDE.GameObjects.Helpah.Round$$Double(xpos);

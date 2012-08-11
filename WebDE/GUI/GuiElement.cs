@@ -18,7 +18,7 @@ namespace WebDE.GUI
         private string text;
         private Sprite sprIcon;
         private Point position = new Point(0, 0);
-        private Dimension size;
+        private Dimension size = new Dimension(0, 0);
         private GuiLayer parentLayer;
         //whether or not thus gui element is selected
         private bool selected = false;
@@ -191,6 +191,13 @@ namespace WebDE.GUI
 
         public Dimension GetSize()
         {
+            //if it has a sprite, return the size of the sprite
+            if (this.sprIcon != null)
+            {
+                return this.sprIcon.GetSize();
+            }
+
+            //otherwise, return the size of the icon
             return this.size;
         }
 

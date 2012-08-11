@@ -69,12 +69,6 @@ var WebDE$AI$ArtificialIntelligence=
                 {
                     var hOffset=this.body.GetPosition().x - curNode.x;
                     var vOffset=this.body.GetPosition().y - curNode.y;
-                    WebDE.Debug.Watch("Current Position",WebDE.GameObjects.Helpah.Round$$Double$$Int32(this.body.GetPosition().x,2) + "," + WebDE.GameObjects.Helpah.Round$$Double$$Int32(this.body.GetPosition().y,2));
-                    WebDE.Debug.Watch("Desired Position",WebDE.GameObjects.Helpah.Round$$Double$$Int32(curNode.x,2) + "," + WebDE.GameObjects.Helpah.Round$$Double$$Int32(curNode.y,2));
-                    WebDE.Debug.Watch("hOffset",WebDE.GameObjects.Helpah.Round$$Double$$Int32(hOffset,2).toString());
-                    WebDE.Debug.Watch("vOffset",WebDE.GameObjects.Helpah.Round$$Double$$Int32(vOffset,2).toString());
-                    WebDE.Debug.Watch("xSpeed",WebDE.GameObjects.Helpah.Round$$Double$$Int32(this.body.GetSpeed().x,2).toString());
-                    WebDE.Debug.Watch("ySpeed",WebDE.GameObjects.Helpah.Round$$Double$$Int32(this.body.GetSpeed().y,2).toString());
                     hOffset = WebDE.GameObjects.Helpah.Round$$Double(hOffset);
                     vOffset = WebDE.GameObjects.Helpah.Round$$Double(vOffset);
                     if(System.Math.Abs$$Double(hOffset) > System.Math.Abs$$Double(vOffset))
@@ -139,10 +133,14 @@ var WebDE$AI$ArtificialIntelligence=
                     }
                     else
                     {
-                        var $it1=WebDE.GameObjects.Stage.CurrentStage.GetVisibleEntities(WebDE.Rendering.View.GetMainView()).GetEnumerator();
+                        var $it1=WebDE.GameObjects.Stage.CurrentStage.GetLivingEntities().GetEnumerator();
                         while($it1.MoveNext())
                         {
                             var ent=$it1.get_Current();
+                            if(ent == this.GetBody())
+                            {
+                                continue;
+                            }
                             if(ent.GetPosition().Distance(this.body.GetPosition()) < theWeapon.GetRange())
                             {
                                 theWeapon.SetTarget(ent);

@@ -34,8 +34,7 @@ namespace WebDE.GameObjects
         private Dimension size = new Dimension(20, 16);
 
         //the default dimensions of the tiles 
-        private int tileWidth = 40;
-        private int tileHeight = 40;
+        Dimension tileSize = new Dimension(40, 40);
 
         //sets up all of the variables for the stage
         public Stage(string stageName, StageType stageType)
@@ -125,6 +124,11 @@ namespace WebDE.GameObjects
             this.livingEntities.Add(toAdd);
         }
 
+        public List<LivingGameEntity> GetLivingEntities()
+        {
+            return this.livingEntities;
+        }
+
         /*
         public void addEnvironment(Environment environmentToAdd)
         {
@@ -153,10 +157,11 @@ namespace WebDE.GameObjects
         {
             List<GameEntity> resultList = new List<GameEntity>();
 
-
             foreach (Tile tile in this.stageTiles)
             {
-                if (tile.GetLightLevel() != this.GetBackgroundColor())// || tile.GetLightLevel() != null)
+                //if the tile is the same color as the background, we don't need it to be visible
+                //if (!tile.GetLightLevel().Match(this.GetBackgroundColor()))// || tile.GetLightLevel() != null)
+                if (!this.GetBackgroundColor().Match(tile.GetLightLevel()))// || tile.GetLightLevel() != null)
                 {
                     resultList.Add(tile);
                 }
@@ -233,8 +238,8 @@ namespace WebDE.GameObjects
                 {
                     if (!this.GetBounds().Contains(ent.GetPosition()))
                     {
-                        Debug.log(ent.GetPosition().x + "," + ent.GetPosition().y + " isn\'t in " +
-                            this.GetBounds().x + "," + this.GetBounds().width + "," + this.GetBounds().y + "," + this.GetBounds().height);
+                        //Debug.log(ent.GetPosition().x + "," + ent.GetPosition().y + " isn\'t in " +
+                            //this.GetBounds().x + "," + this.GetBounds().width + "," + this.GetBounds().y + "," + this.GetBounds().height);
                         ent.Destroy();
                     }
                 }
@@ -274,16 +279,15 @@ namespace WebDE.GameObjects
             }
         }
 
-        public Tuple<int, int> GetTileSize()
+        public Dimension GetTileSize()
         {
-            return new Tuple<int, int>
-                (this.tileWidth, this.tileHeight);
+            return this.tileSize;
         }
 
         public void SetTileSize(int newWidth, int newHeight)
         {
-            this.tileWidth = newWidth;
-            this.tileHeight = newHeight;
+            this.tileSize.width = newWidth;
+            this.tileSize.height = newHeight;
         }
 
         public List<LightSource> GetLights()

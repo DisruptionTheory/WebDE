@@ -32,6 +32,15 @@ namespace WebDE.GameObjects
         //can the weapon be fired while the body is moving?
         private bool fireWhileMoving = false;
 
+        /// <summary>
+        /// Creates a new weapon.
+        /// </summary>
+        /// <param name="owner">The game entity which possesses this weapon.</param>
+        /// <param name="damage">The amount of damage the weapon does.</param>
+        /// <param name="firingInterval">The time, in seconds, between shots.</param>
+        /// <param name="projectileSpeed">The speed, in game units, at which the projectile fired by this weapon travels.</param>
+        /// <param name="turningRadius">The arc, in degrees, that this weapon can fire in. Assumes bidirectional.</param>
+        /// <param name="turnSpeed">The speed at which the weapon can be turned along the turningRadius.</param>
         public Weapon(GameEntity owner, double damage, double firingInterval, double projectileSpeed, double turningRadius, double turnSpeed)
         {
             this.owner = owner;
@@ -42,7 +51,7 @@ namespace WebDE.GameObjects
             this.turningRadius = turningRadius;
             this.turningSpeed = turnSpeed;
 
-            this.lastFiredTime = DateTime.Now.Millisecond - Helpah.Round(this.firingDelay);
+            this.lastFiredTime = DateTime.Now.Millisecond;// -Helpah.Round(this.firingDelay);
 
             //set the default projectile to bullet?
         }
@@ -54,18 +63,18 @@ namespace WebDE.GameObjects
 
         public void Fire()
         {
-            if (owner.GetParentStage() == null)
+            if (owner.GetParentStage() == null || this.GetTarget() == null)
             {
                 //Debug.log(owner.GetName() + " has no parent stage :(");
                 return;
             }
 
+            Debug.log("Firin mah lazer");
             //if the weapon has had enough time to "cool down" since last firing
             if (DateTime.Now.Millisecond > this.lastFiredTime + this.firingDelay)
             {
-                Debug.log("Ima firin mah lazer");
-                int deltaX = (int) Math.Round(this.owner.GetPosition().x - this.GetTarget().GetPosition().x);
-                int deltaY = (int) Math.Round(this.owner.GetPosition().y - this.GetTarget().GetPosition().y);
+                int deltaX = (int)Math.Round(this.GetTarget().GetPosition().x - this.owner.GetPosition().x);
+                int deltaY = (int)Math.Round(this.GetTarget().GetPosition().y - this.owner.GetPosition().y);
 
                 //create the projectile, place it, set it facing a direction...
                 Projectile myBullet = new Projectile("Bullet", this.GetTarget().GetPosition());
@@ -78,7 +87,10 @@ namespace WebDE.GameObjects
                 //myBullet.SetAcceleration(.1);
                 Stage.CurrentStage.AddLivingGameEntity(myBullet);
 
+                //deplete ammo by one unit
                 this.SetCurrentAmmo(this.GetCurrentAmmo() - 1);
+                //this is the new "last time" that we have fired
+                this.lastFiredTime = DateTime.Now.Millisecond;
             }
         }
 

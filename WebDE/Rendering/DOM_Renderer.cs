@@ -104,6 +104,8 @@ namespace WebDE.Rendering
 
         public void Render()
         {
+            Debug.Watch("Entities to update", this.gameEntitiesToUpdate.Count.ToString());
+
             //just in case this gets called before initialrender
             if (this.initiallyRendered == false)
             {
@@ -112,6 +114,7 @@ namespace WebDE.Rendering
 
             foreach (View view in View.GetActiveViews())
             {
+                //game entities, including living and tiles
                 foreach (GameEntity gent in view.GetVisibleEntities())
                 {
                     this.RenderGameEntity(gent);
@@ -148,6 +151,7 @@ namespace WebDE.Rendering
             if (gentlement == null)
             {
                 gentlement = document.createElement("div");
+                gentlement.id = gent.GetId();
                 //later, we may want to add iterating through base types to get their type name and add it...
                 this.AddClass(gentlement, "Entity");
                 this.AddClass(gentlement, gent.GetType().Name);
@@ -163,13 +167,14 @@ namespace WebDE.Rendering
             if(this.gameEntitiesToUpdate.Contains(gent.GetId()))
             {
                 //reposition the element based on game position
-                gentlement.style.left = (gent.GetPosition().x * Stage.CurrentStage.GetTileSize().Item1) + "px";
-                gentlement.style.top = (gent.GetPosition().y * Stage.CurrentStage.GetTileSize().Item2) + "px";
+                gentlement.style.left = (gent.GetPosition().x * Stage.CurrentStage.GetTileSize().width) + "px";
+                gentlement.style.top = (gent.GetPosition().y * Stage.CurrentStage.GetTileSize().height) + "px";
                 gentlement.style.opacity = gent.GetOpacity();
 
                 this.gameEntitiesToUpdate.Remove(gent.GetId());
             }
 
+            //if the entity doesn't have a sprite, we're done with all rendering for now
             if (gent.GetSprite() == null)
             {
                 return;
@@ -380,7 +385,7 @@ namespace WebDE.Rendering
             //if (this.gameEntitiesToUpdate.Contains(light.GetId()))
             //this.gameEntitiesToUpdate.Remove(light.GetId());
             
-            Tuple<int, int> tileSize = Stage.CurrentStage.GetTileSize();
+            Dimension tileSize = Stage.CurrentStage.GetTileSize();
 
             //the light's x and y are its center
             //the size of the div should be the diameter of the light, or twice its range
@@ -389,11 +394,11 @@ namespace WebDE.Rendering
             //the amount to shift the position by
             int posShift = (int) light.GetRange() / 2;
 
-            gentlement.style.left = ((light.GetPosition().x - posShift) * tileSize.Item1) + "px";
-            gentlement.style.top = ((light.GetPosition().y - posShift) * tileSize.Item2) + "px";
+            gentlement.style.left = ((light.GetPosition().x - posShift) * tileSize.width) + "px";
+            gentlement.style.top = ((light.GetPosition().y - posShift) * tileSize.height) + "px";
 
-            gentlement.style.width = (light.GetRange() * tileSize.Item1) + "px";
-            gentlement.style.height = (light.GetRange() * tileSize.Item2) + "px";
+            gentlement.style.width = (light.GetRange() * tileSize.width) + "px";
+            gentlement.style.height = (light.GetRange() * tileSize.height) + "px";
 
             if (light.Visible() == true)
             {
