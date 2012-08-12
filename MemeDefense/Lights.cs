@@ -88,7 +88,7 @@ namespace Lights
             {
                 if (light is Lightstone)
                 {
-                    int lightRange = int.Parse((light.GetRange() * Stage.CurrentStage.GetTileSize().width).ToString());
+                    int lightRange = Convert.ToInt32(light.GetRange() * Stage.CurrentStage.GetTileSize().width);
                     //get a list of all lights near this one
                     List<LightSource> lightsInRange = Stage.CurrentStage.GetLightsNear(light.GetPosition(), lightRange);
                     //filter out the light we're currently looking at
@@ -175,7 +175,7 @@ namespace Lights
                 }
             }
             */
-            int lightRange = int.Parse((plCol.GetRange()).ToString());
+            int lightRange = Convert.ToInt32(plCol.GetRange());
             List<LightSource> lightList = Stage.CurrentStage.GetLightsNear(plCol.GetPosition(), lightRange);
             //Debug.log("There are " + lightList.Count + " lights in within " + lightRange + " of click.");
             foreach (LightSource light in lightList)
@@ -281,8 +281,8 @@ namespace Lights
             int stoneRange = 20;
 
             //pick a position within range of the shadowstone
-            int stoneX = Helpah.Rand(int.Parse((nearShadow.GetPosition().x - nearShadow.GetRange()).ToString()), int.Parse((nearShadow.GetPosition().x + nearShadow.GetRange()).ToString()));
-            int stoneY = Helpah.Rand(int.Parse((nearShadow.GetPosition().y - nearShadow.GetRange()).ToString()), int.Parse((nearShadow.GetPosition().y + nearShadow.GetRange()).ToString()));
+            int stoneX = Helpah.Rand(Convert.ToInt32(nearShadow.GetPosition().x - nearShadow.GetRange()), Convert.ToInt32(nearShadow.GetPosition().x + nearShadow.GetRange()));
+            int stoneY = Helpah.Rand(Convert.ToInt32(nearShadow.GetPosition().y - nearShadow.GetRange()), Convert.ToInt32(nearShadow.GetPosition().y + nearShadow.GetRange()));
 
             //pick a random position on the board that lets it have full range
 
@@ -305,9 +305,9 @@ namespace Lights
             Color stoneColor = new Color(colOne.red + colTwo.red, colOne.green + colTwo.green, colOne.blue + colTwo.blue);
 
             //pick a random position on the board that lets it have full range
-            int rand2 = int.Parse(Stage.CurrentStage.GetSize().width.ToString()) - stoneRange;
+            int rand2 = Convert.ToInt32(Stage.CurrentStage.GetSize().width) - stoneRange;
             int stoneX = Helpah.Rand(stoneRange, rand2);
-            rand2 = int.Parse(Stage.CurrentStage.GetSize().height.ToString()) - stoneRange;
+            rand2 = Convert.ToInt32(Stage.CurrentStage.GetSize().height) - stoneRange;
             int stoneY = Helpah.Rand(stoneRange, rand2);
 
             Lightstone shadowStone = new Lightstone(

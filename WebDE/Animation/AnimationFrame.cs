@@ -52,12 +52,9 @@ namespace WebDE.Animation
             return AnimImage;
         }
 
-        public Tuple<int, int> getPosition()
+        public Point getPosition()
         {
-            Tuple<int, int> returnVal = new Tuple<int, int>
-                (this.imageX, this.imageY);
-
-            return returnVal;
+            return new Point(this.imageX, this.imageY);
         }
         
         public void markAsCached()

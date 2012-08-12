@@ -13,6 +13,7 @@ namespace WebDE.AI
         private List<Point> nodes = new List<Point>();
         //whether or not this is a (looping) patrol path
         private bool looping = false;
+        private int currentNode = -1;
 
         /// <summary>
         /// Create a new movement path.
@@ -29,25 +30,28 @@ namespace WebDE.AI
         //return the given node
         public Point GetNode(int nodeIndex)
         {
-            //Debug.log("Node " + nodeIndex);
+            //if we have reached the end of the node list
             if (nodeIndex > this.nodes.Count - 1 || nodeIndex < 0)
             {
+                //if the path loops, 
                 return null;
             }
             return this.nodes[nodeIndex];
         }
 
         //return the node after the given node, or after the current node
-        public Point GetNextNode(int nodeIndex)
+        public Point GetNextNode()
         {
-            //only if patrolling?
-            /*
-            if (nodeIndex == this.nodes.Count)
+            //the end of the list
+            if (currentNode > this.nodes.Count - 1 || currentNode < 0)
             {
-                nodeIndex = 0;
+                if (this.looping)
+                {
+                    this.currentNode = 0;
+                }
             }
-            */
-            return this.nodes[nodeIndex + 1];
+
+            return this.nodes[this.currentNode];
         }
 
         public void AddPoint(Point pointToAdd)

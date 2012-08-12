@@ -74,9 +74,32 @@ namespace WebDE.GameObjects
 
         public void SetPosition(double newX, double newY)
         {
-            this.position.x = newX;
-            this.position.y = newY;
-            this.SetNeedsUpdate();
+            if (newX != this.position.x || newY != this.position.y)
+            {
+                this.position.x = newX;
+                this.position.y = newY;
+                this.SetNeedsUpdate();
+            }
+        }
+
+        public Stage GetParentStage()
+        {
+            return this.parentStage;
+        }
+
+        public void SetParentStage(Stage newStage)
+        {
+            this.parentStage = newStage;
+        }
+
+        public double GetAcceleration()
+        {
+            return this.acceleration;
+        }
+
+        public void SetAcceleration(double newAccel)
+        {
+            this.acceleration = newAccel;
         }
 
         public Sprite GetSprite()
@@ -108,9 +131,12 @@ namespace WebDE.GameObjects
 
         public void SetSize(int newWidth, int newHeight)
         {
-            this.size.width = newWidth;
-            this.size.height = newHeight;
-            this.SetNeedsUpdate();
+            if (newWidth != this.size.width || newHeight != this.size.height)
+            {
+                this.size.width = newWidth;
+                this.size.height = newHeight;
+                this.SetNeedsUpdate();
+            }
         }
 
         public int GetMovementAngle()
@@ -142,8 +168,11 @@ namespace WebDE.GameObjects
 
         public void SetSpeed(Vector newSpeed)
         {
-            this.speed = newSpeed;
-            this.SetNeedsUpdate();
+            if (newSpeed != this.speed)
+            {
+                this.speed = newSpeed;
+                this.SetNeedsUpdate();
+            }
         }
 
         public void AddSpeed(Vector newSpeed)
@@ -248,7 +277,7 @@ namespace WebDE.GameObjects
             //Debug.Watch("Setneeds update", "Entity: " + this.GetId());
 
             Rendering.DOM_Renderer.GetRenderer().SetNeedsUpdate(this);
-        }
+        }        
 
         /// <summary>
         /// Add custom styling properties, to be applied by the styling engine. 
@@ -280,14 +309,20 @@ namespace WebDE.GameObjects
 
         public void Hide()
         {
-            this.visible = false;
-            this.SetNeedsUpdate();
+            if (this.visible == true)
+            {
+                this.visible = false;
+                this.SetNeedsUpdate();
+            }
         }
 
         public void Show()
         {
-            this.visible = true;
-            this.SetNeedsUpdate();
+            if (this.visible == false)
+            {
+                this.visible = true;
+                this.SetNeedsUpdate();
+            }
         }
 
         public bool Visible()

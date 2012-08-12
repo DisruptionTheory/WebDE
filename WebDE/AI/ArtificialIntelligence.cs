@@ -295,5 +295,10 @@ namespace WebDE.AI
             }
             aiDebug.UpdateValue(newMsg);
         }
+
+        public void Patrol(Point destination)
+        {
+            this.SetMovementPath(MovementPath.Patrol(this.GetBody().GetPosition(), destination));
+        }
     }
 }

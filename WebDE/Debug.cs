@@ -103,6 +103,7 @@ namespace WebDE
         private GuiElement debugElement;
         private string label;
         private string value;
+        private DateTime lastUpdated;
 
         public Debug()
         {
@@ -133,6 +134,11 @@ namespace WebDE
             {
                 if (watch.label == label)
                 {
+                    if (value == watch.value)
+                    {
+                        return watch;
+                    }
+
                     returnDebug = watch;
                     exists = true;
                 }
@@ -140,6 +146,7 @@ namespace WebDE
 
             returnDebug.label = label;
             returnDebug.value = value;
+            returnDebug.lastUpdated = DateTime.Now;
 
             if (exists == false)
             {
@@ -156,15 +163,21 @@ namespace WebDE
 
         public void UpdateValue(string newValue)
         {
-            this.value = newValue;
-            Debug.Render();
+            if (this.value != newValue)
+            {
+                this.value = newValue;
+                lastUpdated = DateTime.Now;
+                Debug.Render();
+            }
         }
 
         public static void Render()
         {
             foreach (Debug watch in Debug.Watches)
             {
-                watch.debugElement.SetText(watch.label + " : " + watch.value);
+                watch.debugElement.SetText("<a title=\"Last updated: " + watch.lastUpdated.Minute + " : " + watch.lastUpdated.Second + "\">" + 
+                    watch.label + " : " + watch.value
+                    + "</a>");
             }
         }
     }

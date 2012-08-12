@@ -36,7 +36,7 @@ namespace WebDE.GUI
         //public static GuiEvent FromClickData(GuiLayer gLayer, jQueryEvent jqClickData)
         public static GuiEvent FromClickData(GuiLayer gLayer, Point clickPos)
         {
-            GuiEvent returnEvent = new GuiEvent(int.Parse(clickPos.x.ToString()), int.Parse(clickPos.y.ToString()));
+            GuiEvent returnEvent = new GuiEvent(Convert.ToInt32(clickPos.x), Convert.ToInt32(clickPos.y));
             //Dimension TileSize = Stage.CurrentStage.GetTileSize();
 
             //returnEvent.eventPixelPos = new Point(clickPos.x, clickPos.y);

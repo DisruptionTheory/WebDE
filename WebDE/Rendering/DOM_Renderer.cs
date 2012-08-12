@@ -104,8 +104,6 @@ namespace WebDE.Rendering
 
         public void Render()
         {
-            Debug.Watch("Entities to update", this.gameEntitiesToUpdate.Count.ToString());
-
             //just in case this gets called before initialrender
             if (this.initiallyRendered == false)
             {
@@ -292,7 +290,7 @@ namespace WebDE.Rendering
                 {
                     gentlement.style.width = (gelm.GetText().Length * 12) + "px";
                     gentlement.style.height = 12 + "px";
-                    gentlement.innerText = gelm.GetText();
+                    gentlement.innerHTML = gelm.GetText();
                 }
                 else
                 {
@@ -315,7 +313,7 @@ namespace WebDE.Rendering
             //update the element with new position information if need be
             if (this.guiElementsToUpdate.Contains(gelm.GetId()))
             {
-                gentlement.innerText = gelm.GetText();
+                gentlement.innerHTML = gelm.GetText();
 
                 //reposition the element based on game position
                 gentlement.style.left = gelm.GetPosition().x + "px";
@@ -333,7 +331,7 @@ namespace WebDE.Rendering
             {
                 return;
             }
-            gentlement.innerText = "";
+            gentlement.innerHTML = "";
 
             //call the sprite's animate function
             //it will return the id of the frame that the sprite and its animation are currently on
@@ -534,12 +532,12 @@ namespace WebDE.Rendering
             //create visual components for animationframe objects, and cache them for fast loading
             foreach (AnimationFrame animFrame in AnimationFrame.GetAnimationFrames())
             {
-                Tuple<int, int> framePos = animFrame.getPosition();
+                Point framePos = animFrame.getPosition();
                 //new css class
                 animFrmCssContents += "." + animFrame.getId() + " { " +
                     "background-image: url('" + animFrame.getImage() + "'); " +
-                    "background-position-x: " + framePos.Item1 + "px; " +
-                    "background-position-y: " + framePos.Item2 + "px; " +
+                    "background-position-x: " + framePos.x + "px; " +
+                    "background-position-y: " + framePos.y + "px; " +
                     " }";
                 //create image to cache it
                 //mark it as cached

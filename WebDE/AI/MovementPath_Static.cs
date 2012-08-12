@@ -30,5 +30,16 @@ namespace WebDE.AI
 
             return newPath;
         }
+
+        public static MovementPath Patrol(Point origin, Point destination)
+        {
+            MovementPath newPath = new MovementPath(null);
+
+            newPath.AddPoint(origin);
+            newPath.AddPoint(destination);
+            newPath.SetLooping(true);
+
+            return newPath;
+        }
     }
 }
