@@ -7,13 +7,13 @@ using SharpKit.jQuery;
 namespace UITK
 {
     [JsType(JsMode.Clr, Filename = "scripts/UITK.js")]
-    public class ImageBox : UITKComponentBase
+    public class ImageBox : UITKComponent
     {
         private string src = string.Empty;
         public string Source 
         {
             get { return src; }
-            set { src = value; }
+            set { src = value; Redraw(); }
         }
         /// <summary>
         /// Create a new ImageBox.
@@ -29,29 +29,20 @@ namespace UITK
         }
 
         /// <summary>
-        /// Redraw and refresh the component.
-        /// </summary>
-        public override void Validate()
-        {
-            recreateHTML();
-            Surface.Redraw(this);
-        }
-
-        /// <summary>
         /// Recreate the internal markup and css for this component.
         /// </summary>
-        private void recreateHTML()
+        public override void RecreateHTML()
         {
-            string markup = "<img ";
-            markup += "src='" + Source + "' ";
+            string markup = "<div ";
             markup += "id='" + Id + "' ";
-            markup += "width='" + Width + "' ";
-            markup += "height='" + Height + "' ";
-            markup += "/>";
+            markup += "></div>";
             Markup.SetMarkup(markup);
 
-            Styles.SetRule("left", Position.X.ToString());
-            Styles.SetRule("right", Position.Y.ToString());
+            Styles.SetRule("background-image", "url('" + src + "')");
+            Styles.SetRule("left", Position.X);
+            Styles.SetRule("right", Position.Y);
+            Styles.SetHeight(Height);
+            Styles.SetWidth(Width);
         }
 
 

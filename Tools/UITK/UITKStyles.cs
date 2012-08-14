@@ -10,7 +10,12 @@ namespace UITK
     public class UITKStyles
     {
         private Dictionary<string, string> styles = new Dictionary<string, string>();
-        internal UITKStyles() { }
+        internal UITKStyles() 
+        {
+            styles.Add("position", "absolute");
+            styles.Add("height", "50px");
+            styles.Add("width", "50px");
+        }
 
         /// <summary>
         /// Get the full dictionary of every set rule in this UITKStyles.
@@ -61,6 +66,16 @@ namespace UITK
         {
             if (styles.ContainsKey(identifier)) styles[identifier] = rule + "px";
             styles.Add(identifier, rule + "px");
+        }
+
+        internal void SetHeight(int height)
+        {
+            styles["height"] = height.ToString() + "px";
+        }
+
+        internal void SetWidth(int width)
+        {
+            styles["width"] = width.ToString() + "px";
         }
 
         

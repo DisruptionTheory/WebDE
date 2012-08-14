@@ -17,9 +17,9 @@ namespace MapEditor
 
         public static void Initialize()
         {
-            ImageBox box = new ImageBox(100, 200, "");
-            Surface.AddComponent(box, 300, 400);
-            Surface.Validate();
+            ImageBox box = new ImageBox(100, 200, "http://www.w3schools.com/images/compatible_chrome.gif");
+            Surface.AddComponent(box, new UITKPosition(300, 500));
+            
             //Server = new GameClient("localhost", 81);
             //Views.LoadView(Views.Login);
         }

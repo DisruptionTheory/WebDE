@@ -11,7 +11,7 @@ namespace UITK
     {
         private static bool initialized = false;
         private static HtmlElement surface;
-        private static Dictionary<UITKComponentBase, UITKComponentBase> children = new Dictionary<UITKComponentBase, UITKComponentBase>();
+        private static Dictionary<UITKComponent, UITKComponent> children = new Dictionary<UITKComponent, UITKComponent>();
         /// <summary>
         /// The width of the viewable inner area of the browser window.
         /// </summary>
@@ -41,10 +41,12 @@ namespace UITK
             surface = document.createElement("div");
             surface.id = "surface";
             J(surface).css("position", "absolute");
-            J(surface).css("left", "0px");
-            J(surface).css("right", "0px");
-            J(surface).css("top", "0px");
-            J(surface).css("bottom", "0px");
+            J(surface).width("100%");
+            J(surface).height("100%");
+            //J(surface).css("left", "0px");
+            //J(surface).css("right", "0px");
+            //J(surface).css("top", "0px");
+            //J(surface).css("bottom", "0px");
             document.body.appendChild(surface);
             initialized = true;
         }
@@ -55,23 +57,27 @@ namespace UITK
         public static void Validate()
         {
             if (!initialized) Initialize();
-            foreach(UITKComponentBase child in children.Values) child.Validate();
+            foreach(UITKComponent child in children.Values) child.Validate();
         }
 
         /// <summary>
         /// Redraws the component.
         /// </summary>
         /// <param name="component">The component to redraw.</param>
-        internal static void Redraw(UITKComponentBase component)
+        internal static void Redraw(UITKComponent component)
         {
             string id = component.Id;
             HtmlElement element = document.getElementById(id);
             element.outerHTML = component.Markup.GetMarkup();
             foreach (var style in component.Styles.GetStyleDictionary())
             {
+<<<<<<< HEAD
                 console.log(element.ToString());
                 console.log("Setting style " + style.Key + " to " + style.Value + " for object " + component.Id);
                 element.style[style.Key] = style.Value;
+=======
+                J("#" + id).css(style.Key.ToString(), style.Value.ToString());
+>>>>>>> Adding more UITK components.
             }
         }
 
@@ -96,13 +102,14 @@ namespace UITK
         /// <param name="component">The component to add to the surface.</param>
         /// <param name="x">The x coordinate.</param>
         /// <param name="y">The y coordinate.</param>
-        public static void AddComponent(UITKComponentBase component, int x, int y)
+        public static void AddComponent(UITKComponent component, UITKPosition position)
         {
             if (!initialized) Initialize();
             children.Add(component, component);
-            component.Position.X = x;
-            component.Position.Y = y;
-            surface.innerHTML += "<div id='" + component.Id + "'></div>";
+            component.Position = position;
+            HtmlElement element = document.createElement("div");
+            element.id = component.Id;
+            surface.appendChild(element);
             component.Validate();
         }
     }
