@@ -120,6 +120,8 @@ namespace WebDE.AI
 
                 //the current node that we are targeted at / walking toward
                 Point curNode = this.currentPath.GetNode(this.currentNode);
+                //blegh. what.
+                //Point curNode = this.currentPath.GetNextNode();
 
                 //there are no more nodes, the entity has reached the end of the path
                 if (curNode == null)
@@ -169,7 +171,6 @@ namespace WebDE.AI
                     //if the horizontal distance is less than or equal to the current speed divided by the acceleration, begin decelerating
                     if (hOffset != 0 && Math.Abs(hOffset) <= body.GetSpeed().x / body.GetAcceleration())
                     {
-                        //Debug.log("Setting speed manually (hoffset).");
                         body.SetDirection(MovementDirection.None);
 
                         //if the body needs to travel a distance less than its normal acceleration
@@ -199,7 +200,6 @@ namespace WebDE.AI
                     if (Helpah.Round(hOffset) == 0 && Helpah.Round(vOffset) == 0)
                     {
                         body.SetDirection(MovementDirection.None);
-                        //Script.Eval("console.log('An entity has reached a node and is advancing to the next one.')");
                         this.currentNode++;
                     }
 
@@ -231,6 +231,8 @@ namespace WebDE.AI
                     }
                     else
                     {
+                        //Debug.Watch("Targetless weapon", this.GetBody().GetName() + ", " + listoguns.Count + ", " + theWeapon.GetRange());
+
                         //find a new target
                         //foreach (GameEntity ent in Stage.CurrentStage.GetVisibleEntities(View.GetMainView()))
                         foreach (GameEntity ent in Stage.CurrentStage.GetLivingEntities())

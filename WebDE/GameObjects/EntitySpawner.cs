@@ -17,13 +17,13 @@ namespace WebDE.GameObjects
         private string clockId = null;
 
         public GameEntitySpawner(string itemName, int initialDelay)
-            : base(itemName)
+            : base(itemName, false)
         {
             this.currentSpawnDelay = initialDelay;
 
             //add think to a calculate clock
             //since calculation will happen as fast as possible, we need to count using regular time
-            Clock.IntervalExecute(this.Think, 1);
+            this.Activate();
         }        
 
         /// <summary>
@@ -52,14 +52,19 @@ namespace WebDE.GameObjects
 
         public void Activate()
         {
-            this.clockId = Clock.AddCalculation(this.Think);
+            if (this.clockId == null || this.clockId == "")
+            {
+                this.clockId = Clock.IntervalExecute(this.Think, 1);
+            }
         }
 
         public void Deactivate()
         {
-            if (this.clockId != null)
+            if (this.clockId != null && this.clockId != "")
             {
-                Clock.RemoveCalculation(this.clockId);
+                Clock.CancelIntervalExecute(this.clockId);
+                this.clockId = "";
+                //Clock.RemoveCalculation(this.clockId);
             }
         }
 

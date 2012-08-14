@@ -23,21 +23,26 @@ namespace WebDE.GameObjects
     {
         private string id;
 
+        //game variables
         private Dimension size = new Dimension(40, 40);
         private string strGameEntityName = "New GameEntity";
-        private Sprite sprGameEntitySprite = null;
         private Stage parentStage = null;
 
+        //display variables
+        private Sprite sprGameEntitySprite = null;
         private double opacity = 1.00;
         private bool visible = true;
         private List<string> customStyles = new List<string>();
 
+        //physics variables
         private Point position = new Point(0, 0);
         private Vector speed = new Vector(0, 0);
         private Vector minSpeed = new Vector(-10, -10);
         private Vector maxSpeed = new Vector(10, 10);
         //units per second the GameEntity accelerates (up to maxSpeed), in a given direction
         private double acceleration = 1;
+        private bool obeysPhysics = true;
+        private Action collisionEvent;
 
         //the angle at which the GameEntity moves (0 - 360), if not using movement direction
         //if the number is negative, it means the GameEntity is not moving
@@ -50,6 +55,20 @@ namespace WebDE.GameObjects
             this.id = "GameEntity_" + GameEntity.lastid;
             this.strGameEntityName = entName;
             GameEntity.cachedEntities.Add(this);
+
+            //if a sprite exists with the same name, attempt to set it to be this GameEntity's sprite
+            Sprite nameSprite = Sprite.GetSpriteByName(this.strGameEntityName);
+
+            this.SetSprite(nameSprite);
+        }
+
+        public GameEntity(string entName, bool obeysPhysics)
+        {
+            GameEntity.lastid++;
+            this.id = "GameEntity_" + GameEntity.lastid;
+            this.strGameEntityName = entName;
+            GameEntity.cachedEntities.Add(this);
+            this.obeysPhysics = obeysPhysics;
 
             //if a sprite exists with the same name, attempt to set it to be this GameEntity's sprite
             Sprite nameSprite = Sprite.GetSpriteByName(this.strGameEntityName);
@@ -261,15 +280,78 @@ namespace WebDE.GameObjects
             this.SetPosition(
                 this.position.x + this.speed.x,
                 this.position.y + this.speed.y);
-            //Script.Eval("console.log('" + this.position.x + ", " + this.position.y + ", " + this.speed.x + ", " + this.speed.y + "');");
 
             //check if position x or y goes out of bounds
 
-            //check for collisions
+            //---Check for collisions---
+
+            //if this object isn't a physics object, we don't need to
+            if (this.obeysPhysics == false)
+            {
+                return;
+            }
+
+            //get a list of local entities that exist within this entity's position
+            int distance = Helpah.d2i(this.GetSize().GetGreatest() / Stage.CurrentStage.GetTileSize().GetGreatest());
+            List<GameEntity> entList = Stage.CurrentStage.GetEntitiesNear(this.GetPosition(), distance);
+            foreach (GameEntity ent in entList)
+            {
+                //skip checking for collision against itself, and against entities that aren't physics objects
+                if (ent == this || ent.obeysPhysics == false)
+                {
+                    continue;
+                }
+
+                //Debug.Watch("Nearent is ", "Origin: " + ent.GetPosition().x + ", " + ent.GetPosition().y + ". Destination: " + this.GetPosition().x + ", " + this.GetPosition().y + ". Distance: " + this.GetSize().GetGreatest());
+
+                //Debug.log(this.GetId() + " is colliding with " + ent.GetId());
+                this.Collision(ent);
+            }
         }
 
-        public void CheckCollision()
+        /// <summary>
+        /// This entity is colliding into another. This entity is the one doing the colliding. 
+        /// </summary>
+        /// <param name="collidingEntity"></param>
+        public void Collision(GameEntity collidingEntity)
         {
+            bool isProj = false;
+            string firingGuy = "";
+
+            if (this is Projectile)
+            {
+                //the projectile should not hit the entity that fired it
+                Projectile projEnt = this.As<Projectile>();
+                if (collidingEntity == projEnt.GetFiringEntity())
+                {
+                    return;
+                }
+                
+                isProj = true;
+                firingGuy = projEnt.GetFiringEntity().GetName();
+            }
+
+            //perform custom collision events first
+            if (this.collisionEvent != null)
+            {
+                this.collisionEvent.Invoke();
+            }
+            if (collidingEntity.collisionEvent != null)
+            {
+                collidingEntity.collisionEvent.Invoke();
+            }
+
+            int damage = 10;
+
+            //deal damage to the other entity
+            if(collidingEntity is LivingGameEntity)
+            {
+                LivingGameEntity livingTarget = collidingEntity.As<LivingGameEntity>();
+                Debug.log(this.GetType().Name + " " + this.GetId() + " dealing damage to " + livingTarget.GetName() + " (" + livingTarget.GetId() + ")" + 
+                    ". IsProjectile: " + isProj.ToString() + ", firingGuy is " + firingGuy);
+                livingTarget.Damage(damage);
+            }
+            //collidingEntity.dam
         }
 
         protected void SetNeedsUpdate()

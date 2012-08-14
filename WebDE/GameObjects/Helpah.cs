@@ -81,5 +81,15 @@ namespace WebDE.GameObjects
             double bit = min + (int)(JsMath.random() * ((max - min) + 1));
             return (int) Math.Floor(bit);
         }
+
+        /// <summary>
+        /// Double to int
+        /// </summary>
+        /// <param name="dubbs"></param>
+        /// <returns></returns>
+        public static int d2i(double dubbs)
+        {
+            return int.Parse(dubbs.ToString());
+        }
     }
 }

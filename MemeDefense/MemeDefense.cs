@@ -513,10 +513,10 @@ namespace MemeDefense
             //Tower newTower = Tower.GetByName("GigaPuddiTower");
             newTower.SetPosition(clickedTile.GetPosition().x, clickedTile.GetPosition().y);
             //dummyProjectile.SetAcceleration(.1);
-            Weapon dummyWeapon = new Weapon(newTower, 10, 1, .5, 180, 40);
+            Weapon dummyWeapon = new Weapon(10, 1, .5, 180, 40);
             dummyWeapon.SetRange(50);
-            //dummyWeapon.SetProjectile(dummyProjectile);
             newTower.AddWeapon(dummyWeapon);
+            //dummyWeapon.SetProjectile(dummyProjectile);
 
             Stage.CurrentStage.AddLivingGameEntity(newTower);
 

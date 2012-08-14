@@ -23,5 +23,26 @@ namespace WebDE
             this.height = myHeight;
             this.depth = myDepth;
         }
+
+        /// <summary>
+        /// Returns the largest dimension.
+        /// </summary>
+        /// <returns></returns>
+        public double GetGreatest()
+        {
+            double returnVal = width;
+
+            if (height > returnVal)
+            {
+                returnVal = height;
+            }
+
+            if (depth > returnVal)
+            {
+                returnVal = depth;
+            }
+
+            return returnVal;
+        }
     }
 }

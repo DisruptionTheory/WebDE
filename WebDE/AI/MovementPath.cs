@@ -42,12 +42,22 @@ namespace WebDE.AI
         //return the node after the given node, or after the current node
         public Point GetNextNode()
         {
-            //the end of the list
-            if (currentNode > this.nodes.Count - 1 || currentNode < 0)
+            if (this.nodes.Count == 0)
             {
-                if (this.looping)
+                return null;
+            }
+
+            this.currentNode++;
+            //the end of the list
+            if (this.currentNode >= this.nodes.Count)
+            {
+                if (this.looping == true)
                 {
                     this.currentNode = 0;
+                }
+                else
+                {
+                    return null;
                 }
             }
 

@@ -128,7 +128,7 @@ namespace WebDE
             notifText.SetText(message);
 
             //reposition the handle to be after the sender's name
-            notifSenderHandle.SetPosition(Convert.ToInt32(notifSender.GetPosition().x + (notifSender.GetText().Length * 14)), Convert.ToInt32(notifSenderHandle.GetPosition().y));
+            notifSenderHandle.SetPosition(Helpah.d2i(notifSender.GetPosition().x + (notifSender.GetText().Length * 14)), Helpah.d2i(notifSenderHandle.GetPosition().y));
 
             //Game.notificationLayer.Render();
             Game.notificationLayer.Show();

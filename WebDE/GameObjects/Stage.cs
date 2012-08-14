@@ -80,29 +80,37 @@ namespace WebDE.GameObjects
             GameEntityToAdd.SetParentStage(this);
         }
 
-        public void RemoveGameEntity(GameEntity GameEntityToRemove)
+        public void RemoveGameEntity(GameEntity gameEntityToRemove)
         {
-            if (GameEntityToRemove is LightSource)
+            if (gameEntityToRemove is LightSource)
             {
-                LightSource lightToRemove = (LightSource)GameEntityToRemove;
+                LightSource lightToRemove = gameEntityToRemove.As<LightSource>();
                 if (this.stageLights.Contains(lightToRemove))
                 {
                     this.stageLights.Remove(lightToRemove);
                 }
             }
-            else if (GameEntityToRemove is Tile)
+            else if (gameEntityToRemove is Tile)
             {
-                Tile tileToRemove = (Tile)GameEntityToRemove;
+                Tile tileToRemove = gameEntityToRemove.As<Tile>();
                 if (this.stageTiles.Contains(tileToRemove))
                 {
                     this.stageTiles.Remove(tileToRemove);
                 }
             }
+            else if (gameEntityToRemove is LivingGameEntity)
+            {
+                LivingGameEntity livingEntityToRemove = gameEntityToRemove.As<LivingGameEntity>();
+                if (this.livingEntities.Contains(livingEntityToRemove))
+                {
+                    this.livingEntities.Remove(livingEntityToRemove);
+                }
+            }
             else
             {
-                if (this.stageEntities.Contains(GameEntityToRemove))
+                if (this.stageEntities.Contains(gameEntityToRemove))
                 {
-                    this.stageEntities.Remove(GameEntityToRemove);
+                    this.stageEntities.Remove(gameEntityToRemove);
                 }
             }
         }
@@ -212,8 +220,18 @@ namespace WebDE.GameObjects
             foreach (LivingGameEntity lent in this.livingEntities)
             {
                 lent.Think();
+
+                //if the GameEntity is of type projectile and is outside of the bounds of the stage, remove it
+                if (lent is Projectile)
+                {
+                    if (!this.GetBounds().Contains(lent.GetPosition()))
+                    {
+                        lent.Destroy();
+                    }
+                }
             }
 
+            /*
             //should we filter the stage's entities?
             foreach (GameEntity ent in this.stageEntities)
             {
@@ -230,24 +248,30 @@ namespace WebDE.GameObjects
                 //calculate the GameEntity's current position (based on speed)
                 //ent.CalculatePosition();
             }
-
-            //if the GameEntity is of type projectile and is outside of the bounds of the stage, remove it
-            foreach (GameEntity ent in this.livingEntities)
-            {
-                if (ent is Projectile)
-                {
-                    if (!this.GetBounds().Contains(ent.GetPosition()))
-                    {
-                        //Debug.log(ent.GetPosition().x + "," + ent.GetPosition().y + " isn\'t in " +
-                            //this.GetBounds().x + "," + this.GetBounds().width + "," + this.GetBounds().y + "," + this.GetBounds().height);
-                        ent.Destroy();
-                    }
-                }
-            }
+            */
         }
 
         //for now, just move entities around
         public void CalculateGameEntityPhysics()
+        {
+            //should we filter the stage's entities?
+            for (int i = 0; i < this.stageEntities.Count; i++)
+            {
+                //calculate the GameEntity's current speed
+                this.stageEntities[i].CalculateSpeed();
+                //calculate the GameEntity's current position (based on speed)
+                this.stageEntities[i].CalculatePosition();
+            }
+            //do the same for living entities
+            for (int i = 0; i < this.livingEntities.Count; i++)
+            {
+                this.livingEntities[i].CalculateSpeed();
+                this.livingEntities[i].CalculatePosition();
+            }
+        }
+
+        //for now, just move entities around
+        public void old_CalculateGameEntityPhysics()
         {
             //should we filter the stage's entities?
             foreach (GameEntity ent in this.stageEntities)
@@ -264,6 +288,8 @@ namespace WebDE.GameObjects
                 //calculate the GameEntity's current position (based on speed)
                 lent.CalculatePosition();
             }
+
+            //check projectiles for collisions
         }
 
         public void CalculateLights()
@@ -396,6 +422,22 @@ namespace WebDE.GameObjects
             }
 
             return returnVals;
+        }
+
+        public List<GameEntity> GetEntitiesNear(Point p, double distance)
+        {
+            return this.GetEntitiesNear(p, Helpah.d2i(distance));
+        }
+
+        public List<GameEntity> GetPhysicsEntitiesNear(Point p, double distance)
+        {
+            List<GameEntity> entList = this.GetEntitiesNear(p, distance);
+            foreach(GameEntity gent in entList)
+            {
+                //if(gent.obeysphysics
+            }
+
+            return entList;
         }
 
         public List<LightSource> GetLightsNear(Point p, int distance)

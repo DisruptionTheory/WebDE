@@ -10,7 +10,7 @@ namespace WebDE.GameObjects
     {
         private int maxAmmo = 100;
         private int currentAmmo = 100;
-        private double range = 0;
+        private double range = 1;
         //the maximum radius (in degrees) that the weapon can turn from dead center (zero degrees) in either direction to fire
         private double turningRadius = 0;
         //the speed at which the weapon turns
@@ -24,9 +24,9 @@ namespace WebDE.GameObjects
         //the interval between shots
         private double firingDelay = 0;
         //the last time the weapon was fired
-        int lastFiredTime;
+        private int lastFiredTime;
         //the owner of the weapon
-        private GameEntity owner;
+        private LivingGameEntity owner;
         //the GameEntity the weapon is currently targeting
         private GameEntity target;
         //can the weapon be fired while the body is moving?
@@ -41,15 +41,15 @@ namespace WebDE.GameObjects
         /// <param name="projectileSpeed">The speed, in game units, at which the projectile fired by this weapon travels.</param>
         /// <param name="turningRadius">The arc, in degrees, that this weapon can fire in. Assumes bidirectional.</param>
         /// <param name="turnSpeed">The speed at which the weapon can be turned along the turningRadius.</param>
-        public Weapon(GameEntity owner, double damage, double firingInterval, double projectileSpeed, double turningRadius, double turnSpeed)
+        public Weapon(double damage, double firingInterval, double projectileSpeed, double turningRadius, double turnSpeed)
         {
-            this.owner = owner;
             this.damage = damage;
             //firing delay is passed in in terms of seconds, but converted to milliseconds for use
             this.firingDelay = firingInterval * 1000;
             this.projectileSpeed = projectileSpeed;
             this.turningRadius = turningRadius;
             this.turningSpeed = turnSpeed;
+            this.maxAmmo = 100;
 
             this.lastFiredTime = DateTime.Now.Millisecond;// -Helpah.Round(this.firingDelay);
 
@@ -69,15 +69,15 @@ namespace WebDE.GameObjects
                 return;
             }
 
-            Debug.log("Firin mah lazer");
             //if the weapon has had enough time to "cool down" since last firing
             if (DateTime.Now.Millisecond > this.lastFiredTime + this.firingDelay)
             {
+                Debug.log("Weapon owned by " + this.owner.GetId() + " is firing.");
                 int deltaX = (int)Math.Round(this.GetTarget().GetPosition().x - this.owner.GetPosition().x);
                 int deltaY = (int)Math.Round(this.GetTarget().GetPosition().y - this.owner.GetPosition().y);
 
                 //create the projectile, place it, set it facing a direction...
-                Projectile myBullet = new Projectile("Bullet", this.GetTarget().GetPosition());
+                Projectile myBullet = new Projectile("Bullet", this.owner, this.GetTarget().GetPosition());
                 myBullet.SetParentStage(owner.GetParentStage());
                 //myBullet.SetSprite(
                 myBullet.SetDamage(10);
@@ -114,7 +114,7 @@ namespace WebDE.GameObjects
             return this.maxAmmo;
         }
 
-        public void SetRange(int newRange)
+        public void SetRange(double newRange)
         {
             this.range = newRange;
         }
@@ -172,12 +172,20 @@ namespace WebDE.GameObjects
 
         public void SetTarget(GameEntity newTarget)
         {
+            Debug.log("Setting target to " + newTarget.GetName());
             this.target = newTarget;
         }
 
         public GameEntity GetTarget()
         {
             return this.target;
+        }
+
+        public void Destroy()
+        {
+            Debug.log("Destroying weapon owned by " + this.owner.GetId());
+            //DOM_Renderer.GetRenderer().DestroyGameEntity(this);
+            Helpah.Destroy(this);
         }
     }
 }

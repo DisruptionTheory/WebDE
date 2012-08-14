@@ -82,6 +82,7 @@
     <Compile Include="Animation\Sprite_Static.cs" />
     <Compile Include="Debug.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="GameObjects\DamageTypes.cs" />
     <Compile Include="GUI\GuiElement.cs" />
     <Compile Include="GUI\GuiEvent.cs" />
     <Compile Include="GUI\GUIFunction.cs" />

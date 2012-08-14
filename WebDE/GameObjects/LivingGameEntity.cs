@@ -66,20 +66,49 @@ namespace WebDE.GameObjects
         }
 
         //this GameEntity takes damage
-        public void Damage(double Amount)
+        public void Damage(int amount)
         {
+            //check defenses and what have you, to reduce damage amount
+
+            this.SetHealth(this.health - amount);
         }
 
         //kill this GameEntity
         public void Kill()
         {
+            //add any relevant score, perform any on death actions (like creating a corpse)
+
+            //remove the entity from the game
+            this.Destroy();
         }
 
-        public void AddWeapon(Weapon weaponToAdd)
+        public void Destroy()
         {
-            //Debug.log("Adding a weapon with projectile " + weaponToAdd.GetProjectile().GetName() + " to entitiy " + this.GetName());
-            weaponToAdd = Helpah.Clone(weaponToAdd).As<Weapon>();
-            this.weapons.Add(weaponToAdd);
+            while (this.weapons.Count > 0)
+            {
+                this.weapons[0].Destroy();
+            }
+            base.Destroy();
+        }
+
+        public Weapon AddWeapon(Weapon weaponToAdd)
+        {
+            if (!this.weapons.Contains(weaponToAdd))
+            {
+                //Debug.log("Adding a weapon with projectile " + weaponToAdd.GetProjectile().GetName() + " to entitiy " + this.GetName());
+                weaponToAdd = Helpah.Clone(weaponToAdd).As<Weapon>();
+                this.weapons.Add(weaponToAdd);
+            }
+
+            return weaponToAdd;
+        }
+
+        public void RemoveWeapon(Weapon weaponToRemove)
+        {
+            if (this.weapons.Contains(weaponToRemove))
+            {
+                this.weapons.Remove(weaponToRemove);
+            }
         }
 
         public List<Weapon> GetWeapons()
@@ -90,6 +119,11 @@ namespace WebDE.GameObjects
         public void SetHealth(int newHealth)
         {
             this.health = newHealth;
+
+            if (this.health <= 0)
+            {
+                this.Kill();
+            }
         }
 
         public int GetHealth()

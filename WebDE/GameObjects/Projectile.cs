@@ -13,13 +13,15 @@ namespace WebDE.GameObjects
         //different projectiles will have different properties, such as:
         //(simple) bullets, arcing projectiles (arrows, etc.), lasers, explosives...
         private double damage = 0;
-        private Action impactEvent;
         private Point targetPoint;
+        private DamageType damageType = DamageType.Physical;
+        private GameEntity firingEntity;
 
-        public Projectile(string projectileName, Point targetPoint)
+        public Projectile(string projectileName, GameEntity firingEntity, Point targetPoint)
             : base(projectileName, 10)
         {
             this.targetPoint = targetPoint;
+            this.firingEntity = firingEntity;
             //target the target
             //this.SetAI(null);
             this.SetAI(new ArtificialIntelligence());
@@ -47,15 +49,9 @@ namespace WebDE.GameObjects
             return this.damage;
         }
 
-        /// <summary>
-        /// This projectile has hit something.
-        /// </summary>
-        public void Collision()
+        public GameEntity GetFiringEntity()
         {
-            if (this.impactEvent != null)
-            {
-                this.impactEvent();
-            }
+            return this.firingEntity;
         }
     }
 }

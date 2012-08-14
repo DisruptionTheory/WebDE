@@ -69,6 +69,8 @@ namespace UITK
             element.outerHTML = component.Markup.GetMarkup();
             foreach (var style in component.Styles.GetStyleDictionary())
             {
+                console.log(element.ToString());
+                console.log("Setting style " + style.Key + " to " + style.Value + " for object " + component.Id);
                 element.style[style.Key] = style.Value;
             }
         }
