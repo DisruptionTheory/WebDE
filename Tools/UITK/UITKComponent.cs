@@ -7,8 +7,13 @@ using SharpKit.jQuery;
 namespace UITK
 {
     [JsType(JsMode.Clr, Filename = "scripts/UITK.js")]
-    public abstract class UITKComponent
+    public abstract class UITKComponent : jQueryContext
     {
+
+        public UITKComponent()
+        {
+            Surface.RegisterId(Id, this);
+        }
         /// <summary>
         /// Forces a redraw and refresh on the component.
         /// </summary>
@@ -91,5 +96,20 @@ namespace UITK
         {
             Surface.Redraw(this);
         }
+
+        #region Events
+        public event ClickEventHandler Click;
+        public event MouseHoverEventHandler MouseHover;
+
+        internal void FireClicked(HtmlDomEventArgs args)
+        {
+            if(Click != null) Click(this, new UITKMouseEventArguments(this, args.pageX, args.pageY, args.ctrlKey, args.shiftKey, args.altKey, args.button));
+        }
+
+        internal void FireMouseHover(HtmlDomEventArgs args)
+        {
+            if (MouseHover != null) MouseHover(this, new UITKMouseEventArguments(this, args.pageX, args.pageY, args.ctrlKey, args.shiftKey, args.altKey, args.button));
+        }
+        #endregion
     }
 }

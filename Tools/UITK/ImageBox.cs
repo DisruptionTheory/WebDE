@@ -40,7 +40,7 @@ namespace UITK
 
             Styles.SetRule("background-image", "url('" + src + "')");
             Styles.SetRule("left", Position.X);
-            Styles.SetRule("right", Position.Y);
+            Styles.SetRule("top", Position.Y);
             Styles.SetHeight(Height);
             Styles.SetWidth(Width);
         }

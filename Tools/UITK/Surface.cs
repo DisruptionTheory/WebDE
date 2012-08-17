@@ -12,6 +12,8 @@ namespace UITK
         private static bool initialized = false;
         private static HtmlElement surface;
         private static Dictionary<UITKComponent, UITKComponent> children = new Dictionary<UITKComponent, UITKComponent>();
+        private static Dictionary<string, UITKComponent> registry = new Dictionary<string, UITKComponent>();
+
         /// <summary>
         /// The width of the viewable inner area of the browser window.
         /// </summary>
@@ -43,13 +45,40 @@ namespace UITK
             J(surface).css("position", "absolute");
             J(surface).width("100%");
             J(surface).height("100%");
-            //J(surface).css("left", "0px");
-            //J(surface).css("right", "0px");
-            //J(surface).css("top", "0px");
-            //J(surface).css("bottom", "0px");
             document.body.appendChild(surface);
             initialized = true;
+
+            //capture events
+            surface.onclick += clickHandler;
+            surface.onmousemove += mouseHoverHandler;
+            surface.onkeydown += keyDownHandler;
+            surface.onkeyup += keyUpHandler;
         }
+
+        internal static void clickHandler(HtmlDomEventArgs e)
+        {
+            string id = e.srcElement.id;
+            if (registry.ContainsKey(id)) registry[id].FireClicked(e);
+        }
+
+        internal static void mouseHoverHandler(HtmlDomEventArgs e)
+        {
+            string id = e.srcElement.id;
+            if (registry.ContainsKey(id)) registry[id].FireMouseHover(e);
+        }
+
+        internal static void keyDownHandler(HtmlDomEventArgs e)
+        {
+            string id = e.srcElement.id;
+            if (registry.ContainsKey(id)) ((UITKKeyedComponent)registry[id]).FireKeyDown(e);
+        }
+
+        internal static void keyUpHandler(HtmlDomEventArgs e)
+        {
+            string id = e.srcElement.id;
+            if (registry.ContainsKey(id)) ((UITKKeyedComponent)registry[id]).FireKeyUp(e);
+        }
+
 
         /// <summary>
         /// Calls a redraw and refresh on all components;
@@ -68,16 +97,13 @@ namespace UITK
         {
             string id = component.Id;
             HtmlElement element = document.getElementById(id);
-            element.outerHTML = component.Markup.GetMarkup();
-            foreach (var style in component.Styles.GetStyleDictionary())
+            if (element != null)
             {
-<<<<<<< HEAD
-                console.log(element.ToString());
-                console.log("Setting style " + style.Key + " to " + style.Value + " for object " + component.Id);
-                element.style[style.Key] = style.Value;
-=======
-                J("#" + id).css(style.Key.ToString(), style.Value.ToString());
->>>>>>> Adding more UITK components.
+                element.outerHTML = component.Markup.GetMarkup();
+                foreach (var style in component.Styles.GetStyleDictionary())
+                {
+                    J("#" + id).css(style.Key.ToString(), style.Value.ToString());
+                }
             }
         }
 
@@ -111,6 +137,23 @@ namespace UITK
             element.id = component.Id;
             surface.appendChild(element);
             component.Validate();
+        }
+
+        internal static string GetValue(string id)
+        {
+            return document.getElementById(id).As<HtmlInputText>().value;
+        }
+
+        internal static void SetValue(string id, string value)
+        {
+            HtmlInputText input = document.getElementById(id).As<HtmlInputText>();
+            input.value = value;
+        }
+
+        internal static void RegisterId(string id, UITKComponent component)
+        {
+            if (registry.ContainsKey(id)) registry[id] = component;
+            else registry.Add(id, component);
         }
     }
 }

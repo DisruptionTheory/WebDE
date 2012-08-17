@@ -61,6 +61,8 @@
     <Compile Include="ImageBox.cs" />
     <Compile Include="TextBox.cs" />
     <Compile Include="UITKComponent.cs" />
+    <Compile Include="UITKEvent.cs" />
+    <Compile Include="UITKKeyedComponent.cs" />
     <Compile Include="UITKMarkup.cs" />
     <Compile Include="Surface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

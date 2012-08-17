@@ -1,16 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using SharpKit.JavaScript;
+using SharpKit.Html4;
+using SharpKit.jQuery;
 
 namespace UITK
 {
-    public class TextBox : UITKComponent
+    [JsType(JsMode.Clr, Filename = "scripts/UITK.js")]
+    public class TextBox : UITKKeyedComponent
     {
+
+        /// <summary>
+        /// The text in the text field.
+        /// </summary>
+        public string Text
+        {
+            get
+            {
+                return currentText;
+            }
+            set
+            {
+                currentText = value;
+                Validate();
+            }
+        }
+        private string currentText = string.Empty;
+
+        public TextBox()
+        {
+            Height = 30;
+            Width = 150;
+            KeyUp += new KeyUpEventHandler(keyUp);
+        }
+
+        private void keyUp(UITKComponent sender, UITKKeyboardEventArguments e)
+        {
+            string oldText = currentText;
+            currentText = Surface.GetValue(Id);
+            if (oldText != currentText) TextChanged(this);
+        }
 
         public override void RecreateHTML()
         {
-            throw new NotImplementedException();
+            string markup = "<input type='text' ";
+            markup += "id='" + Id + "' ";
+            markup += "value='" + currentText + "' ";
+            markup += "/>";
+            Markup.SetMarkup(markup);
+
+            Styles.SetRule("left", Position.X);
+            Styles.SetRule("top", Position.Y);
+            Styles.SetHeight(Height);
+            Styles.SetWidth(Width);
         }
+
+        public event TextChangedEventHandler TextChanged;
     }
 }
