@@ -13,6 +13,12 @@ namespace UITK
         public UITKComponent()
         {
             Surface.RegisterId(Id, this);
+            Position = new UITKPosition(0, 0, this);
+            Styles = new UITKStyles(this);
+            Markup = new UITKMarkup("", this);
+            Id = Surface.GenerateID();
+            Height = 0;
+            Width = 0;
         }
         /// <summary>
         /// Forces a redraw and refresh on the component.
@@ -33,69 +39,61 @@ namespace UITK
         /// </summary>
         public int Height
         {
-            get { return internalHeight; }
-            internal set { internalHeight = value; }
+            get;
+            internal set;
         }
-        private int internalHeight;
 
         /// <summary>
         /// The image box width.
         /// </summary>
         public int Width
         {
-            get { return internalWidth; }
-            internal set { internalWidth = value; }
+            get;
+            internal set;
         }
-        private int internalWidth;
 
         /// <summary>
         /// THe position of the Imagebox.
         /// </summary>
         public UITKPosition Position
         {
-            get { return internalPosition; }
-            internal set { internalPosition = value; }
+            get;
+            internal set;
         }
-        private UITKPosition internalPosition = new UITKPosition(0, 0);
 
         /// <summary>
         /// The css rules associated with the ImageBox.
         /// </summary>
         public UITKStyles Styles
         {
-            get { return internalStyles; }
-            internal set { internalStyles = value; }
+            get;
+            internal set;
         }
-        private UITKStyles internalStyles = new UITKStyles();
 
         /// <summary>
         /// The HTML markup generated for the ImageBox.
         /// </summary>
         public UITKMarkup Markup
         {
-            get { return internalMarkup; }
-            internal set { internalMarkup = value; }
+            get;
+            internal set;
         }
-        private UITKMarkup internalMarkup = new UITKMarkup("");
 
         /// <summary>
         /// The DOM id of the component.
         /// </summary>
         public string Id
         {
-            get 
-            {
-                if (internalId != string.Empty) return internalId;
-                internalId = Surface.GenerateID();
-                return internalId;
-            }
+            get;
+            private set;
         }
-        private string internalId = string.Empty;
 
         internal void Redraw()
         {
             Surface.Redraw(this);
         }
+
+        
 
         #region Events
         public event ClickEventHandler Click;

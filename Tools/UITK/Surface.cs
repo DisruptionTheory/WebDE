@@ -49,10 +49,16 @@ namespace UITK
             initialized = true;
 
             //capture events
+            window.onresize += resizeHandler;
             surface.onclick += clickHandler;
             surface.onmousemove += mouseHoverHandler;
             surface.onkeydown += keyDownHandler;
             surface.onkeyup += keyUpHandler;
+        }
+
+        internal static void resizeHandler(HtmlDomEventArgs e)
+        {
+            Validate();
         }
 
         internal static void clickHandler(HtmlDomEventArgs e)
@@ -128,11 +134,10 @@ namespace UITK
         /// <param name="component">The component to add to the surface.</param>
         /// <param name="x">The x coordinate.</param>
         /// <param name="y">The y coordinate.</param>
-        public static void AddComponent(UITKComponent component, UITKPosition position)
+        public static void AddComponent(UITKComponent component)
         {
             if (!initialized) Initialize();
             children.Add(component, component);
-            component.Position = position;
             HtmlElement element = document.createElement("div");
             element.id = component.Id;
             surface.appendChild(element);

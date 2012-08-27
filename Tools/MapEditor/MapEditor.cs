@@ -18,10 +18,11 @@ namespace MapEditor
         public static void Initialize()
         {
             ImageBox box = new ImageBox(100, 200, "http://www.w3schools.com/images/compatible_chrome.gif");
+            box.Position.AlignCenterHorizontal();
+            box.Position.AlignCenterVertical();
             TextBox tbox = new TextBox();
-            tbox.Text = "Hello";
-            Surface.AddComponent(tbox, new UITKPosition(400, 100));
-            Surface.AddComponent(box, new UITKPosition(300, 300));
+            Surface.AddComponent(tbox);
+            Surface.AddComponent(box);
 
             
             

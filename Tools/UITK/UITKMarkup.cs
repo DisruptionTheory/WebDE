@@ -9,8 +9,14 @@ namespace UITK
     [JsType(JsMode.Clr, Filename = "scripts/UITK.js")]
     public class UITKMarkup
     {
+        internal UITKComponent Owner
+        {
+            get;
+            private set;
+        }
+
         private string markup = string.Empty;
-        internal UITKMarkup(string html) { markup = html;  }
+        internal UITKMarkup(string html, UITKComponent owner) { markup = html; Owner = owner; }
 
         public string GetMarkup()
         {

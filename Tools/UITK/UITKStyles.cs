@@ -9,12 +9,19 @@ namespace UITK
     [JsType(JsMode.Clr, Filename = "scripts/UITK.js")]
     public class UITKStyles
     {
+        internal UITKComponent Owner
+        {
+            get;
+            private set;
+        }
+
         private Dictionary<string, string> styles = new Dictionary<string, string>();
-        internal UITKStyles() 
+        internal UITKStyles(UITKComponent owner) 
         {
             styles.Add("position", "absolute");
             styles.Add("height", "50px");
             styles.Add("width", "50px");
+            Owner = owner;
         }
 
         /// <summary>
