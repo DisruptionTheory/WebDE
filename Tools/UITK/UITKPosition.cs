@@ -17,8 +17,8 @@ namespace UITK
 
         public int X
         {
-            get {if(AlignCenterHorizontal)return
-            internal set { internalx = value; }
+            get;// {if(AlignCenterHorizontal)return
+            internal set;// { internalx = value; }
         }
         private int internalx;
 
@@ -29,25 +29,13 @@ namespace UITK
         }
         private int internaly;
 
-        public bool AlignCenterVertical
-        {
-            get;
-            set;
-        }
-
-        public bool AlignCenterHorizontal
-        {
-            get;
-            set;
-        }
-
         public UITKPosition(int x, int y, UITKComponent owner)
         {
             X = x;
             Y = y;
             Owner = owner;
-            AlignCenterHorizontal = false;
-            AlignCenterVertical = false;
+            //AlignCenterHorizontal = false;
+            //AlignCenterVertical = false;
         }
 
         private void AlignCenterHorizontal()
