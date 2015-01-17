@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using SharpKit.JavaScript;
-using SharpKit.Html4;
+using SharpKit.Html;
 using SharpKit.jQuery;
 
 namespace UITK
 {
     [JsType(JsMode.Clr, Filename = "scripts/UITK.js")]
-    public abstract class UITKComponent : jQueryContext
+    public abstract class UITKComponent
     {
 
         public UITKComponent()
@@ -99,14 +100,14 @@ namespace UITK
         public event ClickEventHandler Click;
         public event MouseHoverEventHandler MouseHover;
 
-        internal void FireClicked(HtmlDomEventArgs args)
+        internal void FireClicked(Event args)
         {
-            if(Click != null) Click(this, new UITKMouseEventArguments(this, args.pageX, args.pageY, args.ctrlKey, args.shiftKey, args.altKey, args.button));
+            if(Click != null) Click(this, new UITKMouseEventArguments(this, args.pageX, args.pageY, args.ctrlKey, args.shiftKey, args.altKey, args.keyCode));
         }
 
-        internal void FireMouseHover(HtmlDomEventArgs args)
+        internal void FireMouseHover(Event args)
         {
-            if (MouseHover != null) MouseHover(this, new UITKMouseEventArguments(this, args.pageX, args.pageY, args.ctrlKey, args.shiftKey, args.altKey, args.button));
+            if (MouseHover != null) MouseHover(this, new UITKMouseEventArguments(this, args.pageX, args.pageY, args.ctrlKey, args.shiftKey, args.altKey, args.keyCode));
         }
         #endregion
     }

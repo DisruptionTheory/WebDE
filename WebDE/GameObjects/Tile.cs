@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using SharpKit.JavaScript;
 
 using WebDE.Animation;
+using WebDE.Rendering;
 
 namespace WebDE.GameObjects
 {
@@ -34,19 +35,6 @@ namespace WebDE.GameObjects
             return newTile;
         }
 
-        public static Tile oldGetByName(string tileName)
-        {
-            foreach (Tile tile in Tile.loadedTiles)
-            {
-                if (tile.GetName() == tileName)
-                {
-                    return Helpah.Clone(tile).As<Tile>();
-                }
-            }
-
-            return null;
-        }
-
         private Color lightLevel = null;
         private bool isWalkable = false;
         private bool isBuildable = false;
@@ -56,6 +44,7 @@ namespace WebDE.GameObjects
         {
             this.isWalkable = canWalk;
             this.isBuildable = canBuild;
+            this.lightLevel = Stage.CurrentStage.AmbientLightLevel;
 
             Tile.loadedTiles.Add(this);
         }
@@ -63,6 +52,16 @@ namespace WebDE.GameObjects
         public Color GetLightLevel()
         {
             return this.lightLevel;
+            /*
+            if (View.GetMainView().GetLightingStyle() != LightingStyle.None)
+            {
+                return this.lightLevel;
+            }
+            else
+            {
+                return Stage.CurrentStage.GetBackgroundColor();
+            }
+            */
         }
 
         public void SetLightLevel(Color newLevel)
@@ -176,6 +175,36 @@ namespace WebDE.GameObjects
         public void SetWalkable(bool walkable)
         {
             this.isWalkable = walkable;
+        }
+
+        public override bool Visible(View view)
+        {
+            //if there are any entities that completely obscure the tile, return false
+
+            // If it's not IN the view, return false
+            if (this.GetPosition().x > view.GetSize().width / Stage.CurrentStage.GetTileSize().width ||
+                this.GetPosition().y > view.GetSize().height / Stage.CurrentStage.GetTileSize().height)
+            {
+                return false;
+            }
+
+            //if the tile is colored differently than the stage's background color
+            if (Stage.CurrentStage.AmbientLightLevel.Match(this.GetLightLevel()) == false)
+            {
+                return true;
+            }
+
+            if (this.GetSprite() != null)
+            {
+                return true;
+            }
+
+            if (this.GetParentStage().GetBackgroundSprite(view) != null)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

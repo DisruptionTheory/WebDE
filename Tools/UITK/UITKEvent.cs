@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using SharpKit.JavaScript;
-using SharpKit.Html4;
+using SharpKit.Html;
 using SharpKit.jQuery;
 
 

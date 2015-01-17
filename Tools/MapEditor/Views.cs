@@ -1,12 +1,12 @@
 ﻿using SharpKit.JavaScript;
-using SharpKit.Html4;
+using SharpKit.Html;
 using SharpKit.jQuery;
 using WebDE.Net;
 
 namespace MapEditor
 {
     [JsType(JsMode.Clr, Filename = "scripts/MapEditor.js")]
-    public class Views : jQueryContextBase
+    public class Views
     {
         public static string Login
         {
@@ -24,7 +24,7 @@ namespace MapEditor
         /// <param name="view">The string name of the view to load.</param>
         public static void LoadView(string view)
         {
-            J("#" + view).css("display", "block");
+            jQueryContext.J("#" + view).css("display", "block");
         }
     }
 }

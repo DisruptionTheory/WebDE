@@ -6,6 +6,7 @@ using SharpKit.JavaScript;
 using WebDE;
 using WebDE.GameObjects;
 using WebDE.Rendering;
+using WebDE.Misc;
 
 namespace WebDE.AI
 {
@@ -24,6 +25,8 @@ namespace WebDE.AI
         /// the index of the node the AI is moving toward in its current movement path
         /// </summary>
         private int currentNode = 0;
+        // Where the entity expects to wind up if it keeps moving along as normal.
+        private Point expectedLocation = new Point(0, 0);
 
         //I'm not sure that I want this varaible. There's probably a better way to do this
         /// <summary>
@@ -31,6 +34,14 @@ namespace WebDE.AI
         /// </summary>
         private Vector oldSpeed;
         private Debug aiDebug;
+        private Point destination;
+
+        public Point Destination { 
+            get { return destination; }
+            set { currentNode = 0; destination = value; } }
+
+        // The function that will be executed when the entity reaches the end of the movement path.
+        public Action<ArtificialIntelligence> DestinationArrival = null;
 
         /// <summary>
         /// Get the MovementPath object attached to this ArtificialIntelligence.
@@ -86,31 +97,34 @@ namespace WebDE.AI
             //fire should definitely be done before movement
             this.ThinkAboutDoingViolence();
 
-            ThinkAboutWhereToGo();
+            this.ThinkAboutWhereToGo();
         }
 
         private Action<ArtificialIntelligence> alternateMovementProcess;
 
         private void ThinkAboutWhereToGo()
         {
+            // Implement tracking of expected location, and handling of displacement at top of function (here) if not at expected location.
+
+            // If something has slated this entity to move differently, do that instead.
             if (this.alternateMovementProcess != null)
             {
                 this.alternateMovementProcess.Invoke(this);
                 return;
             }
 
-            //default to not moving
+            // Default to not moving
             body.SetDirection(MovementDirection.None);
 
-            //if we have previously temporarily altered the speed, restore it
+            // If we have previously temporarily altered the speed, restore it
             if (oldSpeed != null)
             {
                 this.body.SetSpeed(oldSpeed);
                 oldSpeed = null;
             }
 
-            //pick a direction (if any) to move
-            //if there is a current movement path, move toward the current node
+            // Pick a direction (if any) to move
+            // If there is a current movement path, move toward the current node
             if (this.currentPath != null)
             {
                 if (this.currentPath.GetNodeCount() == 0)
@@ -120,7 +134,6 @@ namespace WebDE.AI
 
                 //the current node that we are targeted at / walking toward
                 Point curNode = this.currentPath.GetNode(this.currentNode);
-                //blegh. what.
                 //Point curNode = this.currentPath.GetNextNode();
 
                 //there are no more nodes, the entity has reached the end of the path
@@ -130,17 +143,23 @@ namespace WebDE.AI
                     this.currentPath = null;
                     //stop the entity
                     this.body.SetSpeed(new Vector(0, 0));
+
+                    // If we need to do something at the completion of the path, do it.
+                    if (this.DestinationArrival != null)
+                    {
+                        this.DestinationArrival.Invoke(this);
+                    }
                 }
                 else
                 {
-                    //the difference between the current horizontal position and the target horizontal position
+                    // The difference between the current horizontal position and the target horizontal position
                     double hOffset = body.GetPosition().x - curNode.x;
-                    //the difference between the current vertical position and the target vertical position
+                    // The difference between the current vertical position and the target vertical position
                     double vOffset = body.GetPosition().y - curNode.y;
 
                     //I wonder if these should be rounded?
-                    hOffset = Helpah.Round(hOffset);
-                    vOffset = Helpah.Round(vOffset);
+                    //hOffset = Helpah.Round(hOffset);
+                    //vOffset = Helpah.Round(vOffset);
 
 
                     //if there's more horizontal distance than vertical, we want to go that way
@@ -169,7 +188,7 @@ namespace WebDE.AI
                     }
 
                     //if the horizontal distance is less than or equal to the current speed divided by the acceleration, begin decelerating
-                    if (hOffset != 0 && Math.Abs(hOffset) <= body.GetSpeed().x / body.GetAcceleration())
+                    if (hOffset != 0 && Math.Abs(hOffset) <= body.GetSpeed().X / body.GetAcceleration())
                     {
                         body.SetDirection(MovementDirection.None);
 
@@ -178,12 +197,12 @@ namespace WebDE.AI
                         {
                             //this.oldSpeed = body.GetSpeed();
                             //this.oldSpeed.x = 0;
-                            body.SetSpeed(new Vector(hOffset, body.GetSpeed().y));
+                            body.SetSpeed(new Vector(hOffset, body.GetSpeed().Y));
                         }
                     }
 
-                    //if the horizontal distance is less than or equal to the current speed divided by the acceleration, begin decelerating
-                    if (vOffset != 0 && Math.Abs(vOffset) <= body.GetSpeed().y / body.GetAcceleration())
+                    //if the vertical distance is less than or equal to the current speed divided by the acceleration, begin decelerating
+                    if (vOffset != 0 && Math.Abs(vOffset) <= body.GetSpeed().Y / body.GetAcceleration())
                     {
                         //Debug.log("Setting speed manually (voffset).");
                         body.SetDirection(MovementDirection.None);
@@ -192,12 +211,13 @@ namespace WebDE.AI
                         if (Math.Abs(vOffset) < body.GetAcceleration())
                         {
                             //this.oldSpeed = body.GetSpeed();
-                            body.SetSpeed(new Vector(body.GetSpeed().x, vOffset));
+                            body.SetSpeed(new Vector(body.GetSpeed().X, vOffset));
                         }
                     }
 
                     //the entity is at the same position as the node, time to target the next one
-                    if (Helpah.Round(hOffset) == 0 && Helpah.Round(vOffset) == 0)
+                    //if (Helpah.Round(hOffset, 2) == 0 && Helpah.Round(vOffset, 2) == 0)
+                    if(hOffset == 0 && vOffset == 0)
                     {
                         body.SetDirection(MovementDirection.None);
                         this.currentNode++;
@@ -227,17 +247,18 @@ namespace WebDE.AI
                     if (theWeapon.GetTarget() != null &&
                         this.body.GetPosition().Distance(theWeapon.GetTarget().GetPosition()) < theWeapon.GetRange())
                     {
-                        theWeapon.Fire();
+                        theWeapon.FireAtTarget();
                     }
                     else
                     {
                         //Debug.Watch("Targetless weapon", this.GetBody().GetName() + ", " + listoguns.Count + ", " + theWeapon.GetRange());
 
                         //find a new target
-                        //foreach (GameEntity ent in Stage.CurrentStage.GetVisibleEntities(View.GetMainView()))
                         foreach (GameEntity ent in Stage.CurrentStage.GetLivingEntities())
                         {
-                            if (ent == this.GetBody())
+                            // Skip itself and anything on the same team.
+                            if (ent == this.GetBody()
+                                || ent.Faction == this.GetBody().Faction)
                             {
                                 continue;
                             }
@@ -246,41 +267,19 @@ namespace WebDE.AI
                             if (ent.GetPosition().Distance(this.body.GetPosition()) < theWeapon.GetRange())
                             {
                                 theWeapon.SetTarget(ent);
-                                theWeapon.Fire();
+                                theWeapon.FireAtTarget();
                                 break;
                             }
                         }
                     }
                     i++;
                 }
-
-                /*
-                foreach(Weapon theWeapon in listoguns)
-                {
-                    //if it has a target that is still in range
-                    if (theWeapon.GetTarget() != null &&
-                        this.body.GetPosition().Distance(theWeapon.GetTarget().GetPosition()) < theWeapon.GetRange())
-                    {
-                        theWeapon.Fire();
-                    }
-                    else
-                    {
-                        //find a new target
-                        foreach (Entity ent in Stage.CurrentStage.GetVisibleEntities(View.GetMainView()))
-                        {
-                            if (ent.GetPosition().Distance(this.body.GetPosition()) < theWeapon.GetRange())
-                            {
-                                theWeapon.SetTarget(ent);
-                                theWeapon.Fire();
-                                break;
-                            }
-                        }
-                    }
-                }
-                */
             }   
             catch(Exception ex)
             {
+                Debug.log("There was an issue with an AI thinking about doing violence. Issue follows.");
+                Debug.log(ex.ToString());
+                //Debug.log(ex.Message);
             }
         }
 
@@ -301,6 +300,17 @@ namespace WebDE.AI
         public void Patrol(Point destination)
         {
             this.SetMovementPath(MovementPath.Patrol(this.GetBody().GetPosition(), destination));
+        }
+
+        public ArtificialIntelligence Clone()
+        {
+            //be sure to expand this to handle other properties as AI grows...
+
+            ArtificialIntelligence newAI = new ArtificialIntelligence();
+            newAI.SetMovementPath(this.GetMovementPath());
+            newAI.DestinationArrival = this.DestinationArrival;
+
+            return newAI;
         }
     }
 }

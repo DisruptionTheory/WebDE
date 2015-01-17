@@ -2,7 +2,7 @@
 
 using SharpKit.JavaScript;
 
-using WebDE.Timekeeper;
+using WebDE.Clock;
 
 namespace WebDE.Rendering
 {
@@ -15,7 +15,7 @@ namespace WebDE.Rendering
         {
             Surface.renderer = renderer;
 
-            Clock.AddRender(Surface.renderer.Render);
+            Game.Clock.AddRender(Surface.renderer.Render);
         }
     }
 }

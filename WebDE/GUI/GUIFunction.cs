@@ -53,6 +53,11 @@ namespace WebDE.GUI
         /// <param name="defaultButtonName"></param>
         public GUIFunction(string name, InputDevice bindingDevice, string defaultButtonName, ButtonCommand buttonCommand)
         {
+            if (GUIFunction.GetByName(name) != null)
+            {
+                Debug.log("Warning! GUI Function with this name already exists! You really need a factory!");
+            }
+
             this.eventName = name;
             bindingDevice.Bind(defaultButtonName, 0, buttonCommand, this);
 
@@ -85,6 +90,7 @@ namespace WebDE.GUI
         }
     }
 
+    [JsType(JsMode.Clr, Filename = "../scripts/GUI.js")]
     public enum ButtonCommand
     {
         Down,

@@ -13,28 +13,33 @@ namespace WebDE.Animation
     [JsType(JsMode.Clr, Filename = "../scripts/Animation.js")]
     public partial class Animation
     {
+        public int animationCount = 0;
+
         private List<AnimationFrame> frames = new List<AnimationFrame>();
         private string name = "New Animation";
         //the current frame number (out of how many numbers to display the current animation frame)
         private int currentFrameNum = 0;
         private AnimationFrame currentFrame = null;
 
-        public Animation()
+        public Animation(string animName = "Idle")
         {
+            name = animName;
         }
 
         public string Animate()
         {
+            animationCount++;
+
             //this could be the first time this gets called, so make sure there's an animation loaded
             if (this.currentFrame == null)
             {
                 this.currentFrameNum = 0;
                 this.currentFrame = this.frames[0];
-                return this.currentFrame.getId();
+                return this.currentFrame.Id;
             }
 
             //if the animation frame is done being displayed, move on to the next frame in the animation
-            if (currentFrameNum >= this.currentFrame.getDisplayLength())
+            if (currentFrameNum >= this.currentFrame.DisplayLength)
             {
                 this.nextFrame();
             }
@@ -45,7 +50,7 @@ namespace WebDE.Animation
             }
 
             //return the id of the current frame being displayed
-            return this.currentFrame.getId();
+            return this.currentFrame.Id;
         }
 
         public string GetName()
@@ -88,6 +93,7 @@ namespace WebDE.Animation
                 {
                     this.currentFrame = this.frames[i + 1];
                     foundFrame = true;
+                    break;
                 }
             }
 

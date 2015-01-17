@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using SharpKit.JavaScript;
-using SharpKit.Html4;
+using SharpKit.Html;
 using SharpKit.jQuery;
 
 namespace UITK
@@ -15,12 +15,12 @@ namespace UITK
         public event KeyUpEventHandler KeyUp;
         public event KeyDownEventHandler KeyDown;
 
-        internal void FireKeyUp(HtmlDomEventArgs e)
+        internal void FireKeyUp(Event e)
         {
             if(KeyUp != null) KeyUp(this, new UITKKeyboardEventArguments(this, e.keyCode, e.ctrlKey, e.shiftKey, e.altKey));
         }
 
-        internal void FireKeyDown(HtmlDomEventArgs e)
+        internal void FireKeyDown(Event e)
         {
             if (KeyDown != null) KeyDown(this, new UITKKeyboardEventArguments(this, e.keyCode, e.ctrlKey, e.shiftKey, e.altKey));
         }

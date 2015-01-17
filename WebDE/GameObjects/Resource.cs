@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using SharpKit.JavaScript;
 
+using WebDE.Animation;
+
 namespace WebDE.GameObjects
 {
     //used to subdivide a stage for easier calculations
@@ -16,7 +18,7 @@ namespace WebDE.GameObjects
         {
             foreach (Resource res in gameResources)
             {
-                if (res.name == resourceName)
+                if (res.Name == resourceName)
                 {
                     return res.id;
                 }
@@ -29,7 +31,7 @@ namespace WebDE.GameObjects
         {
             foreach (Resource res in gameResources)
             {
-                if (res.name == resourceName)
+                if (res.Name == resourceName)
                 {
                     return res;
                 }
@@ -38,17 +40,19 @@ namespace WebDE.GameObjects
         }
 
         private int id;
-        private string name;
+        public string Name;
         private double amount;
+        public Sprite Icon;
         //tax amount(s) (and to who?)
         //inflation amount(s)
-        //icon
 
         public Resource(string resourceName)
         {
             this.id = gameResources.Count + 1;
-            this.name = resourceName;
+            this.Name = resourceName;
             this.amount = 0;
+
+            Resource.gameResources.Add(this);
         }
 
         public void SetName(string newName)

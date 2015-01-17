@@ -10,33 +10,61 @@ namespace WebDE.GameObjects
     [JsType(JsMode.Clr, Filename = "../scripts/Objects.js")]
     public class LivingGameEntity : GameEntity
     {
-        //private static List<LivingGameEntity> cachedEntities = new List<LivingGameEntity>();
+        private static List<LivingGameEntity> cachedEntities = new List<LivingGameEntity>();
 
-        public static LivingGameEntity CloneByName(string lentName)
+        public static LivingGameEntity GetById(string id)
         {
-            foreach (GameEntity gent in GameEntity.GetCachedEntities())
+            foreach (LivingGameEntity lent in LivingGameEntity.cachedEntities)
             {
-                if (gent.GetName() == lentName)
+                if (lent.GetId() == id)
                 {
-                    return gent.As<LivingGameEntity>();
+                    return lent;
                 }
             }
 
             return null;
         }
 
-        private int health;
+        public static void CacheLivingEntity(LivingGameEntity lent)
+        {
+            if (!LivingGameEntity.cachedEntities.Contains(lent))
+            {
+                LivingGameEntity.cachedEntities.Add(lent);
+            }
+        }
+
+        public static LivingGameEntity CloneByName(string lentName)
+        {
+            //foreach (GameEntity gent in GameEntity.GetCachedEntities())
+            foreach (LivingGameEntity lent in LivingGameEntity.cachedEntities)
+            {
+                if (lent.GetName() == lentName)
+                {
+                    LivingGameEntity newLent = ObjectCloner.CloneObject(lent);
+                    newLent.ValidateID();
+                    return newLent;
+                }
+            }
+
+            return null;
+        }
+
+        public double ViewRadius { get; set; }
+
+        private int health = 100;
         private ArtificialIntelligence ai;
         private List<Weapon> weapons;// = new List<Weapon>();
 
-        public LivingGameEntity(string entName, int health)
-            : base(entName)
+        public LivingGameEntity(string entName, string entId = "")
+            : base(entName, entId)
         {
-            this.health = health;
-
             //give it a / the default AI...
             this.ai = new ArtificialIntelligence();
             this.weapons = new List<Weapon>();
+            this.ViewRadius = 5;
+
+            //LivingGameEntity.cachedEntities.Add(this);
+            CacheLivingEntity(this);
         }
 
         public ArtificialIntelligence GetAI()
@@ -46,11 +74,15 @@ namespace WebDE.GameObjects
 
         public void SetAI(ArtificialIntelligence newAi)
         {
-            //make a copy of the AI and assign it to this guy
-            //ObjectHelper<ArtificialIntelligence> aiHelper = new ObjectHelper<ArtificialIntelligence>();
-            //this.ai = aiHelper.CloneObject(newAi);
-            this.ai = Helpah.Clone(newAi).As<ArtificialIntelligence>();
-            this.ai.SetBody(this);
+            if (newAi != null)
+            {
+                this.ai = Helpah.Clone(newAi).As<ArtificialIntelligence>();
+                this.ai.SetBody(this);
+            }
+            else
+            {
+                this.ai = null;
+            }
         }
 
         public void Think()
@@ -62,6 +94,22 @@ namespace WebDE.GameObjects
                 //apparently pass-by-ref didn't take too well...
                 ai.SetBody(this);
                 ai.Think();
+            }
+        }
+
+        public int GetHealth()
+        {
+            return this.health;
+        }
+
+        public void SetHealth(int newHealth)
+        {
+            this.health = newHealth;
+            //Debug.log(this.GetName() + " health is now " + newHealth);
+
+            if (this.health <= 0)
+            {
+                this.Kill();
             }
         }
 
@@ -82,12 +130,14 @@ namespace WebDE.GameObjects
             this.Destroy();
         }
 
-        public void Destroy()
+        public new void Destroy()
         {
             while (this.weapons.Count > 0)
             {
                 this.weapons[0].Destroy();
+                this.weapons.RemoveAt(0);
             }
+            LivingGameEntity.cachedEntities.Remove(this);
             base.Destroy();
         }
 
@@ -97,6 +147,7 @@ namespace WebDE.GameObjects
             {
                 //Debug.log("Adding a weapon with projectile " + weaponToAdd.GetProjectile().GetName() + " to entitiy " + this.GetName());
                 weaponToAdd = Helpah.Clone(weaponToAdd).As<Weapon>();
+                weaponToAdd.SetOwner(this);
                 this.weapons.Add(weaponToAdd);
             }
 
@@ -114,21 +165,6 @@ namespace WebDE.GameObjects
         public List<Weapon> GetWeapons()
         {
             return this.weapons;
-        }
-
-        public void SetHealth(int newHealth)
-        {
-            this.health = newHealth;
-
-            if (this.health <= 0)
-            {
-                this.Kill();
-            }
-        }
-
-        public int GetHealth()
-        {
-            return this.health;
         }
     }
 }

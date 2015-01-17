@@ -16,6 +16,29 @@ namespace WebDE.Animation
         private Animation currentAnimation;
         private Animation defaultAnimation;
         private string currentRenderFrame = "";
+        private bool scaleToSize = false;
+
+        public string Name
+        { 
+            get { return this.name; }
+            set { this.name = value; }
+        }
+        public Dimension Size
+        {
+            get { return this.size; }
+            set { this.size = value; }
+        }
+        public string CurrentRenderFrame
+        {
+            get { return this.currentRenderFrame; }
+            set { this.currentRenderFrame = value; }
+        }
+        public bool ScaleToSize
+        {
+            get { return this.scaleToSize; }
+            set { this.scaleToSize = value; }
+        }
+
 
         public Sprite(string spriteName)
         {
@@ -23,22 +46,24 @@ namespace WebDE.Animation
             Sprite.loadedSprites.Add(this);
         }
 
-        public string GetName()
+        public Sprite(string spriteName, string fileName)
         {
-            return this.name;
-        }
+            this.name = spriteName;
+            AnimationFrame animFrame = new AnimationFrame(fileName, 0, 0);
+            Animation anim = new Animation();
+            anim.SetName("Idle");
+            anim.AddFrame(animFrame);
+            this.AddAnimation(anim);
 
-        public void SetName(string newName)
-        {
-            this.name = newName;
+            Sprite.loadedSprites.Add(this);
         }
 
         //called by the game clock, preforms the mutations necessary to advance the current animation
         public string Animate()
         {
-            if (this.getCurrentAnimation() != null)
+            if (this.GetCurrentAnimation() != null)
             {
-                return this.getCurrentAnimation().Animate();
+                return this.GetCurrentAnimation().Animate();
             }
             else
             {
@@ -49,7 +74,7 @@ namespace WebDE.Animation
         //attempts to play an animation on this sprite once
         //returns true if the sprite can play the animation
         //returns false if the sprite cannot play the animation
-        public bool playAnimation(string animationName)
+        public bool PlayAnimation(string animationName)
         {
             foreach(Animation anim in this.animations) {
                 if (anim.GetName() == animationName)
@@ -65,7 +90,7 @@ namespace WebDE.Animation
         //sets the current animation to the provided one
         //returns true if the sprite has that animation
         //false if it doesn't
-        public bool setAnimation(string animationName)
+        public bool SetAnimation(string animationName)
         {
             foreach (Animation anim in this.animations)
             {
@@ -79,7 +104,7 @@ namespace WebDE.Animation
             return false;
         }
 
-        public void addAnimation(Animation animToAdd)
+        public void AddAnimation(Animation animToAdd)
         {
             //Animation mayorMcCheese = (Animation)Helpah.Clone(animToAdd);
             //Object anmany = Helpah.Clone(animToAdd);
@@ -90,7 +115,7 @@ namespace WebDE.Animation
             this.animations.Add(animToAdd);
         }
 
-        public Animation getCurrentAnimation()
+        public Animation GetCurrentAnimation()
         {
             if (this.currentAnimation == null)
             {
@@ -105,25 +130,9 @@ namespace WebDE.Animation
             return this.currentAnimation;
         }
 
-        public Dimension GetSize()
+        public void SetSize(int width, int height)
         {
-            return this.size;
-        }
-
-        public void setSize(int newWidth, int newHeight)
-        {
-            this.size.width = newWidth;
-            this.size.height = newHeight;
-        }
-
-        public string GetCurrentRenderFrame()
-        {
-            return this.currentRenderFrame;
-        }
-
-        public void SetCurrentRenderFrame(string newId)
-        {
-            this.currentRenderFrame = newId;
+            this.Size = new Dimension(width, height);
         }
     }
 }

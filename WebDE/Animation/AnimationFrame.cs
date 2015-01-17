@@ -18,7 +18,7 @@ namespace WebDE.Animation
         private int imageY = 0;
 
         //how many frames to display this frame for
-        private int displayLength = 25;  //default to 100
+        private int displayLength = 5;  //default to 5
 
         //constructor
         public AnimationFrame(string imageLocation, int offsetX, int offsetY)
@@ -32,32 +32,18 @@ namespace WebDE.Animation
             animFrames.Add(this);
         }
 
-        public string getId()
-        {
-            return this.id;
-        }
-
-        public int getDisplayLength()
-        {
-            return this.displayLength;
-        }
-
-        public void setDisplayLength(int newLength)
-        {
-            this.displayLength = newLength;
-        }
-
-        public string getImage()
-        {
-            return AnimImage;
-        }
-
-        public Point getPosition()
-        {
-            return new Point(this.imageX, this.imageY);
+        public string Id { get { return this.id; }}
+        public string Image { get { return this.AnimImage; } }
+        public Point Position { get { return new Point(this.imageX, this.imageY); } }
+        //public bool Cached { get; private set; } 
+        public bool Cached { get; set; } 
+        public int DisplayLength
+        { 
+            get { return this.displayLength; } 
+            set { this.displayLength = value; }
         }
         
-        public void markAsCached()
+        public void Cache()
         {
             if (AnimationFrame.cachedFrames.Contains(this) == false)
             {

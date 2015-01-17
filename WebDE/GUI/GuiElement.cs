@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using SharpKit.JavaScript;
 
 using WebDE.Animation;
-using WebDE.Timekeeper;
+using WebDE.Clock;
 using WebDE.GameObjects;
 
 namespace WebDE.GUI
@@ -16,6 +16,7 @@ namespace WebDE.GUI
 
         private string id;
         private string text;
+        private short fontSize = 14;
         private Sprite sprIcon;
         private Point position = new Point(0, 0);
         private Dimension size = new Dimension(0, 0);
@@ -27,11 +28,19 @@ namespace WebDE.GUI
         private List<string> styleClasses = new List<string>();
         private Dictionary<string, string> customStyles = new Dictionary<string, string>();
 
+        public Color Color = Color.Black;
+
+        public short FontSize { 
+            get { return this.fontSize; } 
+            set { this.fontSize = value; }
+        }
+
         public GuiElement(GuiLayer owningLayer, string elementText)
         {
             GuiElement.lastid++;
             this.id = "GuiElement_" + GuiElement.lastid;
             this.parentLayer = owningLayer;
+            owningLayer.AddGUIElement(this);
             this.text = elementText;
         }
 
@@ -54,7 +63,7 @@ namespace WebDE.GUI
 
         public void DoGUIFunction(GUIFunction func)
         {
-            if (this.elementFunctions[func] != null)
+            if(this.elementFunctions.ContainsKey(func))
             {
                 //GuiEvent eventToTrigger = GuiEvent.FromClickData(this.parentLayer, this.GetPosition());
                 /*
@@ -194,7 +203,7 @@ namespace WebDE.GUI
             //if it has a sprite, return the size of the sprite
             if (this.sprIcon != null)
             {
-                return this.sprIcon.GetSize();
+                return this.sprIcon.Size;
             }
 
             //otherwise, return the size of the icon
@@ -203,7 +212,7 @@ namespace WebDE.GUI
 
         private void SetNeedsUpdate()
         {
-            Rendering.DOM_Renderer.GetRenderer().SetNeedsUpdate(this);
+            Game.Renderer.SetNeedsUpdate(this);
         }
 
         public void AddStyle(string styleToAdd)
@@ -229,13 +238,22 @@ namespace WebDE.GUI
 
         public string GetStyle(string styleName)
         {
-            return this.customStyles[styleName];
+            if (this.customStyles.ContainsKey(styleName))
+            {
+                return this.customStyles[styleName];
+            }
+            else return "";
         }
 
         public void SetStyle(string styleName, string styleValue)
         {
             this.customStyles[styleName] = styleValue;
             this.SetNeedsUpdate();
+        }
+
+        public void Destroy()
+        {
+            this.parentLayer.RemoveGUIElement(this);
         }
     }
 }

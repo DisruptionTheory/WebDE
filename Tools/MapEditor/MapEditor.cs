@@ -1,5 +1,5 @@
 ﻿using SharpKit.JavaScript;
-using SharpKit.Html4;
+using SharpKit.Html;
 using SharpKit.jQuery;
 using WebDE.Net;
 using UITK;
@@ -7,7 +7,7 @@ using UITK;
 namespace MapEditor
 {
     [JsType(JsMode.Clr, Filename = "scripts/MapEditor.js")]
-    public class MapEditor : jQueryContextBase
+    public class MapEditor
     {
         public static GameClient Server
         {

@@ -9,34 +9,50 @@ using SharpKit.JavaScript;
 
 using WebDE;
 using WebDE.GUI;
+using WebDE.GameObjects;
 
 namespace WebDE.InputManager
 {
     [JsType(JsMode.Clr, Filename = "../scripts/WebDE.Input.js")]
     public partial class InputDevice
     {
+
+        #region Static variables and methods
+
         public static InputDevice Mouse;
         public static InputDevice Keyboard;
 
         public static void InitializeDevices()
         {
-            InputDevice.Mouse = new InputDevice("mouse");
+            InputDevice.Mouse = new InputDevice("mouse", isCursor: true);
             InputDevice.Keyboard = new InputDevice("keyboard");
 
             InputDevice.Mouse.SetButtonName(1, "mouse0");
             //InputDevice.Mouse.SetButtonName(1, "mouse1");
 
+            // Set up basic values for mouse axes
+            // X
+            InputDevice.Mouse.SetAxisPosition(0, 0);
+            // Y
+            InputDevice.Mouse.SetAxisPosition(1, 0);
+
             //maybe use getkeycode or getkeychar javascript functions for the keyboard (for now)?
+            InputDevice.Keyboard.SetButtonName(32, "space");
+            InputDevice.Keyboard.SetButtonName(65, "a");
+            InputDevice.Keyboard.SetButtonName(68, "d");
+            InputDevice.Keyboard.SetButtonName(83, "s");
+            InputDevice.Keyboard.SetButtonName(87, "w");
             InputDevice.Keyboard.SetButtonName(187, "Plus");
             InputDevice.Keyboard.SetButtonName(107, "NumPlus");
         }
-        
+
         /*
         public static Point GetCursorPos()
         {
             return null;
         }
         */
+#endregion
 
         private string deviceName = "";
         //a list of all button names indexed by the button ids that the buttons are identified with
@@ -45,10 +61,20 @@ namespace WebDE.InputManager
         //private Dictionary<int, GUIFunction> buttonFunctions = new Dictionary<int, GUIFunction>();
         private Dictionary<int, Dictionary<ButtonCommand,GUIFunction>> buttonFunctions = new Dictionary<int, Dictionary<ButtonCommand,GUIFunction>>();
         private Dictionary<int, double> axisPositions = new Dictionary<int, double>();
+        
+        // Pointing device only: Edge scrolling
+        private bool edgeScrollingEnabled = true;
+        public bool EdgeScrollingEnabled { get { return this.edgeScrollingEnabled; } }
 
-        public InputDevice(string name)
+        /// <summary>
+        /// Whether or not the input device is a cursor.
+        /// </summary>
+        public readonly bool IsCursor = false;
+
+        public InputDevice(string name, bool isCursor = false)
         {
             this.deviceName = name;
+            this.IsCursor = isCursor;
         }
 
         public void SetButtonName(int buttonId, string buttonName)
@@ -71,7 +97,8 @@ namespace WebDE.InputManager
                 }
             }
 
-            return -1;
+            // This will call (manual) javascript that will (attempt to) convert the character into a keycode.
+            return Helpah.CharCodeFromChar(buttonName);
         }
 
         /// <summary>
@@ -87,7 +114,7 @@ namespace WebDE.InputManager
                 buttonId = this.GetButtonId(buttonName);
             }
 
-            if(this.buttonFunctions[buttonId] == null)
+            if(!this.buttonFunctions.ContainsKey(buttonId))
             {
                 this.buttonFunctions[buttonId] = new Dictionary<ButtonCommand,GUIFunction>();
             }
@@ -102,6 +129,7 @@ namespace WebDE.InputManager
 
         public void UnBind(string buttonName, int buttonId)
         {
+            Debug.log("Trying to unbind " + buttonName + " but its not implemented!");
         }
 
         /// <summary>
@@ -117,12 +145,17 @@ namespace WebDE.InputManager
                 buttonId = this.GetButtonId(buttonName);
             }
 
-            if(this.buttonFunctions[buttonId] == null)
+            if(!this.buttonFunctions.ContainsKey(buttonId))
             {
                 return null;
             }
 
-            return this.buttonFunctions[buttonId][buttonCommand];
+            if (this.buttonFunctions[buttonId].ContainsKey(buttonCommand))
+            {
+                return this.buttonFunctions[buttonId][buttonCommand];
+            }
+
+            return null;
         }
 
         public GUIFunction GetFunctionFromButton(string buttonName, int buttonId)
@@ -138,6 +171,35 @@ namespace WebDE.InputManager
         public void SetAxisPosition(int axis, double position)
         {
             this.axisPositions[axis] = position;
+        }
+
+        // When the mouse touches the edge of the screen, scroll.
+        // Only do this when the window is active / has focus ... 
+        public void EnableEdgeScrolling()
+        {
+            this.edgeScrollingEnabled = true;
+        }
+
+        public void DisableEdgeScrolling()
+        {
+            this.edgeScrollingEnabled = false;
+        }
+
+        public Point GetPosition()
+        {
+            Point returnPoint = null;
+
+            if (this.axisPositions.Count > 0)
+            {
+                returnPoint = new Point(this.axisPositions[0], 0);
+
+                if (this.axisPositions.Count > 1)
+                {
+                    returnPoint.y = this.axisPositions[1];
+                }
+            }
+
+            return returnPoint;
         }
     }
 }

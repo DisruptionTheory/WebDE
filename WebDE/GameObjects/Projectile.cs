@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using SharpKit.JavaScript;
 
 using WebDE.AI;
+using WebDE.Misc;
 
 namespace WebDE.GameObjects
 {
@@ -16,18 +17,30 @@ namespace WebDE.GameObjects
         private Point targetPoint;
         private DamageType damageType = DamageType.Physical;
         private GameEntity firingEntity;
+        private Vector projectileSpeedMultiplier = new Vector(1, 1);
 
-        public Projectile(string projectileName, GameEntity firingEntity, Point targetPoint)
-            : base(projectileName, 10)
+        public Projectile(string projectileName, GameEntity firingEnt, Point targetPoint)
+            : base(projectileName)
         {
             this.targetPoint = targetPoint;
-            this.firingEntity = firingEntity;
+            this.firingEntity = firingEnt;
             //target the target
             //this.SetAI(null);
             this.SetAI(new ArtificialIntelligence());
             //ArtificialIntelligence ai = new ArtificialIntelligence();
             //MovementPath newPath = new MovementPath(this.GetPosition(), 
             //ai.SetMovementPath(
+        }
+
+        public Projectile(string projectileName)
+            : base(projectileName)
+        {
+            this.SetAI(new ArtificialIntelligence());
+        }
+
+        public void SetFiringEntity(GameEntity firingEnt)
+        {
+            this.firingEntity = firingEnt;
         }
 
         public void SetPosition(double newX, double newY)
@@ -52,6 +65,11 @@ namespace WebDE.GameObjects
         public GameEntity GetFiringEntity()
         {
             return this.firingEntity;
+        }
+
+        public void SetTargetPoint(Point newPoint)
+        {
+            this.targetPoint = newPoint;
         }
     }
 }

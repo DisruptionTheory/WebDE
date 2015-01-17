@@ -17,7 +17,8 @@ using SharpKit.JavaScript;
 
 [assembly: JsMergedFile(Filename = "scripts/WebDE.js", Sources = new string[] { 
     "scripts/Main.js", "scripts/AI.js", "scripts/Rendering.js", "scripts/Animation.js", "scripts/Objects.js", "scripts/Misc.js",
-    "scripts/GUI.js", "scripts/WebDE.Input.js", "scripts/WebDE.Clock.js", "scripts/WebDE.Net.js", "scripts/WebDE.Net.GameClient.js" })]
+    "scripts/GUI.js", "scripts/Networking.js", "scripts/Helpah.js",
+    "scripts/WebDE.Input.js", "scripts/WebDE.Clock.js", "scripts/WebDE.Net.js", "scripts/WebDE.Net.GameClient.js", "scripts/WebDE.Audio.js" })]
 //[assembly: JsMergedFile(Filename = "MySite.min.js", Sources = new string[] { "MySite.js" }, Minify = true)]
 
 // Setting ComVisible to false makes the types in this assembly not visible 

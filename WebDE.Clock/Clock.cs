@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 using SharpKit.JavaScript;
 using SharpKit.Html4;
 using SharpKit.jQuery;
+using WebDE.Clock;
 
 namespace WebDE.Timekeeper
 {
@@ -32,16 +34,24 @@ namespace WebDE.Timekeeper
             window.setTimeout(loop, 0);
         }
 
-        /// <summary>
-        /// Adds a context to be run during the calculation phase of the main loop.
-        /// </summary>
-        /// <param name="context">The context to be run.</param>
-        /// <returns>The id of the context for use later.</returns>
         public static string AddCalculation(Action context)
         {
             //generate a new random id
             string id = randomId(IDLength);
             calculationList[id] = new Execution(context);
+            return id;
+        }
+
+        /// <summary>
+        /// Adds a context to be run during the calculation phase of the main loop.
+        /// </summary>
+        /// <param name="context">The context to be run.</param>
+        /// <returns>The id of the context for use later.</returns>
+        public static string AddCalculation(Action<Dictionary<object, object>> context, Dictionary<object, object> stateObject)
+        {
+            //generate a new random id
+            string id = randomId(IDLength);
+            calculationList[id] = new Execution(context, stateObject);
             return id;
         }
 
@@ -55,6 +65,33 @@ namespace WebDE.Timekeeper
             //generate a new random id
             string id = randomId(IDLength);
             renderList[id] = new Execution(context);
+            return id;
+        }
+
+        public static string AddRender(Action<Dictionary<object, object>> context, Dictionary<object, object> stateObject)
+        {
+            //generate a new random id
+            string id = randomId(IDLength);
+            renderList[id] = new Execution(context, stateObject);
+            return id;
+        }
+
+        public static Action<object> Conversion(Action context)
+        {
+            return context.Method.GetMethodBody().As<Action<object>>();
+        }
+
+        public Action<object> Convert<T>(Action<T> myActionT)
+        {
+            if (myActionT == null) return null;
+            else return new Action<object>(o => myActionT((T)o));
+        }
+
+        public static string AddRender(Action<object> context, Dictionary<object, object> stateObject)
+        {
+            //generate a new random id
+            string id = randomId(IDLength);
+            renderList[id] = new Execution(context, stateObject);
             return id;
         }
 

@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using SharpKit.JavaScript;
-using SharpKit.Html4;
+using SharpKit.Html;
 using SharpKit.jQuery;
 
 namespace UITK
 {
     [JsType(JsMode.Clr, Filename = "scripts/UITK.js")]
-    public class Surface : jQueryContextBase
+    public class Surface : jQueryContext
     {
         private static bool initialized = false;
-        private static HtmlElement surface;
+        private static Element surface;
         private static Dictionary<UITKComponent, UITKComponent> children = new Dictionary<UITKComponent, UITKComponent>();
         private static Dictionary<string, UITKComponent> registry = new Dictionary<string, UITKComponent>();
 
@@ -33,7 +33,7 @@ namespace UITK
         private static void Initialize()
         {
             //set default css
-            HtmlElement link = document.createElement("link");
+            Element link = document.createElement("link");
             link.setAttribute("type", "text/css");
             link.setAttribute("rel", "stylesheet");
             link.setAttribute("href", "http://yui.yahooapis.com/3.6.0/build/cssreset/cssreset-min.css");
@@ -41,7 +41,7 @@ namespace UITK
 
             //create top level surface container
             surface = document.createElement("div");
-            surface.id = "surface";
+            surface.setAttribute("id", "surface");
             J(surface).css("position", "absolute");
             J(surface).width("100%");
             J(surface).height("100%");
@@ -50,36 +50,41 @@ namespace UITK
 
             //capture events
             window.onresize += resizeHandler;
-            surface.onclick += clickHandler;
-            surface.onmousemove += mouseHoverHandler;
-            surface.onkeydown += keyDownHandler;
-            surface.onkeyup += keyUpHandler;
+            //surface.onclick += clickHandler;
+            //surface.onmousemove += mouseHoverHandler;
+            //surface.onkeydown += keyDownHandler;
+            //surface.onkeyup += keyUpHandler;
+
+            new jQuery(HtmlContext.document).bind("onclick", clickHandler);
+            new jQuery(HtmlContext.document).bind("mousemove", mouseHoverHandler);
+            new jQuery(HtmlContext.document).bind("onkeydown", keyDownHandler);
+            new jQuery(HtmlContext.document).bind("onkeyup", keyUpHandler);
         }
 
-        internal static void resizeHandler(HtmlDomEventArgs e)
+        internal static void resizeHandler(DOMEvent e)
         {
             Validate();
         }
 
-        internal static void clickHandler(HtmlDomEventArgs e)
+        internal static void clickHandler(Event e)
         {
             string id = e.srcElement.id;
             if (registry.ContainsKey(id)) registry[id].FireClicked(e);
         }
 
-        internal static void mouseHoverHandler(HtmlDomEventArgs e)
+        internal static void mouseHoverHandler(Event e)
         {
             string id = e.srcElement.id;
             if (registry.ContainsKey(id)) registry[id].FireMouseHover(e);
         }
 
-        internal static void keyDownHandler(HtmlDomEventArgs e)
+        internal static void keyDownHandler(Event e)
         {
             string id = e.srcElement.id;
             if (registry.ContainsKey(id)) ((UITKKeyedComponent)registry[id]).FireKeyDown(e);
         }
 
-        internal static void keyUpHandler(HtmlDomEventArgs e)
+        internal static void keyUpHandler(Event e)
         {
             string id = e.srcElement.id;
             if (registry.ContainsKey(id)) ((UITKKeyedComponent)registry[id]).FireKeyUp(e);
@@ -102,7 +107,7 @@ namespace UITK
         internal static void Redraw(UITKComponent component)
         {
             string id = component.Id;
-            HtmlElement element = document.getElementById(id);
+            HtmlElement element = (HtmlElement)document.getElementById(id);
             if (element != null)
             {
                 element.outerHTML = component.Markup.GetMarkup();
@@ -138,21 +143,23 @@ namespace UITK
         {
             if (!initialized) Initialize();
             children.Add(component, component);
-            HtmlElement element = document.createElement("div");
-            element.id = component.Id;
+            Element element = document.createElement("div");
+            element.setAttribute("id", component.Id);
             surface.appendChild(element);
             component.Validate();
         }
 
         internal static string GetValue(string id)
         {
-            return document.getElementById(id).As<HtmlInputText>().value;
+            return document.getElementById(id).textContent;
+            //return document.getElementById(id).As<HtmlInputText>().value;
         }
 
         internal static void SetValue(string id, string value)
         {
-            HtmlInputText input = document.getElementById(id).As<HtmlInputText>();
-            input.value = value;
+            document.getElementById(id).textContent = value;
+            //HtmlInputText input = document.getElementById(id).As<HtmlInputText>();
+            //input.value = value;
         }
 
         internal static void RegisterId(string id, UITKComponent component)

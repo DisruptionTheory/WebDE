@@ -4,10 +4,10 @@ using System.Linq;
 using System.Web;
 
 using SharpKit.JavaScript;
-using SharpKit.Html4;
+using SharpKit.Html;
 using SharpKit.jQuery;
 
-namespace WebDE.Timekeeper
+namespace WebDE.Clock
 {
 
     /// <summary>

@@ -51,11 +51,18 @@ namespace WebDE.InputManager
             foreach (View view in View.GetActiveViews())
             {
                 //skip this layer if the layer doesn't exist in the clicked space
-                if (clickX > view.GetArea().Right() || clickX < view.GetArea().x || clickY > view.GetArea().Bottom() || clickY < view.GetArea().y)
+                /*
+                if (clickX > view.GetArea().Right || clickX < view.GetArea().x || 
+                    clickY > view.GetArea().y || clickY < view.GetArea().Top)
                 {
                     continue;
                 }
-                view.GUI_Event(buttonFunction, clickX, clickY);
+                 */
+                if(!view.GetArea().Contains(new Point(clickX, clickY)))
+                {
+                    continue;
+                }
+                view.GUI_Event(buttonFunction, InputDevice.Mouse, clickX, clickY);
 
                 //translate the coordinates to be relative to the gui layer?
                 //Point actionLocation = new Point(clickX, clickY);
@@ -81,6 +88,22 @@ namespace WebDE.InputManager
             }
             */
         }
+        public static void ProcessMouseButtonEvent(string buttonName, int clickX, int clickY, ButtonCommand buttonCommand)
+        {
+            //get the event that the left click button is bound to
+            //if null, get the default
+            GUIFunction buttonFunction = InputDevice.Mouse.GetFunctionFromButton(buttonName, -1, buttonCommand);
+            //so the click gets shifted, but the GUI isn't in the area of the play...
+
+            foreach (View view in View.GetActiveViews())
+            {
+                if (!view.GetArea().Contains(new Point(clickX, clickY)))
+                {
+                    continue;
+                }
+                view.GUI_Event(buttonFunction, InputDevice.Mouse, clickX, clickY);
+            }
+        }
 
         public static void ProcessKeyboardEvent(int buttonId, ButtonCommand buttonCommand)
         {
@@ -90,10 +113,10 @@ namespace WebDE.InputManager
             foreach (GuiLayer activeLayer in GuiLayer.GetActiveLayers())
             {
                 //translate the coordinates to be relative to the gui layer?
-                Point actionLocation = new Point(0, 0);
+                Point actionLocation = new Point(-1, -1);
                 //fire a new gui event on the layer...
                 //tell the GUI layer which action was triggered and (if applicable) where
-                activeLayer.GUI_Event(buttonFunction, actionLocation);
+                activeLayer.GUI_Event(buttonFunction, InputDevice.Keyboard, actionLocation);
             }
         }
     }

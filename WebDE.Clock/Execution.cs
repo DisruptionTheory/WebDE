@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 using SharpKit.JavaScript;
-using SharpKit.Html4;
+using SharpKit.Html;
 using SharpKit.jQuery;
 
-namespace WebDE.Timekeeper
+namespace WebDE.Clock
 {
 
     /// <summary>
@@ -15,15 +16,23 @@ namespace WebDE.Timekeeper
     class Execution
     {
         private Action context;
+        private Action<Dictionary<object, object>> contextParam;
+        private Dictionary<object, object> stateObject;
         private bool delayed = false;
+
+        public Execution(Action func)
+        {
+            context = func;
+        }
 
         /// <summary>
         /// Create a new execution object with the specified context.
         /// </summary>
         /// <param name="func">The context belonging to this execution.</param>
-        public Execution(Action func)
+        public Execution(Action<Dictionary<object, object>> func, Dictionary<object, object> stateObj)
         {
-            context = func;
+            contextParam = func;
+            this.stateObject = stateObj;
         }
 
         /// <summary>
@@ -31,14 +40,22 @@ namespace WebDE.Timekeeper
         /// </summary>
         public void Execute()
         {
-            context.Invoke();
+            if (stateObject != null)
+            {
+                contextParam.Invoke(stateObject);
+                //contextParam(stateObject);
+            }
+            else
+            {
+                context.Invoke();
+            }
         }
 
         /// <summary>
         /// Delay this execution for the specefied number of seconds.
         /// </summary>
         /// <param name="seconds">The number of seconds to delay the execution.</param>
-        public void Delay(int seconds, HtmlWindow window)
+        public void Delay(int seconds, Window window)
         {
             delayed = true;
             window.setTimeout(unDelay, seconds * 1000);

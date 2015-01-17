@@ -12,7 +12,7 @@ using WebDE.Rendering;
 using WebDE.GUI;
 using WebDE.InputManager;
 using WebDE.AI;
-using WebDE.Timekeeper;
+using WebDE.Clock;
 
 namespace Lights
 {
@@ -72,10 +72,9 @@ namespace Lights
                     {
                         buildable = true;
                     }
-                    Tile aTile = testArea.AddTile("", true, buildable);
+                    Tile aTile = testArea.AddTile("", true, buildable, new Point(w, h));
                     aTile.SetLightLevel(Color.Black);
                     aTile.SetParentStage(testArea);
-                    aTile.SetPosition(w, h);
                 }
             }
 
@@ -321,7 +320,7 @@ namespace Lights
 
         public void createShadowCreature(int x, int y)
         {
-            LivingGameEntity shadowCreature = new LivingGameEntity("ShadowCreature", 100);
+            LivingGameEntity shadowCreature = new LivingGameEntity("ShadowCreature");
             shadowCreature.AddCustomStyling("shadowCreature");
             shadowCreature.SetParentStage(Stage.CurrentStage);
             Stage.CurrentStage.AddLivingGameEntity(shadowCreature);

@@ -6,6 +6,7 @@ using SharpKit.JavaScript;
 using WebDE.Animation;
 using WebDE.GameObjects;
 using WebDE.Rendering;
+using WebDE.InputManager;
 
 namespace WebDE.GUI
 {
@@ -38,6 +39,17 @@ namespace WebDE.GUI
         //whether or not this GUI Layer is following the user's cursor
         private bool followingCursor = false;
 
+        // Whether or not the layer accepts input
+        public bool AcceptsInput = true;
+        // Later, can flesh out the Get function to check if there are any gui elements with click events,
+        // Or the registration of events can set this value to true...
+
+        public double BackgroundOpacity { get; set; }
+        public double ForegroundOpacity { get; set; }
+        public Color BackgroundColor { get; set; }
+        public short ZIndex { get; set; }
+        public Render_Target RenderTarget { get; set; }
+
         /// <summary>
         /// Create a new Layer for user interface
         /// </summary>
@@ -51,9 +63,14 @@ namespace WebDE.GUI
             this.attachedView = attachingView;
             this.SetArea(rectLayerPos);
 
+            attachedView.AddLayer(this);
             //add this layer to the list of all layers in the game
             GuiLayer.allTheLayers.Add(this);
             //if there isn't currently an active GUILayer, make this one the active one
+
+            this.BackgroundOpacity = 0.0;
+            this.ForegroundOpacity = 1.0;
+            this.BackgroundColor = Color.Black;
         }
 
         public string GetId()
@@ -142,7 +159,7 @@ namespace WebDE.GUI
             //create a new element with this as the parent, and the given text as its caption
             GuiElement newElement = new GuiElement(this, text);
             //add the element to the list of elements in this layer
-            this.guiElements.Add(newElement);
+            //this.guiElements.Add(newElement);
             //if no element has the focus on this layer, give focus to the new element
             if (this.focusedElement == null)
             {
@@ -152,6 +169,22 @@ namespace WebDE.GUI
             return newElement;
         }
 
+        /// <summary>
+        /// Add an existing GUI element to the layer.
+        /// </summary>
+        /// <param name="elementToAdd"></param>
+        public void AddGUIElement(GuiElement elementToAdd)
+        {
+            if (!this.guiElements.Contains(elementToAdd))
+            {
+                this.guiElements.Add(elementToAdd);
+            }
+        }
+
+        /// <summary>
+        /// Return a list of GUIElements in the layer.
+        /// </summary>
+        /// <returns></returns>
         public List<GuiElement> GetGuiElements()
         {
             return this.guiElements;
@@ -309,14 +342,22 @@ namespace WebDE.GUI
 
         public List<Tile> GetTilesAt(double xpos, double ypos)
         {
+            Debug.log("Attempting to get tile at " + xpos + ", " + ypos);
+
             //Script.Eval("console.log('GuiLayer/GetTilesAt/247: Getting tiles at " + xpos + ", " + ypos + "')");
             List<Tile> returnList = new List<Tile>();
 
             //get all of the entities in the applicable area
-            List<GameEntity> tileList = this.GetAttachedView().GetAttachedStage().GetVisibleTiles(this.GetAttachedView());
+            //List<GameEntity> tileList = this.GetAttachedView().GetAttachedStage().GetVisibleTiles(this.GetAttachedView());
+            List<Tile> tileList = this.GetAttachedView().GetAttachedStage().GetTiles();
+
+            Debug.log("Tiles in list = " + tileList.Count);
 
             xpos = Helpah.Round(xpos);
             ypos = Helpah.Round(ypos);
+            Debug.log("Attempting to get tile at " + xpos + ", " + ypos);
+
+            // This can be optimized at least by storing an array of tiles indexed by position (point)
 
             //loop through each and check if they exist at that click location
             foreach (GameEntity ent in tileList)
@@ -340,6 +381,7 @@ namespace WebDE.GUI
                 }
                  */
             }
+            Debug.log("Tiles in list = " + returnList.Count);
 
             return returnList;
         }
@@ -376,10 +418,10 @@ namespace WebDE.GUI
             this.followingCursor = toFollow;
         }
 
-        public void GUI_Event(GUIFunction buttonFunction, Point eventPos)
+        public void GUI_Event(GUIFunction buttonFunction, InputDevice callingDevice, Point eventPos)
         {
             //perform the gui function attached to the affected layer
-            this.DoGUIFunction(buttonFunction, eventPos);
+            this.DoGUIFunction(buttonFunction, callingDevice, eventPos);
 
             //the gui element receiving the event
             GuiElement elementToNotify;
@@ -418,14 +460,22 @@ namespace WebDE.GUI
             this.layerFunctions[func] = newEvent;
         }
 
-        public void DoGUIFunction(GUIFunction func, Point eventPos)
+        public void DoGUIFunction(GUIFunction func, InputDevice callingDevice, Point eventPos)
         {
             eventPos.x -= this.GetPosition().x;
             eventPos.y -= this.GetPosition().y;
 
-            if (this.layerFunctions[func] != null)
+            if(this.layerFunctions.ContainsKey(func))
             {
-                GuiEvent eventToTrigger = GuiEvent.FromClickData(this, eventPos);
+                GuiEvent eventToTrigger;
+                if (callingDevice.IsCursor)
+                {
+                    eventToTrigger = GuiEvent.FromClickData(this, eventPos);
+                }
+                else
+                {
+                    eventToTrigger = new GuiEvent((int)eventPos.x, (int)eventPos.y);
+                }
 
                 this.layerFunctions[func].Invoke(eventToTrigger);
             }
@@ -462,7 +512,82 @@ namespace WebDE.GUI
 
         private void SetNeedsUpdate()
         {
-            Rendering.DOM_Renderer.GetRenderer().SetNeedsUpdate(this);
+            Game.Renderer.SetNeedsUpdate(this);
+        }
+
+        public void Destroy()
+        {
+            //do we need to destroy all of the gui elements?
+
+            this.attachedView.RemoveLayer(this);
+            GuiLayer.allTheLayers.Remove(this);
+            Game.Renderer.DestroyGUILayer(this);
+            Helpah.Destroy(this);
+        }
+
+        public void RemoveGUIElement(GuiElement gelm)
+        {
+            this.guiElements.Remove(gelm);
+
+            //defocus the element if its focused
+        }
+
+        public GuiElement GetGUIElement(int index)
+        {
+            return this.guiElements[index];
+        }
+
+        /// <summary>
+        /// Add a LabelValue for the reasource to the GUI Layer.
+        /// Displays the Icon (Sprite) if there is one for the resource, otherwise displays the name.
+        /// </summary>
+        /// <param name="resource">Which resource to display.</param>
+        /// <param name="position">Where to display it within the layer.</param>
+        public void AddResource(Resource resource, Point position)
+        {
+            GuiLayer splash = new GuiLayer("Splash", View.GetMainView(), new Rectangle(0, 0, 0, 0));
+        }
+
+        private int fadeAmount = 0;
+
+        public void FadeOut(int fadeTime)
+        {
+            this.fadeAmount = (int)(this.BackgroundOpacity / (fadeTime / 20));
+            Game.Clock.TimedExecute(fadeOut, 0);
+        }
+
+        private void fadeOut()
+        {
+            this.BackgroundOpacity -= fadeAmount;
+
+            if (this.BackgroundOpacity > 0)
+            {
+                Game.Clock.TimedExecute(fadeOut, 20);
+            }
+            else
+            {
+                this.Destroy();
+            }
+        }
+
+        public void FadeForeground(int fadeTime)
+        {
+            this.fadeAmount = (int)(this.ForegroundOpacity / (fadeTime / 20));
+            Game.Clock.TimedExecute(fadeForeground, 0);
+        }
+
+        private void fadeForeground()
+        {
+            this.ForegroundOpacity -= fadeAmount;
+
+            if (this.ForegroundOpacity > 0)
+            {
+                Game.Clock.TimedExecute(fadeForeground, 20);
+            }
+            else
+            {
+                this.Destroy();
+            }
         }
     }
 
@@ -474,5 +599,12 @@ namespace WebDE.GUI
         Grid_2Col = 0,
         Grid_3Col = 1,
         Grid_4Col = 2
+    }
+
+    public enum Render_Target
+    {
+        Canvas,
+        Div,
+        Window
     }
 }

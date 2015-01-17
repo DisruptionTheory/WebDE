@@ -13,6 +13,8 @@ namespace WebDE
         public double width;
         public double height;
 
+        public Dimension Size { get { return new Dimension(width, height); } }
+
         public Rectangle(double left, double top, double width, double height)
         {
             this.x = left;
@@ -22,27 +24,45 @@ namespace WebDE
             this.height = height;
         }
 
-        public double Right()
-        {
-            return this.x + this.width;
-        }
-
-        public double Bottom()
-        {
-            return this.y + this.height;
-        }
+        public double Right { get { return this.x + this.width; } }
+        public double Left { get { return this.x; } }
+        public double Top { get { return this.y + this.height; } }
+        public double Bottom { get { return this.y; } }
 
         public bool Contains(Point point)
         {
             if (point.x < this.x ||
                 point.y < this.y ||
-                point.x > this.width ||
-                point.y > this.height)
+                point.x > this.x + this.width ||
+                point.y > this.y + this.height)
             {
                 return false;
             }
 
             return true;
+        }
+
+        public bool Contains(Rectangle rect)
+        {
+            if (rect.Right < this.x ||
+                rect.x > this.Right ||
+                rect.y > this.Top ||
+                rect.Top < this.y)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool Above(Rectangle rect)
+        {
+            return this.Bottom > rect.Top;
+        }
+
+        public bool Below(Rectangle rect)
+        {
+            return this.Top < rect.Bottom;
         }
     }
 }

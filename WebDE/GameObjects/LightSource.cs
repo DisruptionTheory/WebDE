@@ -27,8 +27,13 @@ namespace WebDE.GameObjects
 
         public static List<LightSource> GetLocalLightSources(double xPos, double yPos)
         {
+            return GetLocalLightSources(xPos, yPos, Stage.CurrentStage, View.GetMainView());
+        }
+
+        public static List<LightSource> GetLocalLightSources(double xPos, double yPos, Stage stage, View view)
+        {
             List<LightSource> returnLights = new List<LightSource>();
-            foreach(LightSource light in Stage.CurrentStage.GetLights())
+            foreach (LightSource light in stage.GetLights(view))
             {
                 //if the light is brighter than, or as bright as it is far away
                 if (light.GetPosition().Distance(new Point(xPos, yPos)) <= light.range)
@@ -138,7 +143,8 @@ namespace WebDE.GameObjects
 
     public enum LightingStyle
     {
-        Tiles = 0,
-        Gradients = 1
+        None = 0,
+        Tiles = 1,
+        Gradients = 2
     }
 }

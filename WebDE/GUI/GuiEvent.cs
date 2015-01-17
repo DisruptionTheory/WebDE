@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using SharpKit.JavaScript;
 
 using WebDE.Animation;
-using WebDE.Timekeeper;
+using WebDE.Clock;
 using WebDE.GameObjects;
 
 namespace WebDE.GUI

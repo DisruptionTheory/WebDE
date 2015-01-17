@@ -16,7 +16,7 @@ namespace WebDE.Animation
         {
             foreach (Sprite spr in loadedSprites)
             {
-                if (spr.GetName() == spriteName)
+                if (spr.Name == spriteName)
                 {
                     //we have to return a copy of the sprite, as each sprite running needs to be a unique instance
                     //return (Sprite)Helpah.Clone(spr);
@@ -24,6 +24,7 @@ namespace WebDE.Animation
                 }
             }
 
+            //Debug.log("Warning: Could not find sprite with name " + spriteName);
             return null;
         }
 
@@ -35,8 +36,8 @@ namespace WebDE.Animation
             annie.AddFrame(animfrm);
 
             Sprite newSprite = new Sprite(name);
-            newSprite.setSize(width, height);
-            newSprite.addAnimation(annie);
+            newSprite.Size = new Dimension(width, height);
+            newSprite.AddAnimation(annie);
 
             return newSprite;
         }

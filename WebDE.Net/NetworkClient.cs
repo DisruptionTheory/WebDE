@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using SharpKit.JavaScript;
-using SharpKit.Html4;
+//using SharpKit.Html4;
 using SharpKit.Html;
 
 namespace WebDE.Net
@@ -73,8 +73,9 @@ namespace WebDE.Net
         /// Connect the GameClient.
         /// </summary>
         public void Connect(){
+            throw new NotImplementedException();
             socket = new WebSocket("ws://" + Host + ":" + Port);
-            socket.onopen = onOpen;
+            //socket.onopen = onOpen;  this line did not compile. <3 Eric
             socket.onclose = onClose;
             socket.onmessage = onMessage;
         }

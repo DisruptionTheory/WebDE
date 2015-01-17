@@ -56,6 +56,8 @@ namespace WebDE.GUI
 
         public static GuiLayer AsCollisionMap(Stage sourceStage)
         {
+            Debug.log("Rendering collision map...");
+
             //So we need to reposition this so that it isn't at 0,0,
             //but rather at the position of the game board
             //technically, I think the view should be at that position, and this should be 0,0 within the view...
@@ -78,6 +80,9 @@ namespace WebDE.GUI
                 gelm.SetPosition(
                     (int)Helpah.Round(tile.GetPosition().x * TileSize.width),
                     (int)Helpah.Round(tile.GetPosition().y * TileSize.height));
+                // Set the size to 0, 0 so that the renderer ignores the element.
+                // The CSS stylesheet will give it size.
+                gelm.SetSize(0, 0);
                 gelm.AddStyle("collisionBlock");
                 //gelm.GetRenderElement().ClassName = "collisionBlock";
 
